@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Component3 from './components/Component3';
+import Profile from './components/Profile';
 
 class App extends Component {
   render() {
@@ -23,7 +23,7 @@ class App extends Component {
         </header>
       </div>
     ); */
-    return (<Component3></Component3>);
+    return (<Profile></Profile>);
   }
 }
 
