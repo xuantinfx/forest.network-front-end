@@ -15,9 +15,7 @@ export class Profile extends Component {
             <div className="Grid-cell">
                 <div className="ProfileSidebar ProfileSidebar--withLeftAlignment">
                     <ProfileHeaderCard></ProfileHeaderCard>
-
-                    <PhotoRail></PhotoRail>
-                    
+                    <PhotoRail></PhotoRail>                    
                 </div>
             </div>
         </div>
