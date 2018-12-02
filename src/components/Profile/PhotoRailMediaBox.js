@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export class PhotoRailMediaBox extends Component {
-  static propTypes = {
-
-  }
-
+class PhotoRailMediaBox extends Component {
   render() {
     return (
         <span className="tweet-media-img-placeholder js-nav" data-status-id="1067508363590860807"
@@ -27,3 +23,7 @@ export class PhotoRailMediaBox extends Component {
 }
 
 export default PhotoRailMediaBox
+
+PhotoRailMediaBox.PropTypes ={
+  src: PropTypes.string,
+}

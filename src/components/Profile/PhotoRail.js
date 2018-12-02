@@ -2,11 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PhotoRailMediaBox from './PhotoRailMediaBox'
 
-export class PhotoRail extends Component {
-  static propTypes = {
-
-  }
-
+class PhotoRail extends Component {
   render() {
     return (
         <div className="PhotoRail" style={{display: 'block',}} data-loaded="true">
@@ -14,11 +10,8 @@ export class PhotoRail extends Component {
             <span className="Icon Icon--camera Icon--medium" aria-hidden="true"
                 role="presentation"></span>
             <span className="PhotoRail-headingText PhotoRail-headingText--withCount">
-                <a href="https://twitter.com/YouTube/media" className="PhotoRail-headingWithCount js-nav">
-                    8.862 Ảnh và video </a>
-                <a href="https://twitter.com/YouTube/media" className="PhotoRail-headingWithoutCount js-nav">
-                    Ảnh và video
-                </a>
+                <a href={this.props.withCountLink} className="PhotoRail-headingWithCount js-nav">
+                    {this.props.withCountNum/1000} Ảnh và video </a>
             </span>
         </div>
         <div className="PhotoRail-mediaBox">
@@ -36,3 +29,8 @@ export class PhotoRail extends Component {
 }
 
 export default PhotoRail
+
+PhotoRail.PropTypes = {
+    withCountLink: PropTypes.string,
+    withCountNum: PropTypes.number
+}
