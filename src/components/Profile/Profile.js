@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ProfileHeaderCard from './ProfileHeaderCard';
 import PhotoRail from './PhotoRail';
-import { dummyProfileData,dummyPhotoRailData } from "../../DummyData/DummyData";
 
 export class Profile extends Component {
   render() {
@@ -10,9 +9,10 @@ export class Profile extends Component {
         <div className="Grid Grid--withGutter">
             <div className="Grid-cell">
                 <div className="ProfileSidebar ProfileSidebar--withLeftAlignment">
-                    <ProfileHeaderCard name={dummyProfileData.name} bio={dummyProfileData.bio} location={dummyProfileData.location}
-                        hashtag={dummyProfileData.hashtag} url={dummyProfileData.url} joinDate={dummyProfileData.joinDate}></ProfileHeaderCard>
-                    <PhotoRail withCountLink={dummyPhotoRailData.withCountLink} withCountNum={dummyPhotoRailData.withCountNum}></PhotoRail>                    
+                    <ProfileHeaderCard name={this.props.name} bio={this.props.bio} location={this.props.location}
+                        hashtag={this.props.hashtag} url={this.props.url} joinDate={this.props.joinDate}></ProfileHeaderCard>
+                    <PhotoRail withCountLink={this.props.withCountLink} withCountNum={this.props.withCountNum}
+                        mediaBoxImg={this.props.mediaBoxImg}></PhotoRail>                    
                 </div>
             </div>
         </div>

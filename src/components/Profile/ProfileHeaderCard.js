@@ -15,8 +15,8 @@ class ProfileHeaderCard extends Component {
                 </a>
                 <span
                     className="ProfileHeaderCard-badges"><a href="https://twitter.com/help/verified"
-                    className="js-tooltip" target="_blank" title="Tài khoản được xác nhận"
-                    data-placement="right" rel="noopener"><span className="Icon Icon--verified"><span
+                    className="js-tooltip" target="_blank" rel="noopener noreferrer" title="Tài khoản được xác nhận"
+                    data-placement="right"><span className="Icon Icon--verified"><span
                     className="u-hiddenVisually">Tài khoản được xác nhận</span></span></a></span>
             </h1>
 
@@ -47,7 +47,7 @@ class ProfileHeaderCard extends Component {
             <div className="ProfileHeaderCard-url ">
                 <span className="Icon Icon--url Icon--medium" aria-hidden="true" role="presentation"></span>
                 <span className="ProfileHeaderCard-urlText u-dir"> <a className="u-textUserColor"
-                        target="_blank" rel="me nofollow noopener" href="https://t.co/DyF7tJFG4h"
+                        target="_blank" rel="me nofollow noopener noreferrer" href="https://t.co/DyF7tJFG4h"
                         title={this.props.url}>
                         {this.props.url.substring(8,36)+'....'}
                     </a>
@@ -74,7 +74,7 @@ class ProfileHeaderCard extends Component {
 
 export default ProfileHeaderCard
 
-ProfileHeaderCard.PropTypes = {
+ProfileHeaderCard.propTypes = {
     name: PropTypes.string,
     bio: PropTypes.string,
     hashtag: PropTypes.string,

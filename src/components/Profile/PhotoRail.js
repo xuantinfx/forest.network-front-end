@@ -15,13 +15,16 @@ class PhotoRail extends Component {
             </span>
         </div>
         <div className="PhotoRail-mediaBox">
-            <PhotoRailMediaBox src="./template/DtCNMu_WwAEJ-TR.jpg_thumb"></PhotoRailMediaBox>
+            {this.props.mediaBoxImg.map((img,index)=>{
+                return <PhotoRailMediaBox src={img} key={index}></PhotoRailMediaBox>
+            })}
+            {/* <PhotoRailMediaBox src="./template/DtCNMu_WwAEJ-TR.jpg_thumb"></PhotoRailMediaBox>
             <PhotoRailMediaBox src="./template/DtBw8f3WoAEaHeu.jpg_thumb"></PhotoRailMediaBox>
             <PhotoRailMediaBox src="./template/Ds7kdgZXcAUrGvp.jpg_thumb"></PhotoRailMediaBox>
             <PhotoRailMediaBox src="./template/Ds88vRxWkAEC5Nx.jpg_thumb"></PhotoRailMediaBox>
             <PhotoRailMediaBox src="./template/Ds7kdgZXcAUrGvp.jpg_thumb"></PhotoRailMediaBox>
             <PhotoRailMediaBox src="./template/Dss2HY-WoAET5qi.jpg_thumb"></PhotoRailMediaBox>
-            {/* <span className="js-photoRailInsertPoint"></span> */}
+            <span className="js-photoRailInsertPoint"></span> */}
         </div>
     </div>
     )
@@ -30,7 +33,7 @@ class PhotoRail extends Component {
 
 export default PhotoRail
 
-PhotoRail.PropTypes = {
+PhotoRail.propTypes = {
     withCountLink: PropTypes.string,
     withCountNum: PropTypes.number
 }

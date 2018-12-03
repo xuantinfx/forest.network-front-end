@@ -24,6 +24,6 @@ class PhotoRailMediaBox extends Component {
 
 export default PhotoRailMediaBox
 
-PhotoRailMediaBox.PropTypes ={
+PhotoRailMediaBox.propTypes ={
   src: PropTypes.string,
 }
