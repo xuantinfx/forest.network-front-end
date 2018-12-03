@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Profile from './containers/Profile';
+import ProfileSidebar from './components/ProfileSidebar/ProfileSidebar';
 
 class App extends Component {
   render() {
@@ -23,7 +23,7 @@ class App extends Component {
         </header>
       </div>
     ); */
-    return (<Profile></Profile>);
+    return (<ProfileSidebar></ProfileSidebar>);
   }
 }
 
