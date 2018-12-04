@@ -2,10 +2,21 @@ import React, { Component } from 'react'
 import ProfileEditName from './ProfileEditName';
 import ProfileEditBio from './ProfileEditBio';
 import ProfileEditLocation from './ProfileEditLocation';
+import PropTypes from 'prop-types'
 import ProfileEditUrl from './ProfileEditUrl';
 import ProfileEditTheme from './ProfileEditTheme';
 
 export class ProfileEdit extends Component {
+    static propTypes = {
+        updateProfile: PropTypes.func
+    }
+
+    onSubmit(e) {
+        // console.log('submit')
+        // e.preventDefault();
+        // this.props.updateProfile({bio: "abcdddd"});
+    }
+
   render() {
     return (
         <div className="Grid-cell u-size1of3 u-lg-size1of4">
@@ -13,7 +24,7 @@ export class ProfileEdit extends Component {
                 <div className="Grid-cell">
                     <div className='ProfileSidebar ProfileSidebar--withLeftAlignment'>
                         <div className='ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields'>
-                            <form>
+                            <form onSubmit={this.onSubmit.bind(this)}>
                                 <ProfileEditName displayName={this.props.displayName||''} userName={this.props.userName||''}></ProfileEditName>
                                 <ProfileEditBio bio={this.props.bio||''}></ProfileEditBio>
                                 <ProfileEditLocation location={this.props.location||''}></ProfileEditLocation>{/* 

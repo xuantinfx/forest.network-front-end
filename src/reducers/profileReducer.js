@@ -1,3 +1,5 @@
+import { updateProfileConst} from '../actions/updateProfile'
+
 const initialState = {
   displayName: 'YouTube',
   userName: 'YouTube',
@@ -7,8 +9,13 @@ const initialState = {
   joinDate: new Date('12/3/2018, 12:09:10 AM').getTime()
 }
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, { type, profile }) => {
   switch (type) {
+    case updateProfileConst.UPDATE_PROFILE:
+      return {
+        ...state,
+        ...profile
+      }
     default:
       return state
   }
