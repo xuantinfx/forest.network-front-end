@@ -7,7 +7,6 @@ import Banner from './containers/Banner'
 import Profile from './containers/Profile'
 import Follow from './containers/Follow'
 import ProfileTimeline from './components/ProfileTimeline';
-import ProfileEdit from './containers/ProfileEdit';
 
 class App extends Component {
   render() {
@@ -21,7 +20,7 @@ class App extends Component {
               <div className="AppContainer">
                 <div className="AppContent-main content-main u-cf" role="main" aria-labelledby="content-main-heading">
                   <div className="Grid Grid--withGutter">
-                    <ProfileEdit></ProfileEdit>
+                    <Profile></Profile>
                     <div className="Grid-cell u-size2of3 u-lg-size3of4">
                       <div className="Grid Grid--withGutter">
                         <Switch>

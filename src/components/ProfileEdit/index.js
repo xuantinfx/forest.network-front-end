@@ -3,8 +3,8 @@ import ProfileEditName from './ProfileEditName';
 import ProfileEditBio from './ProfileEditBio';
 import ProfileEditLocation from './ProfileEditLocation';
 import PropTypes from 'prop-types'
-import ProfileEditUrl from './ProfileEditUrl';
-import ProfileEditTheme from './ProfileEditTheme';
+/* import ProfileEditUrl from './ProfileEditUrl';
+import ProfileEditTheme from './ProfileEditTheme'; */
 
 class ProfileEdit extends Component {
     static propTypes = {
@@ -16,16 +16,12 @@ class ProfileEdit extends Component {
         let displayName = document.getElementById('user_name').value;
         let bio = document.getElementById('bio').value;
         let location = document.getElementById('location').value;
-        this.props.updateProfile({bio, displayName, location,});
+        this.props.updateProfile({bio, displayName, location, isEditting: false});
     }
 
   render() {
     return (
-        <div className="Grid-cell u-size1of3 u-lg-size1of4">
-            <div className="Grid Grid--withGutter">
-                <div className="Grid-cell">
-                    <div className='ProfileSidebar ProfileSidebar--withLeftAlignment'>
-                        <div className='ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields'>
+        <div className='ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields'>
                             <form onSubmit={this.onSubmit.bind(this)}>
                                 <ProfileEditName displayName={this.props.displayName||''} userName={this.props.userName||''}></ProfileEditName>
                                 <ProfileEditBio bio={this.props.bio||''}></ProfileEditBio>
@@ -39,10 +35,6 @@ class ProfileEdit extends Component {
                             </form>
                         </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
     )
   }
 }
