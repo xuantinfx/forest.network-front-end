@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class ProfileEditBio extends Component {
   static propTypes = {
-
+    bio: PropTypes.string
   }
 
   render() {
@@ -11,7 +11,7 @@ class ProfileEditBio extends Component {
         <div className="ProfileHeaderCardEditing-bioRich ProfileHeaderCardEditing-item">
             <div className="RichEditor RichEditor--emojiPicker u-borderUserColorLight">
             
-            <div className="RichEditor-mozillaCursorWorkaround">&nbsp;</div>
+            {/* <div className="RichEditor-mozillaCursorWorkaround">&nbsp;</div>
             <div className="RichEditor-container u-borderRadiusInherit">
                 
                 <div className="RichEditor-scrollContainer u-borderRadiusInherit">
@@ -40,6 +40,11 @@ class ProfileEditBio extends Component {
             
             </div>
             <div className="RichEditor-mozillaCursorWorkaround">&nbsp;</div>
+                 */}
+                <textarea type="text" id="bio" name="bio"
+                    className="ProfileHeaderCardEditing-editableField u-borderUserColorLight"
+                    style={{minHeight:'100px', overflow:'auto', resize:'none'}}
+                    defaultValue={this.props.bio} placeholder="Bio" maxLength="10000" autoComplete="off" tabIndex="2"/>
             </div>
         </div>
     )

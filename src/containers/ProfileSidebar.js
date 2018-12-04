@@ -1,4 +1,4 @@
-import ProfileSidebar from "../components/ProfileSidebar/ProfileSidebar";
+import ProfileSidebar from "../components/ProfileSidebar/";
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => {

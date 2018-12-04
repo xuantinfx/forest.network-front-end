@@ -1,7 +1,7 @@
 import { CLOSE_TWEET_DETAILS_MODAL, SEE_TWEET_DETAILS } from "../actions/actionType";
 
 const initialState = {
-  total: '230332',
+  total: 230332,
   loadedTweets: 3,
   modalIsOpen: false,
   currentTweet: 0,

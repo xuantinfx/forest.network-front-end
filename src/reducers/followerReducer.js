@@ -4,27 +4,27 @@ const initialState = {
   followers: [{
     urlCover: "https://pbs.twimg.com/profile_banners/58545637/1541593248/600x200",
     urlAvt: "https://pbs.twimg.com/profile_images/753067310848421889/vF6kq5Xv_bigger.jpg",
-    name: "Harry Potter",
+    name: "Harry Potter 1",
     username: "ltsHarryPotter",
-    description: "| Not affiliated with Harry Potter | We do not own the content posted | Not a Muggle | *Parody*"
+    isFollow: false
   }, {
     urlCover: "https://pbs.twimg.com/profile_banners/58545637/1541593248/600x200",
     urlAvt: "https://pbs.twimg.com/profile_images/753067310848421889/vF6kq5Xv_bigger.jpg",
-    name: "Harry Potter",
+    name: "Harry Potter 2",
     username: "ltsHarryPotter",
-    description: "| Not affiliated with Harry Potter | We do not own the content posted | Not a Muggle | *Parody*"
+    isFollow: false
   }, {
     urlCover: "https://pbs.twimg.com/profile_banners/58545637/1541593248/600x200",
     urlAvt: "https://pbs.twimg.com/profile_images/753067310848421889/vF6kq5Xv_bigger.jpg",
-    name: "Harry Potter",
+    name: "Harry Potter 3",
     username: "ltsHarryPotter",
-    description: "| Not affiliated with Harry Potter | We do not own the content posted | Not a Muggle | *Parody*"
+    isFollow: false
   }, {
     urlCover: "https://pbs.twimg.com/profile_banners/58545637/1541593248/600x200",
     urlAvt: "https://pbs.twimg.com/profile_images/753067310848421889/vF6kq5Xv_bigger.jpg",
-    name: "Harry Potter",
+    name: "Harry Potter 4",
     username: "ltsHarryPotter",
-    description: "| Not affiliated with Harry Potter | We do not own the content posted | Not a Muggle | *Parody*"
+    isFollow: true
   }]
 
 }
