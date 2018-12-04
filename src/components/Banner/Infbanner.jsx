@@ -1,21 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CurrentTweet from './CurrentTweet'
+import Tweet from './Tweet'
 import Followings from './Followings'
-import Follower from './Follower'
-import Likes from './Likes'
-import List from './List'
-import Moment from './Moment';
+import Followers from './Followers'
 import Follow from './Follow';
 
 export default class Infbanner extends Component {
     static propTypes = {
-        tweet: PropTypes.string,
-        followings: PropTypes.string,
-        follower: PropTypes.string,
-        likes: PropTypes.string,
-        list: PropTypes.string,
-        moment: PropTypes.string
+        tweet: PropTypes.number,
+        followings: PropTypes.number,
+        followers: PropTypes.number,
+    }
+
+    onChange() {
+        this.forceUpdate();
     }
 
     render() {
@@ -28,12 +26,9 @@ export default class Infbanner extends Component {
                             <div className="ProfileCanopy-nav">
                                 <div className="ProfileNav">
                                     <ul className="ProfileNav-list">
-                                        <CurrentTweet tweet={this.props.tweet}/>
-                                        <Followings followings={this.props.followings}/>
-                                        <Follower follower={this.props.follower}/>
-                                        <Likes likes={this.props.likes}/>
-                                        <List list={this.props.list}/>
-                                        <Moment moment={this.props.moment}/>
+                                        <Tweet tweet={this.props.tweet} onChange={this.onChange.bind(this)}/>
+                                        <Followings followings={this.props.followings} onChange={this.onChange.bind(this)}/>
+                                        <Followers followers={this.props.followers} onChange={this.onChange.bind(this)}/>
                                         <Follow/>
                                     </ul>
                                 </div>

@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export default class ProfileCard extends Component {
+export default class ProfileCardFollowing extends Component {
   static propTypes = {
     urlCover: PropTypes.string,
     urlAvt: PropTypes.string,
     isFollow: PropTypes.bool,
     name: PropTypes.string,
     username: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    isFollower: PropTypes.bool
   }
 
   render() {
@@ -31,9 +32,10 @@ export default class ProfileCard extends Component {
                                     <div className="user-actions btn-group following not-muting including ">
                                         <span className="user-actions-follow-button js-follow-btn follow-button">
                                             <button type="button" className=" EdgeButton EdgeButton--primary EdgeButton--small button-text following-text">
-                                                <span aria-hidden="true">Đang theo dõi</span>
-                                                <span className="u-hiddenVisually">{this.props.isFollow ? "Đang theo dõi" : "Theo dõi"} <span
-                                                        className="username u-dir u-textTruncate" dir="ltr">@<b>{this.props.username}</b></span></span>
+                                                <span aria-hidden="true">{this.props.isFollow ? "Đang theo dõi" : "Theo dõi"}</span>
+                                            </button>
+                                            <button type="button" className=" EdgeButton EdgeButton--danger EdgeButton--small  button-text unfollow-text">
+                                                <span aria-hidden="true">{this.props.isFollow ? "Ngừng theo dõi" : "Theo dõi"}</span>
                                             </button>
                                         </span>
                                     </div>
@@ -46,8 +48,7 @@ export default class ProfileCard extends Component {
                             <div className="ProfileNameTruncated account-group">
                                 <div className="u-textTruncate u-inlineBlock">
                                     <a className="fullname ProfileNameTruncated-link u-textInheritColor js-nav"
-                                        href="/ltsHarryPotter" data-aria-label-part="">
-                                        Harry Potter</a></div><span className="UserBadges"></span>
+                                        href="/ltsHarryPotter" data-aria-label-part="">{this.props.name}</a></div><span className="UserBadges"></span>
                             </div>
 
                             <span className="ProfileCard-screenname">
