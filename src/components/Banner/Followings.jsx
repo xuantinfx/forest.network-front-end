@@ -11,7 +11,6 @@ export default class Followings extends Component {
 
     render() {
         let isActive = window.location.href.indexOf('/followwings') !== -1;
-        console.log('ing', isActive)
         return (
             <li className={"ProfileNav-item ProfileNav-item--following " + (isActive ? "is-active" : "")}>
                 <Link className="ProfileNav-stat ProfileNav-stat--link u-borderUserColor u-textCenter js-tooltip js-openSignupDialog js-nonNavigable u-textUserColor"
