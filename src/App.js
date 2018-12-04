@@ -26,6 +26,7 @@ class App extends Component {
                       <div className="Grid Grid--withGutter">
                         <Switch>
                           <Route exact path="/followers" component={Follow} />
+                          <Route exact path="/followwings" component={Follow} />
                           <Route exact path="/" component={ProfileTimeline} />
                         </Switch>
                       </div>
