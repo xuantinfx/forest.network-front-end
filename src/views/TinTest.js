@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 import Navbar from '../components/Navbar/index';
 import Banner from '../containers/Banner'
 import Profile from '../containers/Profile'
-import ProfileSidebar from '../containers/ProfileSidebar'
+import Follow from '../containers/Follow'
 
 export default class TinTest extends Component {
     static propTypes = {
-        
+
     }
 
     render() {
@@ -17,8 +17,14 @@ export default class TinTest extends Component {
                 <div id="page-outer">
                     <div id="page-container" className="AppContent">
                         <Banner />
-                        <Profile></Profile>
-                        <ProfileSidebar></ProfileSidebar>
+                        <div className="AppContainer">
+                            <div className="AppContent-main content-main u-cf" role="main" aria-labelledby="content-main-heading">
+                                <div className="Grid Grid--withGutter">
+                                    <Profile></Profile>
+                                    <Follow/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div >
