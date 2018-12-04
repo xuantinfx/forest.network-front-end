@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class ProfileHeaderCard extends Component {
-  static propTypes = {
-
-  }
-
   render() {
     return (
         <div className="ProfileHeaderCard">
