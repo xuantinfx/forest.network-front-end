@@ -30,3 +30,7 @@
     transform: rotate(360deg);
   }
 }
+
+.AppContent-main {
+  margin-top: 10vh !important;
+}
