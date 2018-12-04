@@ -1,11 +1,7 @@
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 class SignUpCallOut extends Component {
-  static propTypes = {
-
-  }
 
   render() {
     return (
@@ -22,7 +18,7 @@ class SignUpCallOut extends Component {
             <div className="signup SignupForm">
                 <a href="https://twitter.com/signup" role="button"
                     className="EdgeButton EdgeButton--large EdgeButton--primary SignupForm-submit u-block js-signup "
-                    data-component="signup_callout" data-element="form">Đăng
+                    data-element="form">Đăng
                     ký</a>
             </div>
         </div>

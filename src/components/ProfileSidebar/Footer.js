@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
-export class Footer extends Component {
-  static propTypes = {
-
-  }
-
+class Footer extends Component {
   render() {
     return (
         <div className="Footer module roaming-module Footer--slim Footer--blankBackground">
