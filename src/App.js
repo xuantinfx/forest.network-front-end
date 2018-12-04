@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import TinTest from './views/TinTest'
-import ProfileTimeline from './components/ProfileTimeline';
+import TinTest from './views/TinTest';
 
 class App extends Component {
   render() {
-    return (
-      <ProfileTimeline/>
-    );
+    return (<TinTest></TinTest>);
   }
 }
 
