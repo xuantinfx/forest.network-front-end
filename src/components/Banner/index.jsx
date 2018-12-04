@@ -12,7 +12,6 @@ export default class Banner extends Component {
     }
 
     render() {
-        console.log('remder')
         return (
             <div className="ProfileCanopy ProfileCanopy--withNav ProfileCanopy--large js-variableHeightTopBar">
                 <div className="ProfileCanopy-inner">
