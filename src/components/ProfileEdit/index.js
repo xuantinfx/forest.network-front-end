@@ -6,15 +6,17 @@ import PropTypes from 'prop-types'
 import ProfileEditUrl from './ProfileEditUrl';
 import ProfileEditTheme from './ProfileEditTheme';
 
-export class ProfileEdit extends Component {
+class ProfileEdit extends Component {
     static propTypes = {
         updateProfile: PropTypes.func
     }
 
     onSubmit(e) {
-        // console.log('submit')
-        // e.preventDefault();
-        // this.props.updateProfile({bio: "abcdddd"});
+        e.preventDefault();
+        let displayName = document.getElementById('user_name').value;
+        let bio = document.getElementById('bio').value;
+        let location = document.getElementById('location').value;
+        this.props.updateProfile({bio, displayName, location,});
     }
 
   render() {
@@ -27,7 +29,8 @@ export class ProfileEdit extends Component {
                             <form onSubmit={this.onSubmit.bind(this)}>
                                 <ProfileEditName displayName={this.props.displayName||''} userName={this.props.userName||''}></ProfileEditName>
                                 <ProfileEditBio bio={this.props.bio||''}></ProfileEditBio>
-                                <ProfileEditLocation location={this.props.location||''}></ProfileEditLocation>{/* 
+                                <ProfileEditLocation location={this.props.location||''}></ProfileEditLocation>
+                                {/* 
                                 <ProfileEditUrl></ProfileEditUrl>
                                 <ProfileEditTheme></ProfileEditTheme> */}
                                 <button type="submit" id="js-userColorButton" name="user[profile_link_color]" className="EdgeButton EdgeButton--secondary ProfileHeaderCardEditing-userColorButton js-current-color js-dropdown-toggle" data-color="#1DA1F2" tabIndex="2">

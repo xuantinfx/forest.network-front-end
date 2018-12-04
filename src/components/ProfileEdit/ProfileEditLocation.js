@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class ProfileEditLocation extends Component {
   static propTypes = {
-    location: PropTypes.location
+    location: PropTypes.string
   }
 
   render() {
