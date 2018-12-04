@@ -1,6 +1,12 @@
-import infoUserPage from './infoUserPage'
-import profile from './profile'
-import profileSidebar from './profileSidebar'
 import { combineReducers } from 'redux'
+import followers from './followerReducer'
+import followings from './followingReducer'
+import profile from './profileReducer'
+import tweets from './tweetReducer'
 
-export default combineReducers({infoUserPage, profile, profileSidebar})
+export default combineReducers({
+    followers,
+    followings,
+    profile,
+    tweets
+})
