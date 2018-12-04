@@ -5,7 +5,9 @@ import TinTest from './views/TinTest';
 
 class App extends Component {
   render() {
-    return (<TinTest></TinTest>);
+    return (
+      <TinTest></TinTest>
+    );
   }
 }
 

@@ -9,10 +9,12 @@ export class Profile extends Component {
         <div className="Grid Grid--withGutter">
             <div className="Grid-cell">
                 <div className="ProfileSidebar ProfileSidebar--withLeftAlignment">
+                    <div className='ProfileHeaderCard'>
                     <ProfileHeaderCard name={this.props.name} bio={this.props.bio} location={this.props.location}
                         hashtag={this.props.hashtag} url={this.props.url} joinDate={this.props.joinDate}></ProfileHeaderCard>
                     <PhotoRail withCountLink={this.props.withCountLink} withCountNum={this.props.withCountNum}
-                        mediaBoxImg={this.props.mediaBoxImg}></PhotoRail>                    
+                        mediaBoxImg={this.props.mediaBoxImg}></PhotoRail>      
+                        </div>              
                 </div>
             </div>
         </div>
