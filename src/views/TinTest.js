@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar/index';
 import Banner from '../containers/Banner'
 import Profile from '../containers/Profile'
 import Follow from '../containers/Follow'
+import ProfileTimeline from '../components/ProfileTimeline';
+import ProfileSidebar from '../containers/ProfileSidebar';
 
 export default class TinTest extends Component {
     static propTypes = {
@@ -21,7 +23,12 @@ export default class TinTest extends Component {
                             <div className="AppContent-main content-main u-cf" role="main" aria-labelledby="content-main-heading">
                                 <div className="Grid Grid--withGutter">
                                     <Profile></Profile>
-                                    <Follow/>
+                                    <div className="Grid-cell u-size2of3 u-lg-size3of4">
+                                        <div className="Grid Grid--withGutter">
+                                            <ProfileTimeline />
+                                            {/* <ProfileSidebar /> */}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

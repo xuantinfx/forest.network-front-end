@@ -44,7 +44,7 @@ const timelineTweetsDummy = [{
 export default class ProfileTimeline extends Component {
   render() {
     return (
-      <div className="Grid-cell u-lg-size2of3" data-test-selector="ProfileTimeline">
+      <div className="Grid-cell u-lg-size3of3" data-test-selector="ProfileTimeline">
         <div className="ProfileHeading">
           <div className="ProfileHeading-spacer" />
           <div className="ProfileHeading-content">
