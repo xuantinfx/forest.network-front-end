@@ -13,12 +13,20 @@ export class ProfileEdit extends Component {
 
   render() {
     return (
-        <div className="ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields">
-            <ProfileEditName></ProfileEditName>
-            <ProfileEditBio></ProfileEditBio>
-            <ProfileEditLocation></ProfileEditLocation>
-            <ProfileEditUrl></ProfileEditUrl>
-            <ProfileEditTheme></ProfileEditTheme>
+        <div className="Grid-cell u-size1of3 u-lg-size1of4">
+            <div className="Grid Grid--withGutter">
+                <div className="Grid-cell">
+                    <div className='ProfileSidebar ProfileSidebar--withLeftAlignment'>
+                        <div className='ProfileHeaderCard'>
+                            <ProfileEditName></ProfileEditName>
+                            <ProfileEditBio></ProfileEditBio>
+                            <ProfileEditLocation></ProfileEditLocation>
+                            <ProfileEditUrl></ProfileEditUrl>
+                            <ProfileEditTheme></ProfileEditTheme>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
   }
