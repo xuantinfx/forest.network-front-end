@@ -1,6 +1,6 @@
 import ProfileEdit from "../components/ProfileEdit/";
 import { connect } from 'react-redux'
-import { updateProfile } from '../actions/updateProfile'
+import { updateProfile} from '../actions/updateProfile'
 
 const mapStateToProps = (state, ownProps) => {
     return {
