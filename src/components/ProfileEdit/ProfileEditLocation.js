@@ -17,13 +17,16 @@ class ProfileEditLocation extends Component {
                 <div className="RichEditor-container u-borderRadiusInherit">
           
                     <div className="RichEditor-scrollContainer u-borderRadiusInherit">
-                        <div id="user_location" name="user[location]" aria-multiline="true" aria-labelledby="user_location_label" 
+                        {/* <div id="user_location" name="user[location]" aria-multiline="true" aria-labelledby="user_location_label" 
                         className="ProfileHeaderCardEditing-editableField rich-editor u-borderUserColorLight GeoSearch-queryInput js-geo-search-trigger js-dropdown-prevent-close is-showPlaceholder" 
                         data-placeholder="Location" maxLength="30" autoComplete="off" role="textbox" tabIndex="2" data-initial-location="" 
                         contentEditable="true" dir="ltr" aria-owns="profile-geo-dropdown" aria-autocomplete="list">
                         
-                        </div>
-                        <div><br/></div>
+                        </div> */}
+                            
+                        <input type="text" id="location" name="location"
+                            className="ProfileHeaderCardEditing-editableField u-borderUserColorLight"
+                            defaultValue="Location" placeholder="Location" maxLength="200" autoComplete="off" tabIndex="2"/>
                         <div className="RichEditor-pictographs" aria-hidden="true">
                         </div>
                     </div>

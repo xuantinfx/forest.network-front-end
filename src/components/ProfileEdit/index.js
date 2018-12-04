@@ -17,13 +17,14 @@ export class ProfileEdit extends Component {
             <div className="Grid Grid--withGutter">
                 <div className="Grid-cell">
                     <div className='ProfileSidebar ProfileSidebar--withLeftAlignment'>
-                        <div className='ProfileHeaderCard'>
+                        <div className='ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields'>
                             <ProfileEditName></ProfileEditName>
                             <ProfileEditBio></ProfileEditBio>
-                            <ProfileEditLocation></ProfileEditLocation>
+                            <ProfileEditLocation></ProfileEditLocation>{/* 
                             <ProfileEditUrl></ProfileEditUrl>
-                            <ProfileEditTheme></ProfileEditTheme>
+                            <ProfileEditTheme></ProfileEditTheme> */}
                         </div>
+
                     </div>
                 </div>
             </div>

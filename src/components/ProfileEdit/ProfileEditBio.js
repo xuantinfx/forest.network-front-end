@@ -10,7 +10,7 @@ class ProfileEditBio extends Component {
     return (
         <div className="ProfileHeaderCardEditing-bioRich ProfileHeaderCardEditing-item">
             <div className="RichEditor RichEditor--emojiPicker u-borderUserColorLight">
-            
+            {/* 
             <div className="RichEditor-mozillaCursorWorkaround">&nbsp;</div>
             <div className="RichEditor-container u-borderRadiusInherit">
                 
@@ -39,7 +39,11 @@ class ProfileEditBio extends Component {
                 </div>
             
             </div>
-            <div className="RichEditor-mozillaCursorWorkaround">&nbsp;</div>
+            <div className="RichEditor-mozillaCursorWorkaround">&nbsp;</div> */}
+                
+                <input type="text" id="bio" name="bio"
+                    className="ProfileHeaderCardEditing-editableField u-borderUserColorLight"
+                    defaultValue="Bio" placeholder="Bio" maxLength="10000" autoComplete="off" tabIndex="2"/>
             </div>
         </div>
     )
