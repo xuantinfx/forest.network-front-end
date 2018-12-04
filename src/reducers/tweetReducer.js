@@ -1,5 +1,5 @@
 const initialState = {
-  total: '230332',
+  total: 230332,
   loadedTweets: 3,
   tweets: [{
     id: '1',

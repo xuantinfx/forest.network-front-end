@@ -6,15 +6,13 @@ import Infbanner from './Infbanner'
 export default class Banner extends Component {
     static propTypes = {
         urlImg: PropTypes.string,
-        tweet: PropTypes.string,
-        followings: PropTypes.string,
-        follower: PropTypes.string,
-        likes: PropTypes.string,
-        list: PropTypes.string,
-        moment: PropTypes.string
+        tweet: PropTypes.number,
+        followings: PropTypes.number,
+        followers: PropTypes.number,
     }
 
     render() {
+        console.log('remder')
         return (
             <div className="ProfileCanopy ProfileCanopy--withNav ProfileCanopy--large js-variableHeightTopBar">
                 <div className="ProfileCanopy-inner">
@@ -24,10 +22,7 @@ export default class Banner extends Component {
                     <Infbanner 
                         tweet={this.props.tweet}
                         followings={this.props.followings}
-                        follower={this.props.follower}
-                        likes={this.props.likes}
-                        list={this.props.list}
-                        moment={this.props.moment}
+                        followers={this.props.followers}
                     />
                 </div>
             </div>
