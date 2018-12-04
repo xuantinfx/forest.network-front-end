@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class ProfileEditLocation extends Component {
   static propTypes = {
-
+    location: PropTypes.location
   }
 
   render() {
@@ -26,7 +26,7 @@ class ProfileEditLocation extends Component {
                             
                         <input type="text" id="location" name="location"
                             className="ProfileHeaderCardEditing-editableField u-borderUserColorLight"
-                            defaultValue="Location" placeholder="Location" maxLength="200" autoComplete="off" tabIndex="2"/>
+                            defaultValue={this.props.location} placeholder="Location" maxLength="200" autoComplete="off" tabIndex="2"/>
                         <div className="RichEditor-pictographs" aria-hidden="true">
                         </div>
                     </div>
