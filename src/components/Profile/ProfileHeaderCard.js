@@ -40,7 +40,7 @@ class ProfileHeaderCard extends Component {
                 </span>
             </div>
 
-            <div className="ProfileHeaderCard-url ">
+            {/* <div className="ProfileHeaderCard-url ">
                 <span className="Icon Icon--url Icon--medium" aria-hidden="true" role="presentation"></span>
                 <span className="ProfileHeaderCard-urlText u-dir"> <a className="u-textUserColor"
                         target="_blank" rel="me nofollow noopener noreferrer" href="https://t.co/DyF7tJFG4h"
@@ -48,7 +48,7 @@ class ProfileHeaderCard extends Component {
                         {this.props.url.substring(8,36)+'....'}
                     </a>
                 </span>
-            </div>
+            </div> */}
 
             <div className="ProfileHeaderCard-joinDate">
                 <span className="Icon Icon--calendar Icon--medium" aria-hidden="true"

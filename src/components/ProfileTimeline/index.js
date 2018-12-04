@@ -1,45 +1,6 @@
 import React, { Component } from 'react'
 import TimelineTweet from './TimelineTweet';
-
-const timelineTweetsDummy = [{
-  id: '1',
-  tweetUrl: '/tweet/1',
-  displayName: 'YouTube',
-  username: 'YouTube',
-  avatarUrl: '/img/avatar_youtube.jpg',
-  time: 1543912837331,
-  content: 'Imagine if you couldn’t watch the videos you love. We support copyright reform with an Article 13 that works for everyone. Learn more about Article 13: https://youtu.be/lepYkDZ62OY #SaveYourInternet',
-  imgUrl: '/img/tweet_youtube1.jpg',
-  totalReplies: 12200,
-  totalRetweets: 119,
-  totalLikes: 14,
-},
-{
-  id: '1',
-  tweetUrl: '/tweet/1',
-  displayName: 'YouTube',
-  username: 'YouTube',
-  avatarUrl: '/img/avatar_youtube.jpg',
-  time: 1543912837331,
-  content: 'Yayhooo ayashashd',
-  imgUrl: '/img/tweet_youtube1.jpg',
-  totalReplies: 12,
-  totalRetweets: 3,
-  totalLikes: 124,
-},
-{
-  id: '1',
-  tweetUrl: '/tweet/1',
-  displayName: 'YouTube',
-  username: 'YouTube',
-  avatarUrl: '/img/avatar_youtube.jpg',
-  time: 1543912837331,
-  content: '#SaveTheWorld',
-  imgUrl: '/img/tweet_youtube1.jpg',
-  totalReplies: 203339,
-  totalRetweets: 2102,
-  totalLikes: 123123,
-}]
+import TweetDetail from '../TweetDetail';
 
 export default class ProfileTimeline extends Component {
   render() {
@@ -71,13 +32,14 @@ export default class ProfileTimeline extends Component {
           <div className="stream-container" data-min-position={1064977208970747908} data-max-position={1067919395173908480}>
             <div className="stream">
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
-                {timelineTweetsDummy.map((item) => {
-                  return <TimelineTweet key={item.id} {...item} />
+                {this.props.tweets.map((item, index) => {
+                  return <TimelineTweet key={item.id} seeDetails={() => this.props.seeDetails(index)} {...item} />
                 })}
               </ol>
             </div>
           </div>
         </div>
+        <TweetDetail isOpen={this.props.modalIsOpen} tweet={this.props.currentTweet} />
       </div>
     )
   }

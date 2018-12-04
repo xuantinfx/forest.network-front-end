@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import Banner from './containers/Banner'
 import Profile from './containers/Profile'
 import Follow from './containers/Follow'
-import ProfileTimeline from './components/ProfileTimeline';
+import ProfileTimeline from './containers/ProfileTimeline';
 
 class App extends Component {
   render() {
