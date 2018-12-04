@@ -6,8 +6,8 @@ export default class TweetDetail extends Component {
   render() {
     const tweet = this.props.tweet;
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className={this.props.className} size="lg">
-        <ModalHeader toggle={this.props.toggle}>Tweet</ModalHeader>
+      <Modal isOpen={this.props.isOpen} toggle={this.props.closeModal} className={this.props.className} size="lg">
+        <ModalHeader toggle={this.props.closeModal}>Tweet</ModalHeader>
         <ModalBody>
           <div className="container-fluid">
             <Row className="align-items-center">

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import ProfileTimeline from '../components/ProfileTimeline';
+import { closeTweetDetailsModal, seeTweetDetails } from '../actions/tweetActions';
 
 const mapStateToProps = function (state) {
   return {
@@ -12,7 +13,10 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = function (dispatch) {
   return {
     seeDetails: (index) => {
-      console.log(index)
+      dispatch(seeTweetDetails(index));
+    },
+    closeModal: () => {
+      dispatch(closeTweetDetailsModal())
     }
   }
 }

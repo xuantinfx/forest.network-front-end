@@ -1,7 +1,9 @@
+import { CLOSE_TWEET_DETAILS_MODAL, SEE_TWEET_DETAILS } from "../actions/actionType";
+
 const initialState = {
   total: '230332',
   loadedTweets: 3,
-  modalIsOpen: true,
+  modalIsOpen: false,
   currentTweet: 0,
   tweets: [{
     id: '1',
@@ -53,7 +55,7 @@ const initialState = {
       displayName: 'Donald Trump',
       username: 'realDonaldTrump',
       time: 1543944314561,
-      content: 'This is my reply'
+      content: 'Have a good day'
     }],
     totalRetweets: 3,
     totalLikes: 124,
@@ -74,7 +76,7 @@ const initialState = {
       displayName: 'Donald Trump',
       username: 'realDonaldTrump',
       time: 1543944314561,
-      content: 'This is my reply'
+      content: 'Nice message'
     }],
     totalRetweets: 2102,
     totalLikes: 123123,
@@ -84,6 +86,17 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case CLOSE_TWEET_DETAILS_MODAL:
+      return {
+        ...state,
+        modalIsOpen: false
+      }
+    case SEE_TWEET_DETAILS:
+      return {
+        ...state,
+        modalIsOpen: true,
+        currentTweet: payload
+      }
     default:
       return state
   }

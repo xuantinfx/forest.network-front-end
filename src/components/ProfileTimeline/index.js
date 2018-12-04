@@ -39,7 +39,7 @@ export default class ProfileTimeline extends Component {
             </div>
           </div>
         </div>
-        <TweetDetail isOpen={this.props.modalIsOpen} tweet={this.props.currentTweet} />
+        <TweetDetail isOpen={this.props.modalIsOpen} tweet={this.props.currentTweet} closeModal={this.props.closeModal} />
       </div>
     )
   }
