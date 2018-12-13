@@ -11,7 +11,6 @@ export default class Tweet extends Component {
 
     render() {
         let isActive = window.location.href.indexOf('/followers') === -1 && window.location.href.indexOf('/followwings') === -1;
-        console.log('tweet', isActive)
         return (
             <li className={"ProfileNav-item ProfileNav-item--tweets "+ (isActive ? "is-active" : "")}>
                 <Link className="ProfileNav-stat ProfileNav-stat--link u-borderUserColor u-textCenter js-tooltip js-nav"

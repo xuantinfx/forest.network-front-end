@@ -26,10 +26,10 @@ export default class TimelineTweet extends Component {
                 <a title={moment(this.props.time).format('MMMM Do YYYY, h:mm:ss a')} className="tweet-timestamp js-permalink js-nav js-tooltip" href={this.props.tweetUrl} ><span className="_timestamp js-short-timestamp " data-aria-label-part="last" data-long-form="true">{moment(this.props.time).format('MMM Do YY')}</span></a>
               </small>
             </div>
-            <div className="js-tweet-text-container">
+            <div onClick={this.props.seeDetails} className="js-tweet-text-container">
               <p className="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text" lang="en" data-aria-label-part={0}>{this.props.content}</p>
             </div>
-            <div className="AdaptiveMediaOuterContainer">
+            <div onClick={this.props.seeDetails} className="AdaptiveMediaOuterContainer">
               <div className="AdaptiveMedia">
                 <div className="AdaptiveMedia-container">
                   <img alt="" src={this.props.imgUrl} style={{ height: 'auto', maxWidth: '100%' }} />
