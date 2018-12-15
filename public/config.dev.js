@@ -1,0 +1,1 @@
+window.APP.API_HOST="localhost:3000"

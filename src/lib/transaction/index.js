@@ -58,6 +58,6 @@ export function hash(tx) {
     .toUpperCase();
 }
 
-export function getTXBase64(tx) {
+export function getTXSubmitRequest(tx) {
   return tx.toString('base64');
 }

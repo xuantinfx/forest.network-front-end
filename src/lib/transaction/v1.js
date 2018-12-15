@@ -50,7 +50,7 @@ export function encode(tx) {
     case 'create_account':
       params = CreateAccountParams.encode({
         ...tx.params,
-        address: base32.decode(tx.params.address),
+        address: Buffer.from(base32.decode(tx.params.address)),
       });
       operation = 1;
       break;
@@ -58,7 +58,7 @@ export function encode(tx) {
     case 'payment':
       params = PaymentParams.encode({
         ...tx.params,
-        address: base32.decode(tx.params.address),
+        address: Buffer.from(base32.decode(tx.params.address)),
       });
       operation = 2;
       break;
@@ -79,7 +79,7 @@ export function encode(tx) {
 
   return Transaction.encode({
     version: 1,
-    account: base32.decode(tx.account),
+    account: Buffer.from(base32.decode(tx.account)),
     sequence: tx.sequence,
     memo: tx.memo,
     operation,
