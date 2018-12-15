@@ -8,7 +8,34 @@ import Profile from './containers/Profile'
 import Follow from './containers/Follow'
 import ProfileTimeline from './containers/ProfileTimeline';
 
+import { requestApi } from './apis/requestApi'
+import { postTranSaction } from './apis/transaction'
+import { getTXBase64, encode, sign } from './lib/transaction'
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    let tx = {
+      version: 1,
+      account: "GDLLXAEH3MYZ3IYEE4JNVYPXXQDA5HY6JMVLU7UFNZJVY7CDVCURFED3",
+      sequence: 10,
+      memo: Buffer.alloc(0),
+      operation: 'create_account',
+      params: {
+          address: "GAWXBPFTXZZ32X5BF3G56SEQFVY6OVPX646ULSMZKKUSNRT4IW47Y5JS"
+      }
+  }
+
+  let txsign = sign(tx);
+    requestApi(postTranSaction(getTXBase64(encode(txsign))))
+    .then(res => {
+        console.log('res', res);
+    })
+    .catch(err => { 
+        console.log('err', err);
+    })
+}
   render() {
     return (
       <Router>
