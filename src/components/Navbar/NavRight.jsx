@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import Search from './Search'
-import User from './User'
+import User from '../../containers/User'
 
 export default class NavRight extends Component {
     static propTypes = {
