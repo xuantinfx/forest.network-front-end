@@ -1,6 +1,7 @@
 const vstruct = require('varstruct');
 const base32 = require('base32.js');
 const { Keypair } = require('stellar-base');
+const _ = require('lodash')
 
 const Transaction = vstruct([
   { name: 'version', type: vstruct.UInt8 },
@@ -30,9 +31,18 @@ const PostParams = vstruct([
   { name: 'keys', type: vstruct.VarArray(vstruct.UInt8, vstruct.Buffer(42)) },
 ]);
 
+const PlainTextContent = vstruct([
+  { name: 'type', type: vstruct.UInt8 },
+  { name: 'text', type: vstruct.VarString(vstruct.UInt16BE) },
+]);
+
 const UpdateAccountParams = vstruct([
   { name: 'key', type: vstruct.VarString(vstruct.UInt8) },
   { name: 'value', type: vstruct.VarBuffer(vstruct.UInt16BE) },
+]);
+
+const Followings = vstruct([
+  { name: 'addresses', type: vstruct.VarArray(vstruct.UInt16BE, vstruct.Buffer(35)) },
 ]);
 
 const InteractParams = vstruct([
@@ -67,12 +77,20 @@ export function encode(tx) {
       break;
 
     case 'post':
-      params = PostParams.encode(tx.params);
+      params = _.cloneDeep(tx.params);
+      params.content = PlainTextContent.encode(params.content);
+      params = PostParams.encode(params);
       operation = 3;
       break;
 
     case 'update_account':
-      params = UpdateAccountParams.encode(tx.params);
+      params = _.cloneDeep(tx.params);
+      if(params.key === "followings") {
+        params.value = Followings.encode(params.value);
+      } else {
+        params.value = Buffer.from(params.value);
+      }
+      params = UpdateAccountParams.encode(params);
       operation = 4;
       break;
 
@@ -123,11 +141,17 @@ export function decode(data) {
     case 3:
       operation = 'post';
       params = PostParams.decode(tx.params);
+      params.content = PlainTextContent.decode(params.content);
       break;
 
     case 4:
       operation = 'update_account';
       params = UpdateAccountParams.decode(tx.params);
+      if(params.key === "followings") {
+        params.value = Followings.decode(params.value);
+      } else {
+        params.value = params.value.toString();
+      }
       break;
     
     case 5:
