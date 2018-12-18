@@ -13,7 +13,7 @@ export default class ImgBanner extends Component {
                 <div className="ProfileCanopy-headerBg">
                     <img alt="" src={this.props.urlImg} style={{ "transform": "translate3d(0px, 10.8px, 0px)" }} />
                 </div>
-                <LogoUser/>
+                <LogoUser imgBinaryData={null} />
             </div>
         )
     }
