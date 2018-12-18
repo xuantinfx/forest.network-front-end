@@ -83,3 +83,18 @@ export const followings = (secretKey, sequence, memo, addresses, version) => {
     }
     return getTXSubmitRequest(encode(sign(transaction, secretKey)));
 }
+
+//picture ở dạng Buffer của hình jpeg
+export const updatePicture = (secretKey, sequence, memo, picture, version) => {
+    let transaction = {
+        version,
+        sequence,
+        memo,
+        operation: "update_account",
+        params: {
+            key: "picture",
+            value: picture
+        }
+    }
+    return getTXSubmitRequest(encode(sign(transaction, secretKey)));
+}
