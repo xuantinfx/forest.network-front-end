@@ -1,8 +1,7 @@
 import { updateProfileConst} from '../actions/updateProfile'
 
 const initialState = {
-  displayName: 'YouTube',
-  userName: 'YouTube',
+  name: 'YouTube',
   avatarUrl: './template/1500x500',
   bio: 'Imagine if you couldn’t watch the videos you love. We support copyright reform with an Article 13 that works for everyone.',
   location: 'San Bruno, CA',
