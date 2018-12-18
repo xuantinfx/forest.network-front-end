@@ -25,7 +25,8 @@ export default class User extends Component {
     reqLogin=(secretKey)=>{
         if(StrKey.isValidEd25519SecretSeed(secretKey)){
             let publicKey = Keypair.fromSecret(secretKey).publicKey();
-            let promise = requestApi({url: 'http://localhost:3000/profile/'+publicKey, method: 'GET', headers:{}, params:{}})
+            let promise = requestApi({url: 'http://localhost:3000/profile/'+publicKey, method: 'GET',
+            headers:{public_key: publicKey}, params:{}})
             promise.then((res)=>{
             if(res.status_code === 200){
                 window.localStorage.setItem('SECRET_KEY',secretKey)

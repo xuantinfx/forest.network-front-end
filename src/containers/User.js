@@ -13,8 +13,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         changeSingup: (isLogin) => {
             dispatch(changeSingup(isLogin))
         },
-        login: (secretKey)=>{
-            dispatch(login(secretKey))
+        login: (alreadyLogin)=>{
+            dispatch(login(alreadyLogin))
         }
     }
 }
