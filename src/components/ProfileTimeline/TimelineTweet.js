@@ -11,7 +11,7 @@ export default class TimelineTweet extends Component {
               <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="https://twitter.com/YouTube" data-user-id={10228272}>
                 <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.avatarUrl} />
                 <span className="FullNameGroup">
-                  <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.displayName}</strong>
+                  <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name}</strong>
                   <span></span>
                   <span className="UserBadges">
                     <span className="Icon Icon--verified">
@@ -20,7 +20,7 @@ export default class TimelineTweet extends Component {
                   </span>
                   <span className="UserNameBreak">&nbsp;</span>
                 </span>
-                <span className="username u-dir u-textTruncate" data-aria-label-part>@<b>{this.props.username}</b></span>
+                <span className="username u-dir u-textTruncate" data-aria-label-part>@<b>{this.props.name}</b></span>
               </a>
               <small className="time">
                 <a title={moment(this.props.time).format('MMMM Do YYYY, h:mm:ss a')} className="tweet-timestamp js-permalink js-nav js-tooltip" href={this.props.tweetUrl} ><span className="_timestamp js-short-timestamp " data-aria-label-part="last" data-long-form="true">{moment(this.props.time).format('MMM Do YY')}</span></a>

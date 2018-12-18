@@ -17,12 +17,12 @@ export default class TweetDetail extends Component {
               <Col className="account-group">
                 <Row>
                   <Col>
-                    <strong className="fullname show-popup-with-id u-textTruncate ">{tweet.displayName}</strong>
+                    <strong className="fullname show-popup-with-id u-textTruncate ">{tweet.name}</strong>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{tweet.username}</b></span>
+                    <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{tweet.name}</b></span>
                   </Col>
                 </Row>
               </Col>
@@ -90,7 +90,7 @@ export default class TweetDetail extends Component {
                 <Input type="text" name="reply" placeholder="Tweet your reply" />
               </Col>
             </Row>
-            {tweet.loadedReplies.map((reply, index) => {
+            {tweet.replies.map((reply, index) => {
               return (
                 <Row key={index} className="mt-3">
                   <Col xs="1" className="pr-0">
@@ -99,7 +99,7 @@ export default class TweetDetail extends Component {
                   <Col xs="10">
                     <Row>
                       <Col className="d-flex account-group">
-                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.displayName}</strong>
+                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.name}</strong>
                         <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{reply.username}</b></span>
                         <span>&nbsp;</span>
                         <small className="time">
