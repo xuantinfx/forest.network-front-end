@@ -1,5 +1,6 @@
 import { encode, sign, getTXSubmitRequest} from '../transaction'
 import base32 from 'base32.js'
+import _ from 'lodash'
 
 export const createAccount = (secretKey, sequence, memo, address, version) => {
     let transaction = {
@@ -62,7 +63,12 @@ export const updateAccount = (secretKey, sequence, memo, key, value, version) =>
     return getTXSubmitRequest(encode(sign(transaction, secretKey)));
 }
 
-export const followings = (secretKey, sequence, memo, address, version) => {
+export const followings = (secretKey, sequence, memo, addresses, version) => {
+    // Map public key từ 54 xuống 35
+    addresses =  _.map(addresses, (address54 => {
+        return Buffer.from(base32.decode(address54));
+    }))
+    
     let transaction = {
         version,
         sequence,
@@ -71,7 +77,7 @@ export const followings = (secretKey, sequence, memo, address, version) => {
         params: {
             key: "followings",
             value: {
-                addresses: [Buffer.from(base32.decode(address))]
+                addresses
             }
         }
     }
