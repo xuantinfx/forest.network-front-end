@@ -8,10 +8,10 @@ export default class TimelineTweet extends Component {
         <div className="tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable dismissible-content original-tweet js-original-tweet tweet-has-context has-cards  user-pinned has-content" data-user-id={10228272} data-name="YouTube" data-screen-name="YouTube" data-has-cards="true" data-disclosure-type data-reply-to-users-json="[{'id_str':'10228272','screen_name':'YouTube','name':'YouTube','emojified_name':{'text':'YouTube','emojified_text_as_html':'YouTube'}}]" data-you-block="false" data-follows-you="false" data-you-follow="false" data-tweet-nonce="1064310108413460480-43247f11-d6d7-4591-9c56-c52467b4e1ab" data-conversation-id={1064310108413460480} data-permalink-path="/YouTube/status/1064310108413460480" data-item-id={1064310108413460480} data-tweet-id={1064310108413460480} data-tweet-stat-initialized="true">
           <div className="content">
             <div className="stream-item-header">
-              <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="https://twitter.com/YouTube" data-user-id={10228272}>
-                <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.avatarUrl} />
+              <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="#" data-user-id={10228272}>
+                <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.picture} />
                 <span className="FullNameGroup">
-                  <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.displayName}</strong>
+                  <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name}</strong>
                   <span></span>
                   <span className="UserBadges">
                     <span className="Icon Icon--verified">
@@ -20,7 +20,7 @@ export default class TimelineTweet extends Component {
                   </span>
                   <span className="UserNameBreak">&nbsp;</span>
                 </span>
-                <span className="username u-dir u-textTruncate" data-aria-label-part>@<b>{this.props.username}</b></span>
+                <span className="username u-dir u-textTruncate" data-aria-label-part>@<b>{this.props.name}</b></span>
               </a>
               <small className="time">
                 <a title={moment(this.props.time).format('MMMM Do YYYY, h:mm:ss a')} className="tweet-timestamp js-permalink js-nav js-tooltip" href={this.props.tweetUrl} ><span className="_timestamp js-short-timestamp " data-aria-label-part="last" data-long-form="true">{moment(this.props.time).format('MMM Do YY')}</span></a>
