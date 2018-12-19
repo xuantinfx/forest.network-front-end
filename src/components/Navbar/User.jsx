@@ -4,6 +4,7 @@ import LogIn from './LogIn';
 // import PropTypes from 'prop-types'
 import { requestApi } from '../../apis/requestApi'
 import { Keypair, StrKey } from 'stellar-base'
+import {login} from '../../apis/login'
 
 export default class User extends Component {
     static propTypes = {
@@ -25,8 +26,7 @@ export default class User extends Component {
     reqLogin=(secretKey)=>{
         if(StrKey.isValidEd25519SecretSeed(secretKey)){
             let publicKey = Keypair.fromSecret(secretKey).publicKey();
-            let promise = requestApi({url: 'http://localhost:3000/profile/'+publicKey, method: 'GET',
-            headers:{public_key: publicKey}, params:{}})
+            let promise = requestApi(login(publicKey))
             promise.then((res)=>{
             if(res.status_code === 200){
                 window.localStorage.setItem('SECRET_KEY',secretKey)
