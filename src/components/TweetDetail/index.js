@@ -90,7 +90,7 @@ export default class TweetDetail extends Component {
                 <Input type="text" name="reply" placeholder="Tweet your reply" />
               </Col>
             </Row>
-            {tweet.replies.map((reply, index) => {
+            {tweet.loadedReplies.map((reply, index) => {
               return (
                 <Row key={index} className="mt-3">
                   <Col xs="1" className="pr-0">
