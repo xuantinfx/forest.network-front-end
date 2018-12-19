@@ -6,10 +6,19 @@ import PropTypes from 'prop-types'
 export default class index extends Component {
     static propTypes = {
         listFollow: PropTypes.array,
-        isFollower: PropTypes.bool
+        isFollower: PropTypes.bool,
+        loadFollow: PropTypes.func,
+        isLoading: PropTypes.bool
+    }
+
+    componentDidMount() {
+        this.props.loadFollow(this.props.address)
     }
 
     render() {
+        if(this.props.isLoading) {
+            return <div>Loading...</div>
+        }
         return (
             <div className="Grid-cell u-size3of3 u-lg-size4of4">
                 <div className="Grid Grid--withGutter">

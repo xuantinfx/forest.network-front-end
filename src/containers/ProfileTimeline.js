@@ -20,7 +20,8 @@ const mapStateToProps = function (state) {
   return {
     tweets: state.tweets.tweets,
     currentTweet: state.tweets.tweets[state.tweets.currentTweet],
-    modalIsOpen: state.tweets.modalIsOpen
+    modalIsOpen: state.tweets.modalIsOpen,
+    isLoading: state.tweets.isLoading
   }
 }
 
