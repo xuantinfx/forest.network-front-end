@@ -4,9 +4,13 @@ import TweetDetail from '../TweetDetail';
 export default class ProfileTimeline extends Component {
   componentDidMount() {
     this.props.loadTweets(this.props.address);
+    console.log('aaaaa', this.props)
   }
 
   render() {
+    if(this.props.isLoading) {
+      return <div>Loading...</div>
+    }
     return (
       <div className="Grid-cell u-lg-size3of3" data-test-selector="ProfileTimeline">
         <div className="ProfileHeading">
