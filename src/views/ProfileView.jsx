@@ -9,7 +9,7 @@ class ProfileView extends Component {
       switch (this.props.match.params.sublink) {
         case "followers":
         case "followings":
-          return <Follow/>
+          return <Follow key={window.location.href} address={this.props.match.params.address}/>
       
         default:
           return <ProfileTimeline address={this.props.match.params.address}/>
