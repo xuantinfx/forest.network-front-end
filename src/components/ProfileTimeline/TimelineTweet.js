@@ -9,7 +9,7 @@ export default class TimelineTweet extends Component {
           <div className="content">
             <div className="stream-item-header">
               <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="https://twitter.com/YouTube" data-user-id={10228272}>
-                <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.avatarUrl} />
+                <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.picture} />
                 <span className="FullNameGroup">
                   <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name}</strong>
                   <span></span>

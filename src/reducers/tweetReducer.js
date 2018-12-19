@@ -1,4 +1,5 @@
 import { tweetAction } from "../actions/tweetActions";
+import _ from 'lodash';
 
 // const initialState = {
 //   total: 230332,
@@ -53,12 +54,26 @@ export default (state = initialState, action) => {
         isLoading: true
       }
     case tweetAction.LOAD_TWEET_DONE:
+    {
+      let tweets = _.map(action.tweets, tweet => {
+        return {
+          ...tweet,
+          time: (new Date(tweet.time).getTime()),
+          totalReplies: tweet.replies.length,
+          loadedReplies: tweet.replies,
+          totalRetweets: 0,
+          totalLikes: tweet.likes.length,
+          hasLike: true
+        }
+      })
+
       return {
         ...state,
         isLoading: false,
-        tweets: action.tweets,
-        total: action.total
+        tweets: tweets,
+        total: action.total,
       }
+    }
     default:
       return state
   }

@@ -12,7 +12,7 @@ export default class TweetDetail extends Component {
           <div className="container-fluid">
             <Row className="align-items-center">
               <Col xs="1" className="pr-0">
-                <img className="avatar" alt="" src={tweet.avatarUrl} />
+                <img className="avatar" alt="" src={tweet.picture} />
               </Col>
               <Col className="account-group">
                 <Row>
@@ -84,7 +84,7 @@ export default class TweetDetail extends Component {
             </Row>
             <Row className="mt-4 align-items-center">
               <Col xs="1" className="pr-0">
-                <img src={tweet.avatarUrl} alt="" className="avatar" />
+                <img src={tweet.picture} alt="" className="avatar" />
               </Col>
               <Col xs="10">
                 <Input type="text" name="reply" placeholder="Tweet your reply" />
@@ -94,7 +94,7 @@ export default class TweetDetail extends Component {
               return (
                 <Row key={index} className="mt-3">
                   <Col xs="1" className="pr-0">
-                    <img src={reply.avatarUrl} alt="" className="avatar" />
+                    <img src={reply.picture} alt="" className="avatar" />
                   </Col>
                   <Col xs="10">
                     <Row>
