@@ -4,7 +4,6 @@ import TweetDetail from '../TweetDetail';
 export default class ProfileTimeline extends Component {
   componentDidMount() {
     this.props.loadTweets(this.props.address);
-    console.log('aaaaa', this.props)
   }
 
   render() {
