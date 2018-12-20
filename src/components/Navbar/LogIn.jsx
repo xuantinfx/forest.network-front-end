@@ -63,7 +63,7 @@ export class LogIn extends Component {
             </div> */}
             <input type="submit" className="EdgeButton EdgeButton--primary EdgeButton--medium submit js-submit" value="Đăng nhập"/>
             <hr/>
-            <input id= 'read-key' type='file' hidden={true} onChange={this.onInputFileChange}></input>
+            <input id= 'read-key' accept=".json,application/json/*" type='file' hidden={true} onChange={this.onInputFileChange}></input>
             <input type="button" className="EdgeButton EdgeButton--primary EdgeButton--medium submit js-submit" defaultValue="Đọc Key File" onClick={this.onClickChooseFile}/>
           </form>
           <hr />
