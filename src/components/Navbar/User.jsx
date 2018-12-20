@@ -9,7 +9,7 @@ export default class User extends Component {
         
     }
 
-    onClickOpenSignIn = ()=>{
+    onClickOpenSignIn = (close = false)=>{
       let li = document.getElementById('session').getElementsByTagName('li')[0];
       let att = li.getAttribute('class');
       if(att.includes('open')){
@@ -18,6 +18,9 @@ export default class User extends Component {
       }
       else{
         li.setAttribute('class',"dropdown js-session open")
+      }
+      if(close){
+        li.setAttribute('class',"dropdown js-session")
       }
     }
 
@@ -59,19 +62,19 @@ export default class User extends Component {
     logout = ()=>{
         window.localStorage.removeItem('SECRET_KEY');
         this.props.login(false);
-        this.onClickOpenSignIn();
+        this.onClickOpenSignIn(true);
         this.props.history.push('/')
     }
 
     render() {
-        console.log(this.props)
+        //console.log('user',this.props)
         return (
             <ul className="nav secondary-nav session-dropdown" id="session">
 
                 {(!this.props.alreadyLogin)?(
                     <li className="dropdown js-session" >
                     <button className="dropdown-toggle js-dropdown-toggle dropdown-signin" 
-                      onClick={this.onClickOpenSignIn}
+                      onClick={()=>this.onClickOpenSignIn()}
                       id="signin-link" data-nav="login" aria-haspopup="true">
                       <small>Đã có tài khoản?</small> <span className="emphasize"> Đăng nhập</span>
                     </button>
