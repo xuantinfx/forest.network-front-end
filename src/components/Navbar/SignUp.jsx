@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import { Keypair } from 'stellar-base'
 import { createHash } from 'crypto'
 import Blob from 'blob'
-import jsonfile from "jsonfile"
 
 export class SignUp extends Component {
   static propTypes = {
-
+    changeSingup: PropTypes.func
   }
   encode = ( s ) => {
     var out = [];
@@ -63,24 +62,26 @@ export class SignUp extends Component {
         <div className="dropdown-menu dropdown-form dropdown-menu--rightAlign is-forceRight" id="signin-dropdown" role="dialog" aria-hidden="false" aria-labelledby="signin-form-legend"><div className="js-first-tabstop" tabIndex={0} />
         <div className="dropdown-caret right"> <span className="caret-outer" /> <span className="caret-inner" /> </div>
         <div className="signin-dialog-body">
-          <div>Đã có tài khoản?</div>
-            <input onClick={()=>this.props.changeSingup({isLogin:true})} type='button'
-              className="EdgeButton EdgeButton--primary EdgeButton--medium submit js-submit" 
-              value="Đăng nhập">
-              
-            </input>
-          <hr/>
           <div>Chưa có tài khoản?</div>
           <form action="https://twitter.com/sessions" className="LoginForm js-front-signin" method="post" data-component="login_callout" data-element="form">
             <div className="LoginForm-input LoginForm-username">
-              <input type="text" className="text-input email-input js-signin-email" name="session[username_or_email]" autoComplete="displayname" placeholder="Display name" />
+              <div style={{fontSize:'0.7rem'}}>Hãy chuyển public key đến bạn của bạn để tham gia.</div>
+              <br/>
+              <div style={{fontSize:'0.8rem'}}>Secret Key:</div>
               <input id='secret-key' disabled type="text" className="text-input email-input js-signin-email" name="session[username_or_email]" autoComplete="secretkey" placeholder="Secret key" />
+              
+              <div style={{fontSize:'0.8rem'}}><br/>Public Key:</div>
               <input id='public-key' disabled type="text" className="text-input email-input js-signin-email" name="session[username_or_email]" autoComplete="publickey" placeholder="Public key" />
             
               <input onClick={this.generateKey} type='button' className="EdgeButton EdgeButton--secondary EdgeButton--medium u-block js-signup" value="Tạo key" />
             </div>
             <hr/>
-            <input type="submit" className="EdgeButton EdgeButton--primary EdgeButton--medium submit js-submit" value="Đăng ký" />
+            <div>Đã có tài khoản?</div>
+            <input onClick={()=>this.props.changeSingup(true)} type='button'
+              className="EdgeButton EdgeButton--primary EdgeButton--medium submit js-submit" 
+              value="Đăng nhập">
+              
+            </input>
           </form>
         </div>
         <div className="js-last-tabstop" tabIndex={0} /></div>

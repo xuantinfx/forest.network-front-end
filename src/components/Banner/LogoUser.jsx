@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 export default class LogoUser extends Component {
   static propTypes = {
-    imgData: PropTypes.object,
+    imgData: PropTypes.array,
     canChangeProfilePicture: PropTypes.bool.isRequired
   }
 

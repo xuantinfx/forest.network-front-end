@@ -13,17 +13,17 @@ class ProfileEdit extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        let displayName = document.getElementById('user_name').value;
+        let name = document.getElementById('user_name').value;
         let bio = document.getElementById('bio').value;
         let location = document.getElementById('location').value;
-        this.props.updateProfile({bio, displayName, location, isEditting: false});
+        this.props.updateProfile({bio, name, location, isEditting: false});
     }
 
   render() {
     return (
         <div className='ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields'>
                             <form onSubmit={this.onSubmit.bind(this)}>
-                                <ProfileEditName displayName={this.props.displayName||''} userName={this.props.userName||''}></ProfileEditName>
+                                <ProfileEditName name={this.props.name||''}></ProfileEditName>
                                 <ProfileEditBio bio={this.props.bio||''}></ProfileEditBio>
                                 <ProfileEditLocation location={this.props.location||''}></ProfileEditLocation>
                                 {/* 
