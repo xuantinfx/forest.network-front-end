@@ -5,10 +5,10 @@ class ProfileHeaderCard extends Component {
   render() {
     return (
         <div className="ProfileHeaderCard">
-            {this.props.displayName?
+            {this.props.name?
                 (<h1 className="ProfileHeaderCard-name">
                 <span className="ProfileHeaderCard-nameLink u-textInheritColor js-nav">
-                    {this.props.displayName}
+                    {this.props.name}
                 </span>
                 <span
                     className="ProfileHeaderCard-badges"><a href="https://twitter.com/help/verified"
@@ -17,20 +17,7 @@ class ProfileHeaderCard extends Component {
                     className="u-hiddenVisually">Tài khoản được xác nhận</span></span></a></span>
                 </h1>):
                 (<div className="ProfileHeaderCard-name"></div>)}
-            
-            {this.props.userName?
-                (<h2 className="ProfileHeaderCard-screenname u-inlineBlock u-dir" >
-                    <span className="ProfileHeaderCard-screennameLink u-linkComplex js-nav"
-                        /* href="#" */>
-                            <span className="username u-dir" >@<b className="u-linkComplex-target">
-                                {this.props.userName}
-                            </b></span>
-                    </span>
-                </h2>):
-                (<h2 className="ProfileHeaderCard-screenname u-inlineBlock u-dir" >
-                </h2>)
-            }
-            
+                      
 
             <p className="ProfileHeaderCard-bio u-dir" >
                 {this.props.bio}
@@ -96,8 +83,7 @@ class ProfileHeaderCard extends Component {
 export default ProfileHeaderCard
 
 ProfileHeaderCard.propTypes = {
-    displayName: PropTypes.string,
-    userName: PropTypes.string,
+    name: PropTypes.string,
     bio: PropTypes.string,
     location: PropTypes.string,
     joinDate: PropTypes.number
