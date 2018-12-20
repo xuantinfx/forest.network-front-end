@@ -8,11 +8,26 @@ export default class index extends Component {
         listFollow: PropTypes.array,
         isFollower: PropTypes.bool,
         loadFollow: PropTypes.func,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        follow: PropTypes.func,
+        unFollow: PropTypes.func,
+        listUserFollow: PropTypes.array,
+        sequence: PropTypes.number,
+        alreadyLogin: PropTypes.bool
     }
 
     componentDidMount() {
         this.props.loadFollow(this.props.address)
+    }
+
+    follow(address) {
+        //(listFollowings, address, sequence)
+        this.props.follow(this.props.listUserFollow, address, this.props.sequence);
+    }
+
+    unFollow(address) {
+         //(listFollowings, address, sequence)
+        this.props.unFollow(this.props.listUserFollow, address, this.props.sequence);
     }
 
     render() {
@@ -37,17 +52,25 @@ export default class index extends Component {
                                             urlAvt={follow.urlAvt}
                                             isFollow={follow.isFollow}
                                             name={follow.name}
-                                            username={follow.username}
-                                            key={index} />)
+                                            address={follow.address}
+                                            key={index}
+                                            follow={this.follow.bind(this)}
+                                            unFollow={this.unFollow.bind(this)}
+                                            alreadyLogin={this.props.alreadyLogin}
+                                             />)
                                         :
                                     (<ProfileCardFollowing 
                                         urlCover={follow.urlCover}
                                         urlAvt={follow.urlAvt}
                                         isFollow={follow.isFollow}
                                         name={follow.name}
-                                        username={follow.username}
+                                        address={follow.address}
                                         description={follow.bio}
-                                        key={index} />))
+                                        key={index} 
+                                        follow={this.follow.bind(this)}
+                                        unFollow={this.unFollow.bind(this)}
+                                        alreadyLogin={this.props.alreadyLogin}
+                                        />))
                                 })}
                             </div>
                         </div>

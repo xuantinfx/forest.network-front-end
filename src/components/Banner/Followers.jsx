@@ -17,7 +17,7 @@ export default class Followers extends Component {
         return (
             <li className={"ProfileNav-item ProfileNav-item--followers " + (isActive ? "is-active" : "")}>
                 <Link className="ProfileNav-stat ProfileNav-stat--link u-borderUserColor u-textCenter js-tooltip js-openSignupDialog js-nonNavigable u-textUserColor"
-                    title={this.props.followers + " theo dõi"} to={`/${urlTweet}/followers`}
+                    title={this.props.followers + " Người theo dõi"} to={`/${urlTweet}/followers`}
                     onClick={this.props.onChange}>
                     <span className="ProfileNav-label" aria-hidden="true">Người theo dõi</span>
                     <span className="ProfileNav-value" >{convertNumTweet(this.props.followers)}</span>

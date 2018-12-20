@@ -7,7 +7,8 @@ const mapStateToProps = (state, ownProps) => {
         urlImg: profile.picture,
         tweet: tweets.total,
         followings: followings.total,
-        followers: followers.total
+        followers: followers.total,
+        alreadyLogin: state.user.alreadyLogin
     }
 }
 
