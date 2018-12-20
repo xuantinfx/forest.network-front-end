@@ -18,7 +18,7 @@ class Profile extends Component {
                                 (!this.props.isEditting)?
                                 (
                                     <div className='ProfileHeaderCard'>
-                                        <ProfileHeaderCard displayName={this.props.displayName} userName={this.props.userName} 
+                                        <ProfileHeaderCard name={this.props.name}
                                             bio={this.props.bio} location={this.props.location}
                                             joinDate={this.props.joinDate}></ProfileHeaderCard>
                                         <button id="js-userColorButton" onClick={this.OnClickEdit}
