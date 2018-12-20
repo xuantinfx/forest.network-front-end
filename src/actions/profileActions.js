@@ -1,5 +1,6 @@
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
+import { postTranSaction } from "../apis/transaction";
 
 export const profileActions = {
   BEGIN_GET_PROFILE_BY_ADDRESS: 'BEGIN_GET_PROFILE_BY_ADDRESS',
@@ -51,13 +52,19 @@ export const updateProfilePictureDone = (picture) => {
 
 export const updateProfilePicture = (pictureBuffer) => {
   return (dispatch, getState) => {
-    console.log(getState())
+    let state = getState();
     dispatch(beginUpdateProfilePicture());
-  
-    requestApi().then(result => {
 
+    //create and sign transaction
+    let tx;
+
+    let config = postTranSaction(tx);
+
+    requestApi(config).then(result => {
+      console.log(result);
+      dispatch(updateProfilePictureDone())
     }).catch(err => {
-
+      console.error(err);
     })
   }
 }

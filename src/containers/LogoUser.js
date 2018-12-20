@@ -5,9 +5,6 @@ import { updateProfilePicture } from '../actions/profileActions';
 import { Keypair } from 'stellar-base';
 
 const mapStateToProps = (state, ownProps) => {
-  let imgBase64Data = state.profile.picture && Buffer.from(state.profile.picture.data).toString('base64');
-  imgBase64Data = imgBase64Data || '';
-
   let canChangeProfilePicture = false;
   try {
     //check if user is logged in and is on his page
@@ -16,8 +13,9 @@ const mapStateToProps = (state, ownProps) => {
     canChangeProfilePicture = state.user.isLogin && (myAddress === addressFromUrl);
   }
   catch (err) { console.error(err); }
+
   return {
-    imgBase64Data: imgBase64Data,
+    imgData: (state.profile.picture && state.profile.picture.data) || null,
     canChangeProfilePicture: canChangeProfilePicture
   }
 }

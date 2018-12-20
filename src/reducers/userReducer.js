@@ -2,6 +2,7 @@ import { userActionsConst } from '../actions/userActions'
 
 const initialState = {
   isLogin: true,
+  sequence: 0,
 }
 
 export default (state = initialState, { type, isLogin }) => {
