@@ -22,6 +22,7 @@ export default class index extends Component {
   shouldComponentUpdate(nextProps) {
     if (nextProps.existedImgData !== this.state.existedImgData) {
       this.setState({
+        files: [],
         existedImgData: nextProps.existedImgData
       })
     }
@@ -43,9 +44,10 @@ export default class index extends Component {
   _changeImageInside = (file) => {
     let fileReader = new FileReader();
     try {
-      fileReader.readAsBinaryString(file);
+      fileReader.readAsArrayBuffer(file);
       fileReader.onload = (e) => {
-        this.setState({ existedImgData: e.target.result });
+        let result = Buffer.from(e.target.result).toString('base64');
+        this.setState({ existedImgData: result });
       }
     }
     catch (err) {
@@ -73,7 +75,7 @@ export default class index extends Component {
                   <div className="ProfileAvatar-container u-block js-tooltip profile-picture" >
                     <img className="ProfileAvatar-image" alt="Click để chọn ảnh"
                       src={this.state.existedImgData
-                        ? `data:image/jpeg;base64,${btoa(this.state.existedImgData)}`
+                        ? `data:image/jpeg;base64,${this.state.existedImgData}`
                         : '/img/picturenotfound.png'} />
                   </div>
                 </div>

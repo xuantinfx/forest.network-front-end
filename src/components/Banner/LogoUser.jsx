@@ -1,23 +1,31 @@
 import React, { Component, Fragment } from 'react';
 import UploadImageModal from "../UploadImageModal";
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 export default class LogoUser extends Component {
+  static propTypes = {
+    imgBase64Data: PropTypes.string
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       modal: {
         isOpen: false
       },
-      imgBinaryData: null
     }
   }
 
   _changeProfileAvatar = (file) => {
     let fileReader = new FileReader();
-    fileReader.readAsBinaryString(file);
-    fileReader.onload = (e) => {
-      this.setState({ imgBinaryData: e.target.result });
+    try {
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = (e) => {
+        let result = Buffer.from(e.target.result);
+        this.props.updateProfilePicture(result);
+      }
+    } catch (err) {
+      alert('File không hợp lệ');
     }
   }
 
@@ -36,16 +44,16 @@ export default class LogoUser extends Component {
             <div className="ProfileAvatar">
               <div className="ProfileAvatar-container u-block js-tooltip profile-picture" >
                 <img className="ProfileAvatar-image"
-                  src={this.state.imgBinaryData
-                    ? `data:image/jpeg;base64,${btoa(this.state.imgBinaryData)}`
+                  src={this.props.imgBase64Data
+                    ? `data:image/jpeg;base64,${this.props.imgBase64Data}`
                     : '/img/picturenotfound.png'}
-                  alt="Name" />
+                  alt="Profile" />
               </div>
             </div>
           </div>
         </div>
         <UploadImageModal isOpen={this.state.modal.isOpen} toggle={this._toggleModal}
-          existedImgData={this.state.imgBinaryData} sendImage={this._changeProfileAvatar} />
+          existedImgData={this.props.imgBase64Data} sendImage={this._changeProfileAvatar} />
       </Fragment>
     )
   }
