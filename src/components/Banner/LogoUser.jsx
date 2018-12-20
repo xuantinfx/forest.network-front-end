@@ -5,7 +5,10 @@ import PropTypes from 'prop-types'
 
 export default class LogoUser extends Component {
   static propTypes = {
-    imgData: PropTypes.array,
+    imgData: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
     canChangeProfilePicture: PropTypes.bool.isRequired
   }
 
@@ -52,7 +55,7 @@ export default class LogoUser extends Component {
           </div>
         </div>
         <UploadImageModal isOpen={this.state.modal.isOpen} toggle={this._toggleModal}
-          existedImgData={this.props.imgBase64Data} sendImage={this._changeProfileAvatar} />
+          existedImgData={this.props.imgData} sendImage={this._changeProfileAvatar} />
       </Fragment>
     )
   }

@@ -2,7 +2,7 @@ import { userActionsConst } from '../actions/userActions'
 
 const initialState = {
   isLogin: true,
-  sequence: 0,
+  sequence: 2,
   //Cờ đã đăng nhập hay chưa
   alreadyLogin: false,
   name: 'YouTube',

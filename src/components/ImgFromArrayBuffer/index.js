@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 export default class index extends Component {
   static propTypes = {
-    arrayBufferData: PropTypes.array
+    arrayBufferData: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ])
   }
 
   render() {

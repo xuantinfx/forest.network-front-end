@@ -8,7 +8,10 @@ export default class index extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
-    existedImgData: PropTypes.array,
+    existedImgData: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
     sendImage: PropTypes.func
   }
 
