@@ -56,14 +56,13 @@ export default class User extends Component {
         }
         
         let span = usernameItem.getElementsByTagName('span')[0];
-        span.innerHTML = name;
+        span.innerHTML = name||'Vô danh tiểu tốt';
     }
 
     logout = ()=>{
         window.localStorage.removeItem('SECRET_KEY');
         this.props.login(false);
         this.onClickOpenSignIn(true);
-        this.props.history.push('/')
     }
 
     render() {

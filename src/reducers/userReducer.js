@@ -16,10 +16,10 @@ export default (state = initialState, { type, isLogin, alreadyLogin, profile }) 
         isLogin
       }
     case userActionsConst.LOGIN:
-      return {
+      return alreadyLogin ? {
         ...state,
         alreadyLogin
-      }
+      }:initialState
     case userActionsConst.LOGIN_DONE:
       return {
         ...state,
