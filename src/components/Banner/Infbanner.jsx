@@ -13,6 +13,7 @@ export default class Infbanner extends Component {
     }
 
     onChange() {
+        // Để cập nhật lại HeightLine
         this.forceUpdate();
     }
 

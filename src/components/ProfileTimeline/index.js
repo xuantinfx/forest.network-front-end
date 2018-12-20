@@ -7,6 +7,9 @@ export default class ProfileTimeline extends Component {
   }
 
   render() {
+    if(this.props.isLoading) {
+      return <div>Loading...</div>
+    }
     return (
       <div className="Grid-cell u-lg-size3of3" data-test-selector="ProfileTimeline">
         <div className="ProfileHeading">
