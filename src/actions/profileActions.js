@@ -50,8 +50,14 @@ export const updateProfilePictureDone = (picture) => {
 }
 
 export const updateProfilePicture = (pictureBuffer) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    console.log(getState())
     dispatch(beginUpdateProfilePicture());
-    //send tx to server
+  
+    requestApi().then(result => {
+
+    }).catch(err => {
+
+    })
   }
 }

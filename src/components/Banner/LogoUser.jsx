@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 export default class LogoUser extends Component {
   static propTypes = {
-    imgBase64Data: PropTypes.string
+    imgBase64Data: PropTypes.string,
+    canChangeProfilePicture: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -30,6 +31,7 @@ export default class LogoUser extends Component {
   }
 
   _toggleModal = () => {
+    if (!this.props.canChangeProfilePicture) return;
     this.setState((prevState) => {
       const prevIsOpen = prevState.modal.isOpen;
       return { modal: { isOpen: !prevIsOpen } }
