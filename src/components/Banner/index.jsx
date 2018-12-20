@@ -9,6 +9,7 @@ export default class Banner extends Component {
         tweet: PropTypes.number,
         followings: PropTypes.number,
         followers: PropTypes.number,
+        alreadyLogin: PropTypes.bool
     }
 
     render() {
@@ -22,6 +23,7 @@ export default class Banner extends Component {
                         tweet={this.props.tweet}
                         followings={this.props.followings}
                         followers={this.props.followers}
+                        alreadyLogin={this.props.alreadyLogin}
                     />
                 </div>
             </div>

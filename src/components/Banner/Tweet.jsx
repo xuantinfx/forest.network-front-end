@@ -18,7 +18,7 @@ export default class Tweet extends Component {
         return (
             <li className={"ProfileNav-item ProfileNav-item--tweets "+ (isActive ? "is-active" : "")}>
                 <Link className="ProfileNav-stat ProfileNav-stat--link u-borderUserColor u-textCenter js-tooltip js-nav"
-                    title="22.967 Tweet" to={"/" + urlTweet}
+                    title={this.props.tweet + " Tweet"} to={"/" + urlTweet}
                     onClick={this.props.onChange}>
                     <span className="ProfileNav-label" aria-hidden="true">Tweet</span>
                     <span className="ProfileNav-value">{converseNumTweet(this.props.tweet)}</span>
