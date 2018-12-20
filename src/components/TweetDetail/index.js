@@ -12,17 +12,17 @@ export default class TweetDetail extends Component {
           <div className="container-fluid">
             <Row className="align-items-center">
               <Col xs="1" className="pr-0">
-                <img className="avatar" alt="" src={tweet.avatarUrl} />
+                <img className="avatar" alt="" src={tweet.picture} />
               </Col>
               <Col className="account-group">
                 <Row>
                   <Col>
-                    <strong className="fullname show-popup-with-id u-textTruncate ">{tweet.displayName}</strong>
+                    <strong className="fullname show-popup-with-id u-textTruncate ">{tweet.name}</strong>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{tweet.username}</b></span>
+                    <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{tweet.name}</b></span>
                   </Col>
                 </Row>
               </Col>
@@ -84,7 +84,7 @@ export default class TweetDetail extends Component {
             </Row>
             <Row className="mt-4 align-items-center">
               <Col xs="1" className="pr-0">
-                <img src={tweet.avatarUrl} alt="" className="avatar" />
+                <img src={tweet.picture} alt="" className="avatar" />
               </Col>
               <Col xs="10">
                 <Input type="text" name="reply" placeholder="Tweet your reply" />
@@ -94,12 +94,12 @@ export default class TweetDetail extends Component {
               return (
                 <Row key={index} className="mt-3">
                   <Col xs="1" className="pr-0">
-                    <img src={reply.avatarUrl} alt="" className="avatar" />
+                    <img src={reply.picture} alt="" className="avatar" />
                   </Col>
                   <Col xs="10">
                     <Row>
                       <Col className="d-flex account-group">
-                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.displayName}</strong>
+                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.name}</strong>
                         <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{reply.username}</b></span>
                         <span>&nbsp;</span>
                         <small className="time">
