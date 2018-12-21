@@ -8,7 +8,7 @@ export class LogIn extends Component {
 
   constructor(props){
     super(props)
-    let key = window.localStorage.getItem('SECRET_KEY')
+    let key = sessionStorage.getItem('SECRET_KEY')
     if(key){
       this.props.reqLogin(key)
     }

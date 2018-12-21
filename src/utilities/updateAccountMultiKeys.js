@@ -5,7 +5,7 @@ import { updateAccount } from '../lib/encodeTX';
 const updateAccoutJob = (key, value, sequence) => {
     return new Promise((resolve, reject) => {
         requestApi(postTranSaction(updateAccount(
-            window.localStorage.getItem("SECRET_KEY"),
+            sessionStorage.getItem("SECRET_KEY"),
             sequence,
             Buffer.alloc(0),
             key,

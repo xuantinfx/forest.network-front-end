@@ -5,6 +5,7 @@ import { requestApi } from '../apis/requestApi';
 import { getTweet } from '../apis/tweet'
 import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions';
 import { withRouter } from 'react-router-dom';
+import _ from 'lodash';
 
 const loadTweets = (dispatch, address) => {
   dispatch(beginLoadTweet());
@@ -18,11 +19,17 @@ const loadTweets = (dispatch, address) => {
 }
 
 const mapStateToProps = function (state) {
+  let tweetsSorted = _.cloneDeep(state.tweets.tweets);
+  tweetsSorted = tweetsSorted.sort((tweet1, tweet2) => {
+    return tweet2.time - tweet1.time;
+  })
   return {
-    tweets: state.tweets.tweets,
+    tweets: tweetsSorted,
     currentTweet: state.tweets.tweets[state.tweets.currentTweet],
     modalIsOpen: state.tweets.modalIsOpen,
-    isLoading: state.tweets.isLoading
+    isLoading: state.tweets.isLoading,
+    picture: state.user.picture,
+    name: state.user.name
   }
 }
 

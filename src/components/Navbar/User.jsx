@@ -31,7 +31,7 @@ export default class User extends Component {
             
             this.props.requestProfile(publicKey,(res)=>{
                 if(res.status_code === 200){
-                    window.localStorage.setItem('SECRET_KEY',secretKey)
+                    sessionStorage.setItem('SECRET_KEY',secretKey)
                     this.props.login(true);
                     this.setUserName(publicKey,res.data.name)
                 }
@@ -61,7 +61,7 @@ export default class User extends Component {
     }
 
     logout = ()=>{
-        window.localStorage.removeItem('SECRET_KEY');
+        sessionStorage.removeItem('SECRET_KEY');
         this.props.login(false);
         this.onClickOpenSignIn(true);
         this.props.history.push('/')
