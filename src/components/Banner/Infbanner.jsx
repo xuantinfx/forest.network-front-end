@@ -10,7 +10,11 @@ export default class Infbanner extends Component {
         tweet: PropTypes.number,
         followings: PropTypes.number,
         followers: PropTypes.number,
-        alreadyLogin: PropTypes.bool
+        alreadyLogin: PropTypes.bool,
+        listFollowings: PropTypes.array,
+        follow: PropTypes.func,
+        unFollow: PropTypes.func,
+        address: PropTypes.string
     }
 
     onChange() {
@@ -31,7 +35,12 @@ export default class Infbanner extends Component {
                                         <Tweet tweet={this.props.tweet} onChange={this.onChange.bind(this)}/>
                                         <Followings followings={this.props.followings} onChange={this.onChange.bind(this)}/>
                                         <Followers followers={this.props.followers} onChange={this.onChange.bind(this)}/>
-                                        {this.props.alreadyLogin && <Follow/>}
+                                        {this.props.alreadyLogin && <Follow 
+                                                                        listFollowings={this.props.listFollowings}
+                                                                        follow={this.props.follow}
+                                                                        unFollow={this.props.unFollow}
+                                                                        address={this.props.address}
+                                                                        />}
                                     </ul>
                                 </div>
                             </div>

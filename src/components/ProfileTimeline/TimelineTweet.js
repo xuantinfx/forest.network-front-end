@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 
 export default class TimelineTweet extends Component {
   render() {
@@ -9,7 +10,7 @@ export default class TimelineTweet extends Component {
           <div className="content">
             <div className="stream-item-header">
               <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href={`/profile/${this.props.address}`} data-user-id={10228272}>
-                <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.picture} />
+                <ImgFromArrayBuffer className="avatar js-action-profile-avatar" alt={this.props.id} arrayBufferData={this.props.picture} />
                 <span className="FullNameGroup">
                   <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name}</strong>
                   <span></span>
@@ -32,7 +33,7 @@ export default class TimelineTweet extends Component {
             <div onClick={this.props.seeDetails} className="AdaptiveMediaOuterContainer">
               <div className="AdaptiveMedia">
                 <div className="AdaptiveMedia-container">
-                  <img alt="" src={this.props.imgUrl} style={{ height: 'auto', maxWidth: '100%' }} />
+                  {/* <img alt="" src={""} style={{ height: 'auto', maxWidth: '100%' }} /> */}
                 </div>
               </div>
             </div>

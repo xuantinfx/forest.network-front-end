@@ -10,12 +10,13 @@ export default class index extends Component {
   }
 
   render() {
+    console.log('bug', this.props.arrayBufferData)
     let imgSrc = this.props.arrayBufferData
       ? `data:image/jpeg;base64,${Buffer.from(this.props.arrayBufferData).toString('base64')}`
       : '/img/picturenotfound.png';
 
     return (
-      <img className={this.props.className} alt={this.props.alt || ''} src={imgSrc} />
+      <img className={this.props.className} style={this.props.style} alt={this.props.alt || ''} src={imgSrc} />
     )
   }
 }

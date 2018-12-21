@@ -1,5 +1,9 @@
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
+import { getFollower } from '../apis/follower';
+import { getFollowing } from '../apis/following';
+import { beginLoadFollower, loadFollowerDone } from './followerActions';
+import { beginLoadFollowing, loadFollowingDone } from './followingActions';
 
 export const profileActions = {
   BEGIN_GET_PROFILE_BY_ADDRESS: 'BEGIN_GET_PROFILE_BY_ADDRESS',
@@ -31,5 +35,31 @@ export const getProfileByAddress = (address = '') => {
     }).catch(err => {
       console.error(err);
     })
+  }
+}
+
+export const loadFollow = (address, isFollower) => {
+  return (dispatch) => {
+    if (isFollower) {
+      let api = getFollower(address);
+      dispatch(beginLoadFollower())
+      requestApi(api)
+        .then(res => {
+          dispatch(loadFollowerDone(res.data.data, res.data.total))
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    } else {
+      let api = getFollowing(address);
+      dispatch(beginLoadFollowing())
+      requestApi(api)
+        .then(res => {
+          dispatch(loadFollowingDone(res.data.data, res.data.total))
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
   }
 }
