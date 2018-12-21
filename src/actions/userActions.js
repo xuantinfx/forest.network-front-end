@@ -1,6 +1,8 @@
 import { postTranSaction } from "../apis/transaction";
 import { updatePicture } from "../lib/encodeTX";
 import { requestApi } from "../apis/requestApi";
+import { getProfile } from "../apis/profile";
+import { Keypair } from 'stellar-base';
 
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
@@ -13,6 +15,8 @@ export const userActionsConst = {
     FOLLOW_FALSE: "FOLLOW_FALSE",
     BEGIN_UPDATE_PROFILE_PICTURE: 'BEGIN_UPDATE_PROFILE_PICTURE',
     UPDATE_PROFILE_PICTURE_DONE: 'UPDATE_PROFILE_PICTURE_DONE',
+    BEGIN_GET_USER_PROFILE: 'BEGIN_GET_USER_PROFILE',
+    GET_USER_PROFILE_DONE: 'GET_USER_PROFILE_DONE'
 }
 
 export const changeSingup = (isLogin) => {
@@ -75,10 +79,10 @@ export const beginUpdateProfilePicture = () => {
     }
 }
 
-export const updateProfilePictureDone = (picture) => {
+export const updateProfilePictureDone = (pictureBuffer) => {
     return {
         type: userActionsConst.UPDATE_PROFILE_PICTURE_DONE,
-        picture: picture
+        pictureBuffer: pictureBuffer
     }
 }
 
@@ -89,13 +93,43 @@ export const updateProfilePicture = (pictureBuffer) => {
         dispatch(beginUpdateProfilePicture());
 
         //create transaction
-        let tx = updatePicture(localStorage.getItem('SECRET_KEY'), sequence, Buffer.from(''), pictureBuffer, 1);
+        let tx = updatePicture(localStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), pictureBuffer, 1);
 
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
             console.log(result);
-            dispatch(updateProfilePictureDone())
+            dispatch(updateProfilePictureDone(pictureBuffer));
+            dispatch(increaseSequence());
+        }).catch(err => {
+            console.error(err);
+        })
+    }
+}
+
+export const beginGetUserProfile = () => {
+    return {
+        type: userActionsConst.BEGIN_GET_USER_PROFILE
+    }
+}
+
+export const getUserProfileDone = (userProfile) => {
+    return {
+        type: userActionsConst.GET_USER_PROFILE_DONE,
+        userProfile: userProfile
+    }
+}
+
+export const getUserProfile = () => {
+    return (dispatch) => {
+        dispatch(beginGetUserProfile());
+
+        const userAddress = Keypair.fromSecret(window.localStorage.getItem('SECRET_KEY')).publicKey();
+        const config = getProfile(userAddress);
+
+        requestApi(config).then(result => {
+            console.log(result)
+            dispatch(getUserProfileDone(result.data))
         }).catch(err => {
             console.error(err);
         })

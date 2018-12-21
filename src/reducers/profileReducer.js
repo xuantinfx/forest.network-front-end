@@ -1,5 +1,6 @@
 import { updateProfileConst } from '../actions/updateProfile'
 import { profileActions } from '../actions/profileActions';
+import { userActionsConst } from '../actions/userActions';
 
 const initialState = {
   displayName: 'YouTube',
@@ -31,6 +32,14 @@ export default (state = initialState, action) => {
         joinDate: new Date(action.profile.joinDate).getTime(),
         userName: action.profile.name,
         displayName: action.profile.name
+      }
+    case userActionsConst.UPDATE_PROFILE_PICTURE_DONE:
+      return {
+        ...state,
+        picture: {
+          ...state.picture,
+          data: action.pictureBuffer
+        }
       }
     default:
       return state

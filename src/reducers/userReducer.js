@@ -5,8 +5,16 @@ const initialState = {
   isLogin: true,
   //Cờ đã đăng nhập hay chưa
   alreadyLogin: false,
+  name: '',
+  address: '',
   sequence: 0,
-  followings: []
+  balance: 0,
+  bandwith: 0,
+  bandwithTime: 0,
+  followings: [],
+  follower: [],
+  picture: {},
+  paymentHistory: [],
 }
 
 export default (state = initialState, action) => {
@@ -27,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...profile,
-        joinDate:  new Date(profile.joinDate).getTime()
+        joinDate: new Date(profile.joinDate).getTime()
       }
     case userActionsConst.INCREASE_SEQUENCE:
       return {
@@ -36,26 +44,40 @@ export default (state = initialState, action) => {
       }
     case userActionsConst.FOLLOW_DONE: {
       return {
-          ...state,
-          sequence: state.sequence + 1,
-          followings: [...state.followings, action.address]
-        }
+        ...state,
+        sequence: state.sequence + 1,
+        followings: [...state.followings, action.address]
       }
+    }
     case userActionsConst.UNFOLLOW_DONE: {
       let followings = _.cloneDeep(state.followings);
       _.remove(followings, follow => follow === action.address);
       return {
-          ...state,
-          sequence: state.sequence + 1,
-          followings
-        }
+        ...state,
+        sequence: state.sequence + 1,
+        followings
       }
+    }
     case userActionsConst.FOLLOW_FALSE: {
       return {
         ...state,
         error: action.error
       }
     }
+    case userActionsConst.UPDATE_PROFILE_PICTURE_DONE:
+      return {
+        ...state,
+        picture: {
+          ...state.picture,
+          data: action.pictureBuffer
+        }
+      }
+    case userActionsConst.GET_USER_PROFILE_DONE:
+      console.log(action);
+      return {
+        ...state,
+        ...action.userProfile
+      }
     default:
       return state
   }
