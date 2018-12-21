@@ -1,7 +1,7 @@
 import LogoUser from '../components/Banner/LogoUser';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateProfilePicture } from '../actions/profileActions';
+import { updateProfilePicture } from '../actions/userActions';
 import { Keypair } from 'stellar-base';
 
 const mapStateToProps = (state, ownProps) => {

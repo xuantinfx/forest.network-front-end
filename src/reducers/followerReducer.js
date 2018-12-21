@@ -28,7 +28,8 @@
 //   }]
 
 // }
-import { followerActions } from '../actions/followerActions'
+import { followerActions } from '../actions/followerActions';
+import { profileActions } from "../actions/profileActions";
 
 const initialState = {
   isLoading: true,
@@ -51,6 +52,11 @@ export default (state = initialState, action) => {
         total: action.total,
         loadedFollowers: action.followers.length,
         followers: action.followers
+      }
+    case profileActions.GET_PROFILE_BY_ADDRESS_DONE:
+      return {
+        ...state,
+        total: action.profile.followers.length
       }
     default:
       return state
