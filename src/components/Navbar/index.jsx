@@ -1,11 +1,27 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import NavLeft from './NavLeft'
 import NavRight from './NavRight'
+import PaymentModal from '../PaymentModal';
 
 export default class Navbar extends Component {
     static propTypes = {
-        
+        canOpenPaymentModal: PropTypes.bool
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            paymentModalIsOpen: false,
+        }
+    }
+
+    _togglePaymentModal = () => {
+        if (!this.props.canOpenPaymentModal) return;
+        this.setState((prevState) => {
+            const prevIsOpen = prevState.paymentModalIsOpen;
+            return { paymentModalIsOpen: !prevIsOpen }
+        })
     }
 
     render() {
@@ -14,11 +30,12 @@ export default class Navbar extends Component {
                 <div className="global-nav global-nav--newLoggedOut">
                     <div className="global-nav-inner">
                         <div className="container">
-                            <NavLeft />
-                            <NavRight/>
+                            <NavLeft openPaymentModal={this._togglePaymentModal} />
+                            <NavRight />
                         </div>
                     </div>
                 </div>
+                <PaymentModal isOpen={this.state.paymentModalIsOpen} toggle={this._togglePaymentModal} />
             </div>
         )
     }
