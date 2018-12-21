@@ -30,7 +30,6 @@ export default class index extends Component {
     }
 
     render() {
-        console.log('aaaaaa',this.props.listFollow)
         if(this.props.isLoading) {
             return <div>Loading...</div>
         }

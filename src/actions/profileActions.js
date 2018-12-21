@@ -30,7 +30,6 @@ export const getProfileByAddress = (address = '') => {
     const config = getProfile(address);
 
     requestApi(config).then(result => {
-      console.log(result)
       dispatch(getProfileByAddressDone(result.data))
     }).catch(err => {
       console.error(err);
@@ -48,7 +47,7 @@ export const loadFollow = (address, isFollower) => {
           dispatch(loadFollowerDone(res.data.data, res.data.total))
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
         })
     } else {
       let api = getFollowing(address);
@@ -58,7 +57,7 @@ export const loadFollow = (address, isFollower) => {
           dispatch(loadFollowingDone(res.data.data, res.data.total))
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
         })
     }
   }
