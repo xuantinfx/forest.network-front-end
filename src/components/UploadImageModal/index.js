@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 
@@ -7,7 +8,10 @@ export default class index extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
-    existedImgData: PropTypes.string,
+    existedImgData: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
     sendImage: PropTypes.func
   }
 
@@ -46,7 +50,7 @@ export default class index extends Component {
     try {
       fileReader.readAsArrayBuffer(file);
       fileReader.onload = (e) => {
-        let result = Buffer.from(e.target.result).toString('base64');
+        let result = e.target.result;
         this.setState({ existedImgData: result });
       }
     }
@@ -73,10 +77,7 @@ export default class index extends Component {
                 <input {...getInputProps()} />
                 <div className="ProfileAvatar mx-auto">
                   <div className="ProfileAvatar-container u-block js-tooltip profile-picture" >
-                    <img className="ProfileAvatar-image" alt="Click để chọn ảnh"
-                      src={this.state.existedImgData
-                        ? `data:image/jpeg;base64,${this.state.existedImgData}`
-                        : '/img/picturenotfound.png'} />
+                    <ImgFromArrayBuffer className="ProfileAvatar-image" arrayBufferData={this.state.existedImgData} />
                   </div>
                 </div>
               </div>
