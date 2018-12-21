@@ -3,6 +3,7 @@ import Follow from '../components/Follow'
 import { loadFollow } from '../actions/profileActions'
 import { follow, unFollow } from '../actions/userActions'
 import _ from 'lodash';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -54,4 +55,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Follow)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Follow))

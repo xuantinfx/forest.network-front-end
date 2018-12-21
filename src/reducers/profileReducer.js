@@ -3,12 +3,11 @@ import { profileActions } from '../actions/profileActions';
 import { userActionsConst } from '../actions/userActions';
 
 const initialState = {
-  displayName: 'YouTube',
-  userName: 'YouTube',
-  picture: '',
-  bio: 'Imagine if you couldn’t watch the videos you love. We support copyright reform with an Article 13 that works for everyone.',
-  location: 'San Bruno, CA',
-  joinDate: new Date('12/3/2018, 12:09:10 AM').getTime(),
+  name: "",
+  picture: {},
+  bio: '',
+  location: '',
+  joinDate: new Date().getTime(),
   isEditting: false,
 }
 
@@ -30,8 +29,7 @@ export default (state = initialState, action) => {
         ...state,
         picture: action.profile.picture,
         joinDate: new Date(action.profile.joinDate).getTime(),
-        userName: action.profile.name,
-        displayName: action.profile.name
+        name: action.profile.name,
       }
     case userActionsConst.UPDATE_PROFILE_PICTURE_DONE:
       return {

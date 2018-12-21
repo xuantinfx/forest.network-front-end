@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import SignUp from './SignUp'
 import LogIn from './LogIn';
 // import PropTypes from 'prop-types'
-import { Keypair, StrKey } from 'stellar-base'
+import { Keypair, StrKey } from 'stellar-base';
+import defaultName from '../../constants/defaultName';
 
 export default class User extends Component {
     static propTypes = {
@@ -56,7 +57,7 @@ export default class User extends Component {
         }
         
         let span = usernameItem.getElementsByTagName('span')[0];
-        span.innerHTML = name;
+        span.innerHTML = name || defaultName;
     }
 
     logout = ()=>{

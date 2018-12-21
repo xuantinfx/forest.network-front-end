@@ -6,6 +6,10 @@ export default class ProfileTimeline extends Component {
     this.props.loadTweets(this.props.address);
   }
 
+  onClickName(address) {
+    this.props.history.push(`/profile/${address}`)
+  }
+
   render() {
     if(this.props.isLoading) {
       return <div>Loading...</div>
@@ -29,7 +33,7 @@ export default class ProfileTimeline extends Component {
             <div className="stream">
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
                 {this.props.tweets.map((item, index) => {
-                  return <TimelineTweet key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item} />
+                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item} />
                 })}
               </ol>
             </div>

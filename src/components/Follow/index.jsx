@@ -28,9 +28,12 @@ export default class index extends Component {
          //(listFollowings, address)
         this.props.unFollow(this.props.listUserFollow, address);
     }
+    
+    onClickName(address) {
+        this.props.history.push(`/profile/${address}`)
+    }
 
     render() {
-        console.log('aaaaaa',this.props.listFollow)
         if(this.props.isLoading) {
             return <div>Loading...</div>
         }
@@ -56,6 +59,7 @@ export default class index extends Component {
                                             follow={this.follow.bind(this)}
                                             unFollow={this.unFollow.bind(this)}
                                             alreadyLogin={this.props.alreadyLogin}
+                                            onClickName={this.onClickName.bind(this)}
                                              />)
                                         :
                                     (<ProfileCardFollowing 
@@ -68,6 +72,7 @@ export default class index extends Component {
                                         follow={this.follow.bind(this)}
                                         unFollow={this.unFollow.bind(this)}
                                         alreadyLogin={this.props.alreadyLogin}
+                                        onClickName={this.onClickName.bind(this)}
                                         />))
                                 })}
                             </div>

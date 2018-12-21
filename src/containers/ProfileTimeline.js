@@ -3,7 +3,8 @@ import ProfileTimeline from '../components/ProfileTimeline';
 import { closeTweetDetailsModal, seeTweetDetails } from '../actions/tweetActions';
 import { requestApi } from '../apis/requestApi';
 import { getTweet } from '../apis/tweet'
-import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions'
+import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions';
+import { withRouter } from 'react-router-dom';
 
 const loadTweets = (dispatch, address) => {
   dispatch(beginLoadTweet());
@@ -12,7 +13,7 @@ const loadTweets = (dispatch, address) => {
     dispatch(loadTweetDone(res.data.data, res.data.total))
   })
   .catch(err => {
-    console.log('err', err)
+    console.error(err)
   })
 }
 
@@ -39,4 +40,4 @@ const mapDispatchToProps = function (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileTimeline);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProfileTimeline));

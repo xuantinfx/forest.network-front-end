@@ -5,7 +5,6 @@ import Infbanner from './Infbanner'
 
 export default class Banner extends Component {
     static propTypes = {
-        urlImg: PropTypes.string,
         tweet: PropTypes.number,
         followings: PropTypes.number,
         followers: PropTypes.number,
@@ -17,7 +16,6 @@ export default class Banner extends Component {
     }
 
     render() {
-        console.log('aasdsadsa', this.props)
         return (
             <div className="ProfileCanopy ProfileCanopy--withNav ProfileCanopy--large js-variableHeightTopBar">
                 <div className="ProfileCanopy-inner">
