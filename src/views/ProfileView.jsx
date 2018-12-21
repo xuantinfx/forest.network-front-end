@@ -28,7 +28,7 @@ class ProfileView extends Component {
     return (
       <div id="page-outer">
         <div id="page-container" className="AppContent">
-          <Banner />
+          <Banner address={this.props.match.params.address}/>
           <div className="AppContainer">
             <div className="AppContent-main content-main u-cf" role="main" aria-labelledby="content-main-heading">
               <div className="Grid Grid--withGutter" key={window.location.href}>

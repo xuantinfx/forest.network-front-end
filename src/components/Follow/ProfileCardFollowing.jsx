@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 
 export default class ProfileCardFollowing extends Component {
     static propTypes = {
-        urlCover: PropTypes.string,
-        urlAvt: PropTypes.string,
+        picture: PropTypes.object,
         isFollow: PropTypes.bool,
         name: PropTypes.string,
         description: PropTypes.string,
@@ -33,7 +33,7 @@ export default class ProfileCardFollowing extends Component {
 
                         <div className="ProfileCard-content">
                             <a className="ProfileCard-avatarLink js-nav js-tooltip" href={`/profile/${this.props.address}`}>
-                                <img className="ProfileCard-avatarImage js-action-profile-avatar" src={this.props.urlAvt}
+                                <ImgFromArrayBuffer className="ProfileCard-avatarImage js-action-profile-avatar" arrayBufferData={this.props.picture.data}
                                     alt="" />
                             </a>
 
