@@ -57,7 +57,7 @@ export const increaseSequence = () => {
 
 const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
-        let secretKey = window.localStorage.getItem("SECRET_KEY");
+        let secretKey = sessionStorage.getItem("SECRET_KEY");
         requestApi(postTranSaction(followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1)))
         .then(res => {
             if (res.message.error) {
@@ -151,7 +151,7 @@ export const updateProfilePicture = (pictureBuffer) => {
         dispatch(beginUpdateProfilePicture());
 
         //create transaction
-        let tx = updatePicture(localStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), pictureBuffer, 1);
+        let tx = updatePicture(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), pictureBuffer, 1);
 
         let config = postTranSaction(tx);
 
@@ -181,7 +181,7 @@ export const getUserProfile = () => {
     return (dispatch) => {
         dispatch(beginGetUserProfile());
 
-        const userAddress = Keypair.fromSecret(window.localStorage.getItem('SECRET_KEY')).publicKey();
+        const userAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
         const config = getProfile(userAddress);
 
         requestApi(config).then(result => {
@@ -286,7 +286,7 @@ export const postTweet = (tweetContent) => {
         requestApi(
             postTranSaction(
                 post(
-                    localStorage.getItem('SECRET_KEY'),
+                    sessionStorage.getItem('SECRET_KEY'),
                     sequence + 1,
                     Buffer.alloc(0),
                     tweetContent,

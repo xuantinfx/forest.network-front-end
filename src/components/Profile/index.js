@@ -14,7 +14,7 @@ class Profile extends Component {
         try {
             //check if user is logged in and is on his page
             let address = this.props.address;
-            let myAddress = Keypair.fromSecret(window.localStorage.getItem('SECRET_KEY')).publicKey();
+            let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
             canEditProfile = (myAddress === address);
         }
         catch (err) { console.error(err); }
