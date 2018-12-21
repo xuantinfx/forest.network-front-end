@@ -73,7 +73,6 @@ export default (state = initialState, action) => {
         }
       }
     case userActionsConst.GET_USER_PROFILE_DONE:
-      console.log(action);
       return {
         ...state,
         ...action.userProfile

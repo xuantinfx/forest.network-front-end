@@ -1,23 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import defaultName from '../../constants/defaultName'
 
 class ProfileHeaderCard extends Component {
   render() {
     return (
         <div className="ProfileHeaderCard">
-            {this.props.name?
-                (<h1 className="ProfileHeaderCard-name">
+            <h1 className="ProfileHeaderCard-name">
                 <span className="ProfileHeaderCard-nameLink u-textInheritColor js-nav">
-                    {this.props.name}
+                    {this.props.name || defaultName}
                 </span>
                 <span
-                    className="ProfileHeaderCard-badges"><a href="https://twitter.com/help/verified"
+                    className="ProfileHeaderCard-badges"><a href="#/" onClick={e => e.preventDefault()}
                     className="js-tooltip" target="_blank" rel="noopener noreferrer" title="Tài khoản được xác nhận"
                     data-placement="right"><span className="Icon Icon--verified"><span
-                    className="u-hiddenVisually">Tài khoản được xác nhận</span></span></a></span>
-                </h1>):
-                (<div className="ProfileHeaderCard-name"></div>)}
-                      
+                    className="u-hiddenVisually">Tài khoản được xác nhận</span></span></a>
+                </span>
+            </h1>
+            <h2 className="ProfileHeaderCard-screenname u-inlineBlock u-dir" >
+                <a className="ProfileHeaderCard-screennameLink u-linkComplex js-nav"
+                    href="#/" onClick={e => e.preventDefault()}>
+                        <span className="username u-dir" >@<b className="u-linkComplex-target">
+                            {this.props.name || defaultName}
+                        </b></span>
+                </a>
+            </h2>
 
             <p className="ProfileHeaderCard-bio u-dir" >
                 {this.props.bio}
