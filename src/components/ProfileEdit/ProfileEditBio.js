@@ -3,8 +3,13 @@ import PropTypes from 'prop-types'
 
 class ProfileEditBio extends Component {
   static propTypes = {
-    bio: PropTypes.string
+    bio: PropTypes.string,
+    onChange: PropTypes.func
   }
+
+  onChange(value) {
+    this.props.onChange("bio", value.target.value);
+}
 
   render() {
     return (
@@ -44,7 +49,7 @@ class ProfileEditBio extends Component {
                 <textarea type="text" id="bio" name="bio"
                     className="ProfileHeaderCardEditing-editableField u-borderUserColorLight"
                     style={{minHeight:'100px', overflow:'auto', resize:'none'}}
-                    defaultValue={this.props.bio} placeholder="Bio" maxLength="10000" autoComplete="off" tabIndex="2"/>
+                    value={this.props.bio} onChange={this.onChange.bind(this)} placeholder="Bio" maxLength="10000" autoComplete="off" tabIndex="2"/>
             </div>
         </div>
     )
