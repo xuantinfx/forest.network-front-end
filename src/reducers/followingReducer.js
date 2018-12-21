@@ -33,6 +33,7 @@
 // }
 
 import { followingActions } from '../actions/followingActions'
+import { profileActions } from '../actions/profileActions';
 
 const initialState = {
   isLoading: true,
@@ -43,7 +44,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case followingActions.BEGIN_LOAD_FOLLOWING: 
+    case followingActions.BEGIN_LOAD_FOLLOWING:
       return {
         ...state,
         isLoading: true,
@@ -55,6 +56,11 @@ export default (state = initialState, action) => {
         total: action.total,
         loadedFollowings: action.followings.length,
         followings: action.followings
+      }
+    case profileActions.GET_PROFILE_BY_ADDRESS_DONE:
+      return {
+        ...state,
+        total: action.profile.followings.length
       }
     default:
       return state
