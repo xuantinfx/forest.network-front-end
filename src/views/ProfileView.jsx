@@ -10,7 +10,14 @@ class ProfileView extends Component {
   constructor(props) {
     super(props);
     //get Profile by address from URL
-    this.props.getProfile();
+    this.props.getProfile(this.props.match.params.address);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.match.params.address !== this.props.match.params.address) {
+      this.props.getProfile(nextProps.match.params.address);
+    }
+    return true;
   }
 
   renderChildComponent() {
@@ -28,7 +35,7 @@ class ProfileView extends Component {
     return (
       <div id="page-outer">
         <div id="page-container" className="AppContent">
-          <Banner address={this.props.match.params.address}/>
+          <Banner address={this.props.match.params.address} />
           <div className="AppContainer">
             <div className="AppContent-main content-main u-cf" role="main" aria-labelledby="content-main-heading">
               <div className="Grid Grid--withGutter" key={window.location.href}>
@@ -49,8 +56,7 @@ class ProfileView extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getProfile: () => {
-      const address = ownProps.match.params.address;
+    getProfile: (address) => {
       dispatch(getProfileByAddress(address))
     }
   }
