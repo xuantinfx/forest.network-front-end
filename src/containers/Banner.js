@@ -1,5 +1,6 @@
-import Banner from '../components/Banner'
-import { connect } from 'react-redux'
+import Banner from '../components/Banner';
+import { connect } from 'react-redux';
+import {follow, unFollow } from '../actions/userActions';
 
 const mapStateToProps = (state, ownProps) => {
     let { profile, tweets, followings, followers } = state
@@ -8,8 +9,20 @@ const mapStateToProps = (state, ownProps) => {
         tweet: tweets.total,
         followings: followings.total,
         followers: followers.total,
-        alreadyLogin: state.user.alreadyLogin
+        alreadyLogin: state.user.alreadyLogin,
+        listFollowings: state.user.followings
     }
 }
 
-export default connect(mapStateToProps)(Banner);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        follow: (listFollowings, address) => {
+            dispatch(follow(listFollowings, address));
+        },
+        unFollow: (listFollowings, address) => {
+            dispatch(unFollow(listFollowings, address));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Banner);

@@ -1,3 +1,8 @@
+import { requestApi } from '../apis/requestApi';
+import { postTranSaction } from '../apis/transaction';
+import { followings } from '../lib/encodeTX';
+import _ from 'lodash';
+
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
     LOGIN: 'LOGIN',
@@ -33,6 +38,55 @@ export const loginDone = (profile)=>{
 export const increaseSequence = ()=>{
     return{
         type: userActionsConst.INCREASE_SEQUENCE
+    }
+}
+
+const updateFollowings = (listFollowings, sequence) => {
+    return new Promise((resolve, reject) => {
+        let secretKey = window.localStorage.getItem("PRIVATE_KEY");
+        requestApi(postTranSaction(followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1)))
+        .then(res => {
+            if (res.message.error) {
+                // False
+                reject(res.message.error)
+            } else {
+                // Success
+                resolve();
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err.message.error);
+        })
+    })
+}
+
+export const follow = (listFollowings, address) => {
+    return (dispatch, getState) => {
+        let sequence = getState().user.sequence;
+        let newListFollowings = _.uniq([...listFollowings, address]);
+        updateFollowings(newListFollowings, sequence)
+        .then(() => {
+            dispatch(followDone(address));
+        })
+        .catch((error) => {
+            dispatch(followFalse(error));
+        })
+    }
+}
+
+export const unFollow = (listFollowings, address) => {
+    return (dispatch, getState) => {
+        let sequence = getState().user.sequence;
+        let newListFollowings = _.cloneDeep(listFollowings);
+        _.remove(newListFollowings, (following) => following === address);
+        updateFollowings(newListFollowings, sequence)
+        .then(() => {
+            dispatch(unFollowDone(address));
+        })
+        .catch((error) => {
+            dispatch(followFalse(error));
+        })
     }
 }
 
