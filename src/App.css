@@ -26,6 +26,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -33,4 +34,8 @@
 
 .AppContent-main {
   margin-top: 10vh !important;
+}
+
+#page-container>.AppContainer {
+  min-height: 100vh;
 }
