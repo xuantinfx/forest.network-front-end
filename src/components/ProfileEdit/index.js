@@ -11,21 +11,33 @@ class ProfileEdit extends Component {
         updateProfile: PropTypes.func
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            bio: props.bio,
+            location: props.location,
+            name: props.name
+        };
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        let name = document.getElementById('user_name').value;
-        let bio = document.getElementById('bio').value;
-        let location = document.getElementById('location').value;
-        this.props.updateProfile({bio, name, location, isEditting: false});
+        this.props.updateProfile(this.state);
+    }
+
+    onChange(key, value) {
+        this.setState({
+            [key]: value
+        })
     }
 
   render() {
     return (
         <div className='ProfileHeaderCardEditing u-bgUserColorLightest ProfileHeaderCardEditing--withEmoji ProfileHeaderCardEditing--withExtraFields'>
                             <form onSubmit={this.onSubmit.bind(this)}>
-                                <ProfileEditName name={this.props.name||''}></ProfileEditName>
-                                <ProfileEditBio bio={this.props.bio||''}></ProfileEditBio>
-                                <ProfileEditLocation location={this.props.location||''}></ProfileEditLocation>
+                                <ProfileEditName name={this.state.name||''} onChange={this.onChange.bind(this)}></ProfileEditName>
+                                <ProfileEditBio bio={this.state.bio||''} onChange={this.onChange.bind(this)}></ProfileEditBio>
+                                <ProfileEditLocation location={this.state.location||''} onChange={this.onChange.bind(this)}></ProfileEditLocation>
                                 {/* 
                                 <ProfileEditUrl></ProfileEditUrl>
                                 <ProfileEditTheme></ProfileEditTheme> */}

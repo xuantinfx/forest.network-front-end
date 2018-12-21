@@ -4,6 +4,7 @@ import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
 import { Keypair } from 'stellar-base';
 import { followings } from '../lib/encodeTX';
+import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 
 export const userActionsConst = {
@@ -18,7 +19,11 @@ export const userActionsConst = {
     BEGIN_UPDATE_PROFILE_PICTURE: 'BEGIN_UPDATE_PROFILE_PICTURE',
     UPDATE_PROFILE_PICTURE_DONE: 'UPDATE_PROFILE_PICTURE_DONE',
     BEGIN_GET_USER_PROFILE: 'BEGIN_GET_USER_PROFILE',
-    GET_USER_PROFILE_DONE: 'GET_USER_PROFILE_DONE'
+    GET_USER_PROFILE_DONE: 'GET_USER_PROFILE_DONE',
+    SUBMIT_UPDATE_PROFILE: "SUBMIT_UPDATE_PROFILE",
+    SUBMIT_UPDATE_PROFILE_FALSE: "SUBMIT_UPDATE_PROFILE_FALSE",
+    SUBMIT_UPDATE_PROFILE_DONE: 'SUBMIT_UPDATE_PROFILE_DONE',
+    EDIT_PROFILE: 'EDIT_PROFILE'
 }
 
 export const changeSingup = (isLogin) => {
@@ -50,7 +55,7 @@ export const increaseSequence = () => {
 
 const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
-        let secretKey = window.localStorage.getItem("PRIVATE_KEY");
+        let secretKey = window.localStorage.getItem("SECRET_KEY");
         requestApi(postTranSaction(followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1)))
         .then(res => {
             if (res.message.error) {
@@ -182,5 +187,68 @@ export const getUserProfile = () => {
         }).catch(err => {
             console.error(err);
         })
+    }
+}
+
+const submitUpdateProfile = () => {
+    return {
+        type: userActionsConst.SUBMIT_UPDATE_PROFILE
+    }
+}
+
+const submitUpdateProfileFalse = (error, sequence) => {
+    return {
+        type: userActionsConst.SUBMIT_UPDATE_PROFILE_FALSE,
+        error,
+        sequence
+    }
+}
+
+const submitUpdateProfileDone = (profile, sequence) => {
+    return {
+        type: userActionsConst.SUBMIT_UPDATE_PROFILE_DONE,
+        profile,
+        sequence
+    }
+}
+
+export const updateProfile = (profile) => {
+    return (dispatch, getState) => {
+
+        let state = getState();
+
+        let sequence = state.user.sequence;
+
+        let profileUpdate = {};
+
+        let oldProfile = state.user;
+
+        // Lọc ra những trường thay đổi
+        for(let key in profile) {
+            if(oldProfile[key] !== profile[key]) {
+                profileUpdate[key] = profile[key];
+            }
+        }
+
+        // Begin
+        dispatch(submitUpdateProfile());
+
+        updateAccountMultiKeys(profileUpdate, sequence)
+        .then((sequence) => {
+            // Done
+            dispatch(submitUpdateProfileDone(profileUpdate, sequence));
+        })
+        .catch(({err, sequence}) => {
+            console.error(err);
+            // Error
+            dispatch(submitUpdateProfileFalse(err, sequence));
+        })
+
+    }
+}
+
+export const editProfile = ()=>{
+    return {
+        type: userActionsConst.EDIT_PROFILE
     }
 }

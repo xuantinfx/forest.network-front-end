@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 
 class ProfileEditLocation extends Component {
   static propTypes = {
-    location: PropTypes.string
+    location: PropTypes.string,
+    onChange: PropTypes.func
+  }
+
+  onChange(value) {
+      this.props.onChange("location", value.target.value);
   }
 
   render() {
@@ -26,7 +31,7 @@ class ProfileEditLocation extends Component {
                             
                         <input type="text" id="location" name="location"
                             className="ProfileHeaderCardEditing-editableField u-borderUserColorLight"
-                            defaultValue={this.props.location} placeholder="Location" maxLength="200" autoComplete="off" tabIndex="2"/>
+                            value={this.props.location} onChange={this.onChange.bind(this)} placeholder="Location" maxLength="200" autoComplete="off" tabIndex="2"/>
                         <div className="RichEditor-pictographs" aria-hidden="true">
                         </div>
                     </div>

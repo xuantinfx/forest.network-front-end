@@ -1,4 +1,3 @@
-import { updateProfileConst } from '../actions/updateProfile'
 import { profileActions } from '../actions/profileActions';
 import { userActionsConst } from '../actions/userActions';
 
@@ -13,23 +12,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case updateProfileConst.UPDATE_PROFILE:
-      return {
-        ...state,
-        ...action.profile
-      }
-    case updateProfileConst.EDIT_PROFILE:
-      return {
-        ...state,
-        ...action.isEditting
-      }
-
     case profileActions.GET_PROFILE_BY_ADDRESS_DONE:
       return {
-        ...state,
-        picture: action.profile.picture,
+        ...initialState,
+        ...action.profile,
         joinDate: new Date(action.profile.joinDate).getTime(),
-        name: action.profile.name,
       }
     case userActionsConst.UPDATE_PROFILE_PICTURE_DONE:
       return {
@@ -38,6 +25,11 @@ export default (state = initialState, action) => {
           ...state.picture,
           data: action.pictureBuffer
         }
+      }
+    case userActionsConst.SUBMIT_UPDATE_PROFILE_DONE: 
+      return {
+        ...state,
+        ...action.profile
       }
     default:
       return state
