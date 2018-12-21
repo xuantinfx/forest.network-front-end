@@ -107,6 +107,22 @@ export default (state = initialState, action) => {
         ...state,
         isEditting: true
       }
+    case userActionsConst.BEGIN_POST_TWEET: 
+      return {
+        ...state,
+        isLoading: true
+      }
+    case userActionsConst.POST_TWEET_DONE:
+      return {
+        ...state,
+        isLoading: false,
+        sequence: state.sequence + 1
+      }
+    case userActionsConst.POST_TWEET_FALSE: 
+      return {
+      ...state,
+      error: action.error
+    }
     default:
       return state
   }

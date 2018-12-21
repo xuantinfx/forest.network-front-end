@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import TimelineTweet from './TimelineTweet';
 import TweetDetail from '../TweetDetail';
+import PostTweet from '../../containers/PostTweet';
+import { Keypair } from 'stellar-base';
 export default class ProfileTimeline extends Component {
   componentDidMount() {
     this.props.loadTweets(this.props.address);
@@ -14,6 +16,16 @@ export default class ProfileTimeline extends Component {
     if(this.props.isLoading) {
       return <div>Loading...</div>
     }
+
+    let canEditProfile = false;
+    try {
+        //check if user is logged in and is on his page
+        let address = this.props.address;
+        let myAddress = Keypair.fromSecret(window.localStorage.getItem('SECRET_KEY')).publicKey();
+        canEditProfile = (myAddress === address);
+    }
+    catch (err) { console.error(err); }
+
     return (
       <div className="Grid-cell u-lg-size3of3" data-test-selector="ProfileTimeline">
         <div className="ProfileHeading">
@@ -32,6 +44,7 @@ export default class ProfileTimeline extends Component {
           <div className="stream-container" data-min-position={1064977208970747908} data-max-position={1067919395173908480}>
             <div className="stream">
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
+                {canEditProfile && <PostTweet/>}
                 {this.props.tweets.map((item, index) => {
                   return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item} />
                 })}

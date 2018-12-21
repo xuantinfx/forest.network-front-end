@@ -16,8 +16,8 @@ class Profile extends Component {
             let address = this.props.address;
             let myAddress = Keypair.fromSecret(window.localStorage.getItem('SECRET_KEY')).publicKey();
             canEditProfile = (myAddress === address);
-          }
-          catch (err) { console.error(err); }
+        }
+        catch (err) { console.error(err); }
 
         return (
             <div className="Grid-cell u-size1of3 u-lg-size1of4">
