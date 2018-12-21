@@ -62,7 +62,7 @@ const updateFollowings = (listFollowings, sequence) => {
             }
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             reject(err.message.error);
         })
     })
@@ -149,7 +149,6 @@ export const updateProfilePicture = (pictureBuffer) => {
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
-            console.log(result);
             dispatch(updateProfilePictureDone(pictureBuffer));
             dispatch(increaseSequence());
         }).catch(err => {
@@ -179,7 +178,6 @@ export const getUserProfile = () => {
         const config = getProfile(userAddress);
 
         requestApi(config).then(result => {
-            console.log(result)
             dispatch(getUserProfileDone(result.data))
         }).catch(err => {
             console.error(err);
