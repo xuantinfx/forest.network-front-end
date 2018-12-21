@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, Row, Col, Input } from 'reactstrap';
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
+import defaultName from '../../constants/defaultName'
 
 export default class TweetDetail extends Component {
   render() {
@@ -12,17 +14,17 @@ export default class TweetDetail extends Component {
           <div className="container-fluid">
             <Row className="align-items-center">
               <Col xs="1" className="pr-0">
-                <img className="avatar" alt="" src={tweet.picture} />
+                <ImgFromArrayBuffer className="avatar" alt="" arrayBufferData={tweet.picture} />
               </Col>
               <Col className="account-group">
                 <Row>
                   <Col>
-                    <strong className="fullname show-popup-with-id u-textTruncate ">{tweet.name}</strong>
+                    <strong className="fullname show-popup-with-id u-textTruncate ">{tweet.name || defaultName}</strong>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{tweet.name}</b></span>
+                    <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{tweet.name || defaultName}</b></span>
                   </Col>
                 </Row>
               </Col>
@@ -34,7 +36,7 @@ export default class TweetDetail extends Component {
             </Row>
             <Row className="mt-2">
               <Col xs="11">
-                <img alt="" src={tweet.imgUrl} className="img-fluid" />
+                {/* <img alt="" src={tweet.imgUrl} className="img-fluid" /> */}
               </Col>
               <Col xs="11">
                 <span className="metadata">{moment(tweet.time).format("MMM Do YY")}</span>
@@ -84,7 +86,7 @@ export default class TweetDetail extends Component {
             </Row>
             <Row className="mt-4 align-items-center">
               <Col xs="1" className="pr-0">
-                <img src={tweet.picture} alt="" className="avatar" />
+                <ImgFromArrayBuffer arrayBufferData={tweet.picture} alt="" className="avatar" />
               </Col>
               <Col xs="10">
                 <Input type="text" name="reply" placeholder="Tweet your reply" />
@@ -94,12 +96,12 @@ export default class TweetDetail extends Component {
               return (
                 <Row key={index} className="mt-3">
                   <Col xs="1" className="pr-0">
-                    <img src={reply.picture} alt="" className="avatar" />
+                    <ImgFromArrayBuffer arrayBufferData={reply.picture} alt="" className="avatar" />
                   </Col>
                   <Col xs="10">
                     <Row>
                       <Col className="d-flex account-group">
-                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.name}</strong>
+                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.name || defaultName}</strong>
                         <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{reply.username}</b></span>
                         <span>&nbsp;</span>
                         <small className="time">

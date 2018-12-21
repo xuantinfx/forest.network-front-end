@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
 import ProfileHeaderCard from './ProfileHeaderCard';
 import ProfileEdit from '../../containers/ProfileEdit';
+import { Keypair } from 'stellar-base'
 //import PhotoRail from './PhotoRail';
 
 class Profile extends Component {
     OnClickEdit = ()=>{
-        this.props.editProfile({isEditting:true});
+        this.props.editProfile();
     }
 
     render() {
+        let canEditProfile = false;
+        try {
+            //check if user is logged in and is on his page
+            let address = this.props.address;
+            let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+            canEditProfile = (myAddress === address);
+        }
+        catch (err) { console.error(err); }
+
         return (
             <div className="Grid-cell u-size1of3 u-lg-size1of4">
                 <div className="Grid Grid--withGutter">
@@ -21,11 +31,11 @@ class Profile extends Component {
                                         <ProfileHeaderCard name={this.props.name}
                                             bio={this.props.bio} location={this.props.location}
                                             joinDate={this.props.joinDate}></ProfileHeaderCard>
-                                        <button id="js-userColorButton" onClick={this.OnClickEdit}
+                                        {canEditProfile && <button id="js-userColorButton" onClick={this.OnClickEdit}
                                         className="EdgeButton EdgeButton--secondary ProfileHeaderCardEditing-userColorButton js-current-color js-dropdown-toggle"
                                         data-color="#1DA1F2" tabIndex="2">
                                             Edit Profile
-                                        </button>
+                                        </button>}
                                         {/* <PhotoRail withCountLink={this.props.withCountLink} withCountNum={this.props.withCountNum}
                                 mediaBoxImg={this.props.mediaBoxImg}></PhotoRail>*/}
                                     </div>):

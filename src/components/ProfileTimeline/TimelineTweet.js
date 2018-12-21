@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
+import defaultName from '../../constants/defaultName'
 
 export default class TimelineTweet extends Component {
+  onClickName(e) {
+    e.preventDefault();
+    this.props.onClickName(this.props.address);
+  }
+
   render() {
     return (
-      <li className="js-stream-item stream-item stream-item js-pinned" id="stream-item-tweet-1064310108413460480" data-item-id={1064310108413460480} data-item-type="tweet" data-suggestion-json="{'suggestion_details':{},'tweet_ids':'1064310108413460480','scribe_component':'tweet'}">
-        <div className="tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable dismissible-content original-tweet js-original-tweet tweet-has-context has-cards  user-pinned has-content" data-user-id={10228272} data-name="YouTube" data-screen-name="YouTube" data-has-cards="true" data-disclosure-type data-reply-to-users-json="[{'id_str':'10228272','screen_name':'YouTube','name':'YouTube','emojified_name':{'text':'YouTube','emojified_text_as_html':'YouTube'}}]" data-you-block="false" data-follows-you="false" data-you-follow="false" data-tweet-nonce="1064310108413460480-43247f11-d6d7-4591-9c56-c52467b4e1ab" data-conversation-id={1064310108413460480} data-permalink-path="/YouTube/status/1064310108413460480" data-item-id={1064310108413460480} data-tweet-id={1064310108413460480} data-tweet-stat-initialized="true">
+      <li className="js-stream-item stream-item stream-item js-pinned" id="stream-item-tweet-1064310108413460480" >
+        <div className="tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable dismissible-content original-tweet js-original-tweet tweet-has-context has-cards  user-pinned has-content" >
           <div className="content">
             <div className="stream-item-header">
-              <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href={`/profile/${this.props.address}`} data-user-id={10228272}>
-                <img className="avatar js-action-profile-avatar" alt={this.props.id} src={this.props.picture} />
+              <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="#/" onClick={this.onClickName.bind(this)} data-user-id={10228272}>
+                <ImgFromArrayBuffer className="avatar js-action-profile-avatar" alt={""} arrayBufferData={this.props.picture.data} />
                 <span className="FullNameGroup">
-                  <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name}</strong>
+                  <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name || defaultName}</strong>
                   <span></span>
                   <span className="UserBadges">
                     <span className="Icon Icon--verified">
@@ -20,19 +27,24 @@ export default class TimelineTweet extends Component {
                   </span>
                   <span className="UserNameBreak">&nbsp;</span>
                 </span>
-                <span className="username u-dir u-textTruncate" data-aria-label-part>@<b>{this.props.name}</b></span>
+                <span className="username u-dir u-textTruncate" data-aria-label-part>@<b>{this.props.name || defaultName}</b></span>
               </a>
               <small className="time">
-                <a title={moment(this.props.time).format('MMMM Do YYYY, h:mm:ss a')} className="tweet-timestamp js-permalink js-nav js-tooltip" href={this.props.tweetUrl} ><span className="_timestamp js-short-timestamp " data-aria-label-part="last" data-long-form="true">{moment(this.props.time).format('MMM Do YY')}</span></a>
+                <a title={moment(this.props.time).format('MMMM Do YYYY, h:mm:ss a')} 
+                  className="tweet-timestamp js-permalink js-nav js-tooltip" 
+                  href={this.props.tweetUrl} >
+                  <span className="_timestamp js-short-timestamp " data-aria-label-part="last" data-long-form="true">{moment(this.props.time).format('MMM Do YY')}
+                  </span>
+                </a>
               </small>
             </div>
             <div onClick={this.props.seeDetails} className="js-tweet-text-container">
-              <p className="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text" lang="en" data-aria-label-part={0}>{this.props.content}</p>
+              <pre className="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text" lang="en" data-aria-label-part={0}>{this.props.content}</pre>
             </div>
             <div onClick={this.props.seeDetails} className="AdaptiveMediaOuterContainer">
               <div className="AdaptiveMedia">
                 <div className="AdaptiveMedia-container">
-                  <img alt="" src={this.props.imgUrl} style={{ height: 'auto', maxWidth: '100%' }} />
+                  {/* <img alt="" src={""} style={{ height: 'auto', maxWidth: '100%' }} /> */}
                 </div>
               </div>
             </div>

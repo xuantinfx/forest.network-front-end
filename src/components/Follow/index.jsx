@@ -12,7 +12,6 @@ export default class index extends Component {
         follow: PropTypes.func,
         unFollow: PropTypes.func,
         listUserFollow: PropTypes.array,
-        sequence: PropTypes.number,
         alreadyLogin: PropTypes.bool
     }
 
@@ -21,13 +20,17 @@ export default class index extends Component {
     }
 
     follow(address) {
-        //(listFollowings, address, sequence)
-        this.props.follow(this.props.listUserFollow, address, this.props.sequence);
+        //(listFollowings, address)
+        this.props.follow(this.props.listUserFollow, address);
     }
 
     unFollow(address) {
-         //(listFollowings, address, sequence)
-        this.props.unFollow(this.props.listUserFollow, address, this.props.sequence);
+         //(listFollowings, address)
+        this.props.unFollow(this.props.listUserFollow, address);
+    }
+    
+    onClickName(address) {
+        this.props.history.push(`/profile/${address}`)
     }
 
     render() {
@@ -48,8 +51,7 @@ export default class index extends Component {
                                 {this.props.listFollow && this.props.listFollow.map((follow, index) => {
                                     return (this.props.isFollower ? 
                                         (<ProfileCardFollower 
-                                            urlCover={follow.urlCover}
-                                            urlAvt={follow.urlAvt}
+                                            picture={follow.picture || {}}
                                             isFollow={follow.isFollow}
                                             name={follow.name}
                                             address={follow.address}
@@ -57,11 +59,11 @@ export default class index extends Component {
                                             follow={this.follow.bind(this)}
                                             unFollow={this.unFollow.bind(this)}
                                             alreadyLogin={this.props.alreadyLogin}
+                                            onClickName={this.onClickName.bind(this)}
                                              />)
                                         :
                                     (<ProfileCardFollowing 
-                                        urlCover={follow.urlCover}
-                                        urlAvt={follow.urlAvt}
+                                        picture={follow.picture || {}}
                                         isFollow={follow.isFollow}
                                         name={follow.name}
                                         address={follow.address}
@@ -70,6 +72,7 @@ export default class index extends Component {
                                         follow={this.follow.bind(this)}
                                         unFollow={this.unFollow.bind(this)}
                                         alreadyLogin={this.props.alreadyLogin}
+                                        onClickName={this.onClickName.bind(this)}
                                         />))
                                 })}
                             </div>

@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
+import { MAX_IMAGE_SIZE, INVALID_IMAGE_ERROR_MESSAGE } from '../../constants/Image';
 
 export default class index extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
-    existedImgData: PropTypes.string,
+    existedImgData: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
     sendImage: PropTypes.func
   }
 
@@ -31,7 +36,7 @@ export default class index extends Component {
 
   _onDrop = (acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
-      alert('File không hợp lệ');
+      alert(INVALID_IMAGE_ERROR_MESSAGE);
       return;
     }
     this.setState({ files: acceptedFiles });
@@ -46,13 +51,13 @@ export default class index extends Component {
     try {
       fileReader.readAsArrayBuffer(file);
       fileReader.onload = (e) => {
-        let result = Buffer.from(e.target.result).toString('base64');
+        let result = e.target.result;
         this.setState({ existedImgData: result });
       }
     }
     catch (err) {
       console.error(err);
-      alert('File không hợp lệ')
+      alert(INVALID_IMAGE_ERROR_MESSAGE)
     }
   }
 
@@ -67,16 +72,14 @@ export default class index extends Component {
         <ModalBody className="justify-content-center">
           <Dropzone multiple={false}
             accept="image/jpeg, image/png"
+            maxSize={MAX_IMAGE_SIZE}
             onDrop={this._onDrop}>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()} className="dropzone">
                 <input {...getInputProps()} />
                 <div className="ProfileAvatar mx-auto">
                   <div className="ProfileAvatar-container u-block js-tooltip profile-picture" >
-                    <img className="ProfileAvatar-image" alt="Click để chọn ảnh"
-                      src={this.state.existedImgData
-                        ? `data:image/jpeg;base64,${this.state.existedImgData}`
-                        : '/img/picturenotfound.png'} />
+                    <ImgFromArrayBuffer className="ProfileAvatar-image" arrayBufferData={this.state.existedImgData} />
                   </div>
                 </div>
               </div>

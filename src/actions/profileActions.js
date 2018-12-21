@@ -1,11 +1,13 @@
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
+import { getFollower } from '../apis/follower';
+import { getFollowing } from '../apis/following';
+import { beginLoadFollower, loadFollowerDone } from './followerActions';
+import { beginLoadFollowing, loadFollowingDone } from './followingActions';
 
 export const profileActions = {
   BEGIN_GET_PROFILE_BY_ADDRESS: 'BEGIN_GET_PROFILE_BY_ADDRESS',
   GET_PROFILE_BY_ADDRESS_DONE: 'GET_PROFILE_BY_ADDRESS_DONE',
-  BEGIN_UPDATE_PROFILE_PICTURE: 'BEGIN_UPDATE_PROFILE_PICTURE',
-  UPDATE_PROFILE_PICTURE_DONE: 'UPDATE_PROFILE_PICTURE_DONE',
 }
 
 export const beginGetProfileByAddress = () => {
@@ -28,7 +30,6 @@ export const getProfileByAddress = (address = '') => {
     const config = getProfile(address);
 
     requestApi(config).then(result => {
-      console.log(result)
       dispatch(getProfileByAddressDone(result.data))
     }).catch(err => {
       console.error(err);
@@ -36,22 +37,28 @@ export const getProfileByAddress = (address = '') => {
   }
 }
 
-export const beginUpdateProfilePicture = () => {
-  return {
-    type: profileActions.BEGIN_UPDATE_PROFILE_PICTURE
-  }
-}
-
-export const updateProfilePictureDone = (picture) => {
-  return {
-    type: profileActions.UPDATE_PROFILE_PICTURE_DONE,
-    picture: picture
-  }
-}
-
-export const updateProfilePicture = (pictureBuffer) => {
+export const loadFollow = (address, isFollower) => {
   return (dispatch) => {
-    dispatch(beginUpdateProfilePicture());
-    //send tx to server
+    if (isFollower) {
+      let api = getFollower(address);
+      dispatch(beginLoadFollower())
+      requestApi(api)
+        .then(res => {
+          dispatch(loadFollowerDone(res.data.data, res.data.total))
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    } else {
+      let api = getFollowing(address);
+      dispatch(beginLoadFollowing())
+      requestApi(api)
+        .then(res => {
+          dispatch(loadFollowingDone(res.data.data, res.data.total))
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
   }
 }

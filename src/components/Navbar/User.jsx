@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import SignUp from './SignUp'
 import LogIn from './LogIn';
 // import PropTypes from 'prop-types'
-import { Keypair, StrKey } from 'stellar-base'
+import { Keypair, StrKey } from 'stellar-base';
+import defaultName from '../../constants/defaultName';
 
 export default class User extends Component {
     static propTypes = {
@@ -30,7 +31,7 @@ export default class User extends Component {
             
             this.props.requestProfile(publicKey,(res)=>{
                 if(res.status_code === 200){
-                    window.localStorage.setItem('SECRET_KEY',secretKey)
+                    sessionStorage.setItem('SECRET_KEY',secretKey)
                     this.props.login(true);
                     this.setUserName(publicKey,res.data.name)
                 }
@@ -56,11 +57,11 @@ export default class User extends Component {
         }
         
         let span = usernameItem.getElementsByTagName('span')[0];
-        span.innerHTML = name||'Vô danh tiểu tốt';
+        span.innerHTML = name || defaultName;
     }
 
     logout = ()=>{
-        window.localStorage.removeItem('SECRET_KEY');
+        sessionStorage.removeItem('SECRET_KEY');
         this.props.login(false);
         this.onClickOpenSignIn(true);
     }

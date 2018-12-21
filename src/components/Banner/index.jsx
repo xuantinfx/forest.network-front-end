@@ -5,11 +5,14 @@ import Infbanner from './Infbanner'
 
 export default class Banner extends Component {
     static propTypes = {
-        urlImg: PropTypes.string,
         tweet: PropTypes.number,
         followings: PropTypes.number,
         followers: PropTypes.number,
-        alreadyLogin: PropTypes.bool
+        alreadyLogin: PropTypes.bool,
+        listFollowings: PropTypes.array,
+        follow: PropTypes.func,
+        unFollow: PropTypes.func,
+        address: PropTypes.string
     }
 
     render() {
@@ -24,6 +27,10 @@ export default class Banner extends Component {
                         followings={this.props.followings}
                         followers={this.props.followers}
                         alreadyLogin={this.props.alreadyLogin}
+                        listFollowings={this.props.listFollowings}
+                        follow={this.props.follow}
+                        unFollow={this.props.unFollow}
+                        address={this.props.address}
                     />
                 </div>
             </div>

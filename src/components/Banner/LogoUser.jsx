@@ -1,10 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import UploadImageModal from "../UploadImageModal";
+import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import PropTypes from 'prop-types'
+import { INVALID_IMAGE_ERROR_MESSAGE } from '../../constants/Image';
 
 export default class LogoUser extends Component {
   static propTypes = {
-    imgBase64Data: PropTypes.string
+    imgData: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
+    canChangeProfilePicture: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -25,11 +31,12 @@ export default class LogoUser extends Component {
         this.props.updateProfilePicture(result);
       }
     } catch (err) {
-      alert('File không hợp lệ');
+      alert(INVALID_IMAGE_ERROR_MESSAGE);
     }
   }
 
   _toggleModal = () => {
+    if (!this.props.canChangeProfilePicture) return;
     this.setState((prevState) => {
       const prevIsOpen = prevState.modal.isOpen;
       return { modal: { isOpen: !prevIsOpen } }
@@ -43,17 +50,13 @@ export default class LogoUser extends Component {
           <div className="ProfileCanopy-avatar" onClick={this._toggleModal}>
             <div className="ProfileAvatar">
               <div className="ProfileAvatar-container u-block js-tooltip profile-picture" >
-                <img className="ProfileAvatar-image"
-                  src={this.props.imgBase64Data
-                    ? `data:image/jpeg;base64,${this.props.imgBase64Data}`
-                    : '/img/picturenotfound.png'}
-                  alt="Profile" />
+                <ImgFromArrayBuffer className="ProfileAvatar-image" arrayBufferData={this.props.imgData} />
               </div>
             </div>
           </div>
         </div>
         <UploadImageModal isOpen={this.state.modal.isOpen} toggle={this._toggleModal}
-          existedImgData={this.props.imgBase64Data} sendImage={this._changeProfileAvatar} />
+          existedImgData={this.props.imgData} sendImage={this._changeProfileAvatar} />
       </Fragment>
     )
   }
