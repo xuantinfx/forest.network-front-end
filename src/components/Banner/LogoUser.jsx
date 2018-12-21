@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import UploadImageModal from "../UploadImageModal";
 import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import PropTypes from 'prop-types'
+import { INVALID_IMAGE_ERROR_MESSAGE } from '../../constants/Image';
 
 export default class LogoUser extends Component {
   static propTypes = {
@@ -30,7 +31,7 @@ export default class LogoUser extends Component {
         this.props.updateProfilePicture(result);
       }
     } catch (err) {
-      alert('File không hợp lệ');
+      alert(INVALID_IMAGE_ERROR_MESSAGE);
     }
   }
 
