@@ -4,7 +4,7 @@ import { postTweet } from '../actions/userActions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        picture: state.user.picture,
+        picture: state.user.picture || {},
         name: state.user.name
     }
 }

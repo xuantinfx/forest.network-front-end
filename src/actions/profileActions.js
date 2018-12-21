@@ -8,6 +8,8 @@ import { beginLoadFollowing, loadFollowingDone } from './followingActions';
 export const profileActions = {
   BEGIN_GET_PROFILE_BY_ADDRESS: 'BEGIN_GET_PROFILE_BY_ADDRESS',
   GET_PROFILE_BY_ADDRESS_DONE: 'GET_PROFILE_BY_ADDRESS_DONE',
+  LOAD_FOLLOW_FALSE: "LOAD_FOLLOW_FALSE",
+  LOAD_PROFILE_FALSE: "LOAD_PROFILE_FALSE"
 }
 
 export const beginGetProfileByAddress = () => {
@@ -23,6 +25,20 @@ export const getProfileByAddressDone = (profile) => {
   }
 }
 
+export const getProfileByAddressFalse = (error) => {
+  return {
+    type: profileActions.LOAD_PROFILE_FALSE,
+    error
+  }
+}
+
+export const loadFollowFalse = (error) => {
+  return {
+    type: profileActions.LOAD_FOLLOW_FALSE,
+    error
+  }
+}
+
 export const getProfileByAddress = (address = '') => {
   return (dispatch) => {
     dispatch(beginGetProfileByAddress());
@@ -33,6 +49,7 @@ export const getProfileByAddress = (address = '') => {
       dispatch(getProfileByAddressDone(result.data))
     }).catch(err => {
       console.error(err);
+      dispatch(getProfileByAddressFalse(err.response.data.message.error))
     })
   }
 }
@@ -48,6 +65,7 @@ export const loadFollow = (address, isFollower) => {
         })
         .catch(err => {
           console.error(err);
+          dispatch(loadFollowFalse(err.response.data.message.error))
         })
     } else {
       let api = getFollowing(address);
@@ -58,6 +76,7 @@ export const loadFollow = (address, isFollower) => {
         })
         .catch(err => {
           console.error(err);
+          dispatch(loadFollowFalse(err.response.data.message.error))
         })
     }
   }

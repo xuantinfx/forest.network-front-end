@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import NavLeft from './NavLeft'
 import NavRight from './NavRight'
+import Alerts from '../../containers/Alerts';
 
 export default class Navbar extends Component {
     static propTypes = {
@@ -19,6 +20,7 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                 </div>
+                <Alerts/>
             </div>
         )
     }

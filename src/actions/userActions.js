@@ -70,7 +70,7 @@ const updateFollowings = (listFollowings, sequence) => {
         })
         .catch(err => {
             console.error(err);
-            reject(err.message.error);
+            reject(err.response.data.message.error);
         })
     })
 }
