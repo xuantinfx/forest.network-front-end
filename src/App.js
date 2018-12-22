@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import Navbar from './containers/Navbar';
 import ProfileView from './views/ProfileView';
 import FeedView from './views/FeedView';
+import Alerts from './containers/Alerts';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route exact path="/" component={FeedView} />
             <Redirect to="/"/>
           </Switch>
+          <Alerts />
         </div >
       </Router>
     );
