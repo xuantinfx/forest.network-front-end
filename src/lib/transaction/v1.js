@@ -45,6 +45,15 @@ const Followings = vstruct([
   { name: 'addresses', type: vstruct.VarArray(vstruct.UInt16BE, vstruct.Buffer(35)) },
 ]);
 
+const Content = vstruct([
+  { name: 'type', type: vstruct.UInt8 }
+]);
+
+const ReactContent = vstruct([
+  { name: 'type', type: vstruct.UInt8 },
+  { name: 'reaction', type: vstruct.UInt8 },
+]);
+
 const InteractParams = vstruct([
   // Post or comment (or something else?)
   { name: 'object', type: vstruct.Buffer(32) },
@@ -95,9 +104,17 @@ export function encode(tx) {
       break;
 
     case 'interact':
+      let content = tx.params.content;
+      if( content.type === 1 ) {
+        content = PlainTextContent.encode(content);
+      } else 
+      if ( content.type === 2 ) {
+        content = ReactContent.encode(content);
+      }
       params = InteractParams.encode({
         ...tx.params,
         object: Buffer.from(tx.params.object, 'hex'),
+        content
       });
       operation = 5;
       break;
@@ -155,10 +172,21 @@ export function decode(data) {
       break;
     
     case 5:
-      operation = 'interact';
-      params = InteractParams.decode(tx.params);
-      params.object = params.object.toString('hex').toUpperCase();
-      break;
+    operation = 'interact';
+    params = InteractParams.decode(tx.params);
+    params.object = params.object.toString('hex').toUpperCase();
+    try {
+      let content = Content.decode(params.content);
+      if(content.type === 1) {
+        params.content = PlainTextContent.decode(params.content);
+      } else 
+      if (content.type === 2) {
+        params.content = ReactContent.decode(params.content);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    break;
     
     default:
       throw Error('Unspport operation');
