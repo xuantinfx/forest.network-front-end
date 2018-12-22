@@ -123,8 +123,8 @@ export default (state = initialState, action) => {
       ...state,
       error: action.error
     }
-    case userActionsConst.LOG_OUT:
-      return initialState
+    case userActionsConst.LOG_OUT: 
+      return initialState;
     default:
       return state
   }

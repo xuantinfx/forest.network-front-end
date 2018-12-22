@@ -26,7 +26,7 @@ export const userActionsConst = {
     BEGIN_POST_TWEET: "BEGIN_POST_TWEET",
     POST_TWEET_DONE: "POST_TWEET_DONE",
     POST_TWEET_FALSE: "POST_TWEET_FALSE",
-    LOG_OUT: 'LOG_OUT'
+    LOG_OUT: "LOG_OUT"
 }
 
 export const changeSingup = (isLogin) => {

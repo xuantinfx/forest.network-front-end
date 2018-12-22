@@ -17,7 +17,7 @@ export default class AlertMessage extends React.Component {
     render() {
         return (
             <div>
-                <Alert color={this.props.type === "message" ? "success" : "danger"} isOpen={true} toggle={() => {}} onClick={this.onDismiss.bind(this)} fade={false}>
+                <Alert color={this.props.type === "message" ? "success" : "danger"} isOpen={true} toggle={this.onDismiss.bind(this)} fade={false}>
                     {this.props.content}
                 </Alert>
             </div>
