@@ -1,5 +1,6 @@
 import { userActionsConst } from '../actions/userActions';
 import _ from 'lodash';
+import { getUsedBandwidthByAccount } from '../utilities/bandwidth';
 
 const initialState = {
   isLogin: true,
@@ -27,10 +28,10 @@ export default (state = initialState, action) => {
         isLogin
       }
     case userActionsConst.LOGIN:
-      return {
+      return alreadyLogin ? {
         ...state,
         alreadyLogin
-      }
+      } : initialState
     case userActionsConst.LOGIN_DONE:
       return {
         isLogin: true,
@@ -47,7 +48,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         sequence: state.sequence + 1,
-        followings: [...state.followings, action.address]
+        followings: [...state.followings, action.address],
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     }
     case userActionsConst.UNFOLLOW_DONE: {
@@ -56,7 +62,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         sequence: state.sequence + 1,
-        followings
+        followings,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     }
     case userActionsConst.FOLLOW_FALSE: {
@@ -71,7 +82,12 @@ export default (state = initialState, action) => {
         picture: {
           ...state.picture,
           data: action.pictureBuffer
-        }
+        },
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     case userActionsConst.GET_USER_PROFILE_DONE:
       return {
@@ -81,7 +97,7 @@ export default (state = initialState, action) => {
     case userActionsConst.SUBMIT_UPDATE_PROFILE:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       }
     case userActionsConst.SUBMIT_UPDATE_PROFILE_DONE:
       if (action.profile.name) {
@@ -92,7 +108,12 @@ export default (state = initialState, action) => {
         ...action.profile,
         isEditting: false,
         isLoading: false,
-        sequence: action.sequence
+        sequence: action.sequence,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     case userActionsConst.SUBMIT_UPDATE_PROFILE_FALSE:
       return {
@@ -100,7 +121,12 @@ export default (state = initialState, action) => {
         error: action.error,
         isEditting: false,
         isLoading: false,
-        sequence: action.sequence
+        sequence: action.sequence,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     case userActionsConst.EDIT_PROFILE:
       return {
@@ -116,7 +142,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        sequence: state.sequence + 1
+        sequence: state.sequence + 1,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     case userActionsConst.POST_TWEET_FALSE:
       return {
@@ -128,9 +159,12 @@ export default (state = initialState, action) => {
       newArray.push(action.newPayment);
       return {
         ...state,
+        balance: this.state.balance - action.newPayment.amount,
         paymentHistory: newArray
       }
     }
+    case userActionsConst.LOG_OUT:
+      return initialState;
     default:
       return state
   }

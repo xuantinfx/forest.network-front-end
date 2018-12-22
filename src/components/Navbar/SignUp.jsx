@@ -8,6 +8,15 @@ export class SignUp extends Component {
   static propTypes = {
     changeSingup: PropTypes.func
   }
+
+  constructor(props){
+    super(props)
+    this.state = {
+      secretKey: '',
+      publicKey: ''
+    }
+  }
+
   encode = ( s ) => {
     var out = [];
     for ( var i = 0; i < s.length; i++ ) {
@@ -49,10 +58,15 @@ export class SignUp extends Component {
       .toUpperCase()
     }
 
-    let secretKey = document.getElementById('secret-key');
+    /* let secretKey = document.getElementById('secret-key');
     secretKey.value = keyJSON.secretKey
     let publicKey = document.getElementById('public-key');
-    publicKey.value = keyJSON.publicKey
+    publicKey.value = keyJSON.publicKey */
+
+    this.setState({
+      secretKey: keyJSON.secretKey,
+      publicKey: keyJSON.publicKey
+    })
     
     this.saveJson(keyJSON)
   }
@@ -68,10 +82,12 @@ export class SignUp extends Component {
               <div style={{fontSize:'0.7rem'}}>Hãy chuyển public key đến bạn của bạn để tham gia.</div>
               <br/>
               <div style={{fontSize:'0.8rem'}}>Secret Key:</div>
-              <input id='secret-key' disabled type="text" className="text-input email-input js-signin-email" name="session[username_or_email]" autoComplete="secretkey" placeholder="Secret key" />
+              <input id='secret-key' disabled type="text" className="text-input email-input js-signin-email"
+               name="session[username_or_email]" autoComplete="secretkey" value={this.state.secretKey} placeholder="Secret key" />
               
               <div style={{fontSize:'0.8rem'}}><br/>Public Key:</div>
-              <input id='public-key' disabled type="text" className="text-input email-input js-signin-email" name="session[username_or_email]" autoComplete="publickey" placeholder="Public key" />
+              <input id='public-key' disabled type="text" className="text-input email-input js-signin-email"
+               name="session[username_or_email]" autoComplete="publickey" value={this.state.publicKey} placeholder="Public key" />
             
               <input onClick={this.generateKey} type='button' className="EdgeButton EdgeButton--secondary EdgeButton--medium u-block js-signup" value="Tạo key" />
             </div>

@@ -17,6 +17,20 @@ export default class TimelineTweet extends Component {
     }
   }
 
+  componentDidMount() {
+    // resize textarea
+    var tx = document.getElementsByTagName('textarea');
+    for (var i = 0; i < tx.length; i++) {
+      tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;width: 100%;resize: none;');
+      tx[i].addEventListener("input", OnInput, false);
+    }
+
+    function OnInput() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    }
+  }
+
   onChangeContent(e) {
     this.setState({
       content: e.target.value
@@ -47,7 +61,7 @@ export default class TimelineTweet extends Component {
                   <textarea 
                     value={this.state.content} 
                     onChange={this.onChangeContent.bind(this)} 
-                    style={{ minHeight: '100px', width: "100%" }}
+                    style={{ width: "100%" }}
                     placeholder={"Cập nhật cảm nghĩ của bạn"}
                     />
             </div>

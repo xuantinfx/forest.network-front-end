@@ -36,6 +36,11 @@ export default class index extends Component {
     }
   }
 
+  _toggleModal = () => {
+    this.props.toggle();
+    this._reset();
+  }
+
   _handleInputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -64,8 +69,8 @@ export default class index extends Component {
   render() {
     const { userData, paymentHistory } = this.props;
     return (
-      <Modal size="lg" isOpen={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
-        <ModalHeader toggle={this.props.toggle}>Tất tần tật về tiền</ModalHeader>
+      <Modal size="lg" isOpen={this.props.isOpen} toggle={this._toggleModal} className={this.props.className}>
+        <ModalHeader toggle={this._toggleModal}>Tất tần tật về tiền</ModalHeader>
         <ModalBody>
           <Container fluid>
             <Row>
@@ -159,7 +164,7 @@ export default class index extends Component {
         </ModalBody>
         <ModalFooter>
           <button className="btn"
-            onClick={this.props.toggle}>Hủy</button>
+            onClick={this._toggleModal}>Hủy</button>
         </ModalFooter>
       </Modal>
     )

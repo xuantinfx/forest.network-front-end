@@ -1,27 +1,33 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom';
 
-export default class NavLeft extends Component {
+class NavLeft extends Component {
     static propTypes = {
         openPaymentModal: PropTypes.func
+    }
+
+    onClick(e, href) {
+        e.preventDefault();
+        this.props.history.push(href);
     }
 
     render() {
         return (
             <ul className="nav js-global-actions" id="global-actions">
                 <li className="home">
-                    <a className="js-nav js-tooltip js-dynamic-tooltip" href="/">
+                    <a className="js-nav js-tooltip js-dynamic-tooltip" href="#/" onClick={e => this.onClick(e, '/')}>
                         <span className="Icon Icon--bird Icon--large"></span>
                         <span className="text">Trang chủ</span>
                     </a>
                 </li>
                 <li id="global-nav-about" className="about">
-                    <a className="js-tooltip js-dynamic-tooltip" href="/about">
+                    <a className="js-tooltip js-dynamic-tooltip"href="#/" onClick={e => this.onClick(e, '/about')}>
                         <span className="text">Giới thiệu</span>
                     </a>
                 </li>
                 <li id="global-nav-about" className="about" onClick={this.props.openPaymentModal}>
-                    <a className="js-tooltip js-dynamic-tooltip" href="/#" onClick={(e) => { e.preventDefault() }}>
+                    <a className="js-tooltip js-dynamic-tooltip" href="#/" onClick={(e) => { e.preventDefault() }}>
                         <span className="text">Thanh toán</span>
                     </a>
                 </li>
@@ -29,3 +35,5 @@ export default class NavLeft extends Component {
         )
     }
 }
+
+export default withRouter(NavLeft);

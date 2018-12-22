@@ -4,7 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './containers/Navbar';
 import ProfileView from './views/ProfileView';
-import Feed from './views/Feed';
+import FeedView from './views/FeedView';
 
 class App extends Component {
   render() {
@@ -14,8 +14,8 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path="/profile/:address/:sublink?" component={ProfileView} />
-            <Route exact path="/" component={Feed} />
-            <Redirect to="/" />
+            <Route exact path="/" component={FeedView} />
+            <Redirect to="/"/>
           </Switch>
         </div >
       </Router>
