@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import defaultName from '../../constants/defaultName'
+import defaultName from '../../constants/defaultName';
+import showBalance from '../../utilities/showBalance'
+import Bandwidth from './Bandwidth';
+import TotalBandwidth from './TotalBandwidth';
 
 class ProfileHeaderCard extends Component {
   render() {
@@ -73,8 +76,7 @@ class ProfileHeaderCard extends Component {
                     <div className="ProfileHeaderCard-joinDate">
                     </div>
                 )
-            }
-            
+            }         
 
             {/* <div className="ProfileHeaderCard-birthdate u-hidden">
                 <span className="Icon Icon--balloon Icon--medium" aria-hidden="true"
@@ -82,6 +84,23 @@ class ProfileHeaderCard extends Component {
                 <span className="ProfileHeaderCard-birthdateText u-dir" >
                 </span>
             </div> */}
+            
+            <div className="ProfileHeaderCard-location">
+                {/*  */}
+                <span className="text-muted">
+                    <i className="fas fa-dollar-sign" aria-hidden="true" style={{width: 0}}/>
+                </span>
+                <span className="ProfileHeaderCard-locationText u-dir" >
+                    {showBalance(this.props.balance)}
+                </span>
+            </div>
+
+            <Bandwidth 
+                balance={this.props.balance}
+                bandwidth={this.props.bandwidth}
+                bandwidthTime={this.props.bandwidthTime}
+            />
+            <TotalBandwidth balance={this.props.balance}/>
         </div>
     )
   }
@@ -93,5 +112,8 @@ ProfileHeaderCard.propTypes = {
     name: PropTypes.string,
     bio: PropTypes.string,
     location: PropTypes.string,
-    joinDate: PropTypes.number
+    joinDate: PropTypes.number,
+    balance: PropTypes.number,
+    bandwidth: PropTypes.number,
+    bandwidthTime: PropTypes.number
 }
