@@ -159,7 +159,7 @@ export default (state = initialState, action) => {
       newArray.push(action.newPayment);
       return {
         ...state,
-        balance: this.state.balance - action.newPayment.amount,
+        balance: state.balance - action.newPayment.amount,
         paymentHistory: newArray
       }
     }

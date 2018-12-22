@@ -8,6 +8,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case alertsActions.SHOW_ERROR:
         case userActionsConst.FOLLOW_FALSE:
         case userActionsConst.POST_TWEET_FALSE:
         case userActionsConst.SUBMIT_UPDATE_PROFILE_FALSE:
@@ -22,9 +23,14 @@ export default (state = initialState, action) => {
         // ví dụ
         // case success
         //   return {
-        //      ...state
-        //      alerts: [...state.alerts, {type: 'message', content: action.messgae}]
+        //      ...state,
+        //      alerts: [...state.alerts, {type: 'message', content: action.message}]
         //}
+        case alertsActions.SHOW_MESSAGE:
+            return {
+                ...state,
+                alerts: [...state.alerts, { type: 'message', content: action.message }]
+            }
         case alertsActions.REMOVE_ALERT: {
             let newAlerts = [];
             let index = action.index;

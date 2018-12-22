@@ -6,6 +6,7 @@ import { followings, post, updatePicture, payment } from '../lib/encodeTX';
 import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
+import { showMessage } from "./alertsActions";
 
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
@@ -359,15 +360,15 @@ export const sendMoney = (receivingAddress, amount) => {
         requestApi(config).then(result => {
             dispatch(sendMoneyDone({ fromOrTo: receivingAddress, amount: -amount, time: moment().format() }));
             dispatch(increaseSequence());
+            dispatch(showMessage('Chuyển tiền thành công'))
         }).catch(err => {
-            console.log(err.response.data.message.error)
+            console.log(err, err.response)
             dispatch(sendMoneyFail(err.response.data.message.error));
         })
     }
 }
 
 export const sendMoneyDone = (newPayment) => {
-    console.log(newPayment)
     return {
         type: userActionsConst.SEND_MONEY_DONE,
         newPayment

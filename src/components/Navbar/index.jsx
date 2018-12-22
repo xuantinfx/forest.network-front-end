@@ -9,7 +9,8 @@ export default class Navbar extends Component {
     static propTypes = {
         canOpenPaymentModal: PropTypes.bool,
         paymentData: PropTypes.object,
-        sendMoney: PropTypes.func
+        sendMoney: PropTypes.func,
+        showError: PropTypes.func
     }
 
     constructor(props) {
@@ -20,7 +21,10 @@ export default class Navbar extends Component {
     }
 
     _togglePaymentModal = () => {
-        if (!this.props.canOpenPaymentModal) return;
+        if (!this.props.canOpenPaymentModal) {
+            this.props.showError('Vui lòng đăng nhập');
+            return;
+        }
         this.setState((prevState) => {
             const prevIsOpen = prevState.paymentModalIsOpen;
             return { paymentModalIsOpen: !prevIsOpen }

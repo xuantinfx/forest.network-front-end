@@ -150,7 +150,7 @@ export default class index extends Component {
                                 <Col xs="2">{moment(item.time).format('llll')}</Col>
                                 {item.amount > 0 ? <Col xs="2" className="text-success">Nhận tiền</Col> : <Col xs="2" className="text-danger">Chuyển tiền</Col>}
                                 <Col xs="5">{item.fromOrTo}</Col>
-                                {item.amount > 0 ? <Col xs="3" className="text-success">{item.amount}</Col> : <Col xs="3" className="text-danger">{item.amount}</Col>}
+                                {item.amount > 0 ? <Col xs="3" className="text-success">{item.amount}</Col> : <Col xs="3" className="text-danger">{0 - item.amount}</Col>}
                               </Row>)
                           })}
                         </Col>
