@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 
 export class LogIn extends Component {
   static propTypes = {
-    changeSingup: PropTypes.func
+    changeSingup: PropTypes.func,
+    reqLogin: PropTypes.func,
+    alert: PropTypes.string
   }
 
   constructor(props){
     super(props)
     let key = sessionStorage.getItem('SECRET_KEY')
-    if(key){
-      this.props.reqLogin(key)
+    this.state = {
+      secretKey: key,
     }
   }
 
@@ -38,9 +40,15 @@ export class LogIn extends Component {
 
   onSubmitLogin=(e)=>{
     e.preventDefault()
-    let key = document.getElementsByName('secret-key')[0].value
+    let key = this.state.secretKey//document.getElementsByName('secret-key')[0].value
     //Goi api dang nhap
     this.props.reqLogin(key)
+  }
+
+  onChangeSecretKeyInput=(value)=>{
+    this.setState({
+      secretKey: value.target.value
+    })
   }
 
   render() {
@@ -52,9 +60,9 @@ export class LogIn extends Component {
           <form className="LoginForm js-front-signin" onSubmit={this.onSubmitLogin}
             data-component="login_callout" data-element="form">
             <div className="LoginForm-input LoginForm-username">
-              <input type="text" className="text-input email-input js-signin-email" name="secret-key" placeholder="Secret key" />
+              <input type="text" onChange={this.onChangeSecretKeyInput} className="text-input email-input js-signin-email" name="secret-key" placeholder="Secret key" />
             </div>
-            <div style={{color:'red', fontSize:'0.7rem'}} hidden={true} id='alert-wrong-key'>Secret Key sai!</div>
+            <div style={{color:'red', fontSize:'0.7rem'}} id='alert-wrong-key'>{this.props.alert||''}</div>
             {/* <div className="LoginForm-rememberForgot">
               <label>
                 <input type="checkbox" defaultValue={1} name="remember_me" defaultChecked="checked" />
