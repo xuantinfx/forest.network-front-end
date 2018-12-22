@@ -4,7 +4,14 @@ import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    canOpenPaymentModal: true
+    canOpenPaymentModal: true,
+    paymentData: {
+      userData: {
+        address: state.user.address || '',
+        balance: state.user.balance || 0
+      },
+      paymentHistory: state.user.paymentHistory || []
+    }
   }
 }
 
