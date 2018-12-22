@@ -15,6 +15,8 @@ const requestProfile = (dispatch, publicKey, callback)=>{
         if(res.status_code === 200){
             dispatch(loginDone(res.data))
         }
+    }).catch((err)=>{
+        callback(null, err)
     })
 }
 

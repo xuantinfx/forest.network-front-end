@@ -27,10 +27,10 @@ export default (state = initialState, action) => {
         isLogin
       }
     case userActionsConst.LOGIN:
-      return {
+      return alreadyLogin ? {
         ...state,
         alreadyLogin
-      }
+      }:initialState
     case userActionsConst.LOGIN_DONE:
       return {
         isLogin: true,
