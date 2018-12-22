@@ -1,6 +1,6 @@
 import User from "../components/Navbar/User";
 import { connect } from 'react-redux'
-import { changeSingup, login, loginDone, increaseSequence } from "../actions/userActions";
+import { changeSingup, login, loginDone, increaseSequence, logout } from "../actions/userActions";
 import {withRouter} from 'react-router-dom'
 import { requestApi } from '../apis/requestApi'
 
@@ -38,8 +38,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         requestProfile: (publicKey, callback)=>{
             requestProfile(dispatch, publicKey,callback)
         },
-        increaseSequence: (dispatch)=>{
+        increaseSequence: ()=>{
             dispatch(increaseSequence())
+        },
+        logout: ()=>{
+            dispatch(logout())
         }
     }
 }
