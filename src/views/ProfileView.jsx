@@ -39,7 +39,7 @@ class ProfileView extends Component {
           <div className="AppContainer">
             <div className="AppContent-main content-main u-cf" role="main" aria-labelledby="content-main-heading">
               <div className="Grid Grid--withGutter" key={window.location.href}>
-                <Profile></Profile>
+                <Profile address={this.props.match.params.address}></Profile>
                 <div className="Grid-cell u-size2of3 u-lg-size3of4">
                   <div className="Grid Grid--withGutter">
                     {this.renderChildComponent()}
