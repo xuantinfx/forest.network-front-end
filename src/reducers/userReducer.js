@@ -84,12 +84,12 @@ export default (state = initialState, action) => {
         isLoading: true
       }
     case userActionsConst.SUBMIT_UPDATE_PROFILE_DONE:
-      if(action.profile.name) {
+      if (action.profile.name) {
         window.location.reload();
       }
       return {
         ...state,
-        ...action.profile, 
+        ...action.profile,
         isEditting: false,
         isLoading: false,
         sequence: action.sequence
@@ -107,7 +107,7 @@ export default (state = initialState, action) => {
         ...state,
         isEditting: true
       }
-    case userActionsConst.BEGIN_POST_TWEET: 
+    case userActionsConst.BEGIN_POST_TWEET:
       return {
         ...state,
         isLoading: true
@@ -118,10 +118,18 @@ export default (state = initialState, action) => {
         isLoading: false,
         sequence: state.sequence + 1
       }
-    case userActionsConst.POST_TWEET_FALSE: 
+    case userActionsConst.POST_TWEET_FALSE:
       return {
-      ...state,
-      error: action.error
+        ...state,
+        error: action.error
+      }
+    case userActionsConst.SEND_MONEY_DONE: {
+      let newArray = state.paymentHistory || [];
+      newArray.push(action.newPayment);
+      return {
+        ...state,
+        paymentHistory: newArray
+      }
     }
     default:
       return state

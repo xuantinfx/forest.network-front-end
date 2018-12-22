@@ -1,10 +1,13 @@
 import Navbar from '../components/Navbar';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { sendMoney } from '../actions/userActions';
 
 const mapStateToProps = (state, ownProps) => {
+  let canOpenPaymentModal = state.user.alreadyLogin ? true : false;
+
   return {
-    canOpenPaymentModal: true,
+    canOpenPaymentModal,
     paymentData: {
       userData: {
         address: state.user.address || '',
@@ -17,6 +20,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    sendMoney: (receivingAddress, amount) => {
+      dispatch(sendMoney(receivingAddress, amount))
+    }
   }
 }
 

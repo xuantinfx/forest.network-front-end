@@ -7,7 +7,9 @@ import Alerts from '../../containers/Alerts';
 
 export default class Navbar extends Component {
     static propTypes = {
-        canOpenPaymentModal: PropTypes.bool
+        canOpenPaymentModal: PropTypes.bool,
+        paymentData: PropTypes.object,
+        sendMoney: PropTypes.func
     }
 
     constructor(props) {
@@ -37,7 +39,8 @@ export default class Navbar extends Component {
                     </div>
                 </div>
                 <PaymentModal isOpen={this.state.paymentModalIsOpen} toggle={this._togglePaymentModal}
-                    userData={this.props.paymentData.userData} paymentHistory={this.props.paymentData.paymentHistory} />
+                    userData={this.props.paymentData.userData} paymentHistory={this.props.paymentData.paymentHistory}
+                    sendMoney={this.props.sendMoney} />
                 <Alerts />
             </div>
         )

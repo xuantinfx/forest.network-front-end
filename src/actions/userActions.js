@@ -2,9 +2,10 @@ import { postTranSaction } from "../apis/transaction";
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
 import { Keypair } from 'stellar-base';
-import { followings, post, updatePicture } from '../lib/encodeTX';
+import { followings, post, updatePicture, payment } from '../lib/encodeTX';
 import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
+import moment from "moment";
 
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
@@ -25,7 +26,10 @@ export const userActionsConst = {
     EDIT_PROFILE: 'EDIT_PROFILE',
     BEGIN_POST_TWEET: "BEGIN_POST_TWEET",
     POST_TWEET_DONE: "POST_TWEET_DONE",
-    POST_TWEET_FALSE: "POST_TWEET_FALSE"
+    POST_TWEET_FALSE: "POST_TWEET_FALSE",
+    BEGIN_SEND_MONEY: 'BEGIN_SEND_MONEY',
+    SEND_MONEY_DONE: 'SEND_MONEY_DONE',
+    SEND_MONEY_FAIL: 'SEND_MONEY_FAIL',
 }
 
 export const changeSingup = (isLogin) => {
@@ -59,19 +63,19 @@ const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
         let secretKey = sessionStorage.getItem("SECRET_KEY");
         requestApi(postTranSaction(followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1)))
-        .then(res => {
-            if (res.message.error) {
-                // False
-                reject(res.message.error)
-            } else {
-                // Success
-                resolve();
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            reject(err.response.data.message.error);
-        })
+            .then(res => {
+                if (res.message.error) {
+                    // False
+                    reject(res.message.error)
+                } else {
+                    // Success
+                    resolve();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                reject(err.response.data.message.error);
+            })
     })
 }
 
@@ -80,12 +84,12 @@ export const follow = (listFollowings, address) => {
         let sequence = getState().user.sequence;
         let newListFollowings = _.uniq([...listFollowings, address]);
         updateFollowings(newListFollowings, sequence)
-        .then(() => {
-            dispatch(followDone(address));
-        })
-        .catch((error) => {
-            dispatch(followFalse(error));
-        })
+            .then(() => {
+                dispatch(followDone(address));
+            })
+            .catch((error) => {
+                dispatch(followFalse(error));
+            })
     }
 }
 
@@ -95,12 +99,12 @@ export const unFollow = (listFollowings, address) => {
         let newListFollowings = _.cloneDeep(listFollowings);
         _.remove(newListFollowings, (following) => following === address);
         updateFollowings(newListFollowings, sequence)
-        .then(() => {
-            dispatch(unFollowDone(address));
-        })
-        .catch((error) => {
-            dispatch(followFalse(error));
-        })
+            .then(() => {
+                dispatch(unFollowDone(address));
+            })
+            .catch((error) => {
+                dispatch(followFalse(error));
+            })
     }
 }
 
@@ -226,8 +230,8 @@ export const updateProfile = (profile) => {
         let oldProfile = state.user;
 
         // Lọc ra những trường thay đổi
-        for(let key in profile) {
-            if(oldProfile[key] !== profile[key]) {
+        for (let key in profile) {
+            if (oldProfile[key] !== profile[key]) {
                 profileUpdate[key] = profile[key];
             }
         }
@@ -236,20 +240,20 @@ export const updateProfile = (profile) => {
         dispatch(submitUpdateProfile());
 
         updateAccountMultiKeys(profileUpdate, sequence)
-        .then((sequence) => {
-            // Done
-            dispatch(submitUpdateProfileDone(profileUpdate, sequence));
-        })
-        .catch(({err, sequence}) => {
-            console.error(err);
-            // Error
-            dispatch(submitUpdateProfileFalse(err, sequence));
-        })
+            .then((sequence) => {
+                // Done
+                dispatch(submitUpdateProfileDone(profileUpdate, sequence));
+            })
+            .catch(({ err, sequence }) => {
+                console.error(err);
+                // Error
+                dispatch(submitUpdateProfileFalse(err, sequence));
+            })
 
     }
 }
 
-export const editProfile = ()=>{
+export const editProfile = () => {
     return {
         type: userActionsConst.EDIT_PROFILE
     }
@@ -292,8 +296,8 @@ export const postTweet = (tweetContent) => {
                     tweetContent,
                     [],
                     1)
-                )
             )
+        )
             .then(() => {
                 // Success
                 let tweet = {
@@ -314,5 +318,47 @@ export const postTweet = (tweetContent) => {
                 // False
                 dispatch(postTweetFalse(err.response.data.message.error));
             })
+    }
+}
+
+export const beginSendMoney = () => {
+    return {
+        type: userActionsConst.BEGIN_SEND_MONEY
+    }
+}
+
+export const sendMoney = (receivingAddress, amount) => {
+    return (dispatch, getState) => {
+        let state = getState();
+        let { sequence } = state.user
+        dispatch(beginSendMoney());
+
+        //create transaction
+        let tx = payment(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
+
+        let config = postTranSaction(tx);
+
+        requestApi(config).then(result => {
+            dispatch(sendMoneyDone({ fromOrTo: receivingAddress, amount: -amount, time: moment().format() }));
+            dispatch(increaseSequence());
+        }).catch(err => {
+            console.log(err)
+            //sendMoneyFail(err.response.message);
+        })
+    }
+}
+
+export const sendMoneyDone = (newPayment) => {
+    console.log(newPayment)
+    return {
+        type: userActionsConst.SEND_MONEY_DONE,
+        newPayment
+    }
+}
+
+export const sendMoneyFail = (err) => {
+    return {
+        type: userActionsConst.SEND_MONEY_FAIL,
+        err
     }
 }
