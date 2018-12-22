@@ -64,7 +64,6 @@ export default class User extends Component {
     }
 
     render() {
-        //console.log('user',this.props)
         return (
             <ul className="nav secondary-nav session-dropdown" id="session">
 

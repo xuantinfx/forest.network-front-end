@@ -59,14 +59,15 @@ export const increaseSequence = () => {
 const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
         let secretKey = sessionStorage.getItem("SECRET_KEY");
-        requestApi(postTranSaction(followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1)))
+        let tx = followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1);
+        requestApi(postTranSaction(tx))
         .then(res => {
             if (res.message.error) {
                 // False
                 reject(res.message.error)
             } else {
                 // Success
-                resolve();
+                resolve(tx.length);
             }
         })
         .catch(err => {
@@ -81,8 +82,8 @@ export const follow = (listFollowings, address) => {
         let sequence = getState().user.sequence;
         let newListFollowings = _.uniq([...listFollowings, address]);
         updateFollowings(newListFollowings, sequence)
-        .then(() => {
-            dispatch(followDone(address));
+        .then((txSize) => {
+            dispatch(followDone(address, txSize));
         })
         .catch((error) => {
             dispatch(followFalse(error));
@@ -96,8 +97,8 @@ export const unFollow = (listFollowings, address) => {
         let newListFollowings = _.cloneDeep(listFollowings);
         _.remove(newListFollowings, (following) => following === address);
         updateFollowings(newListFollowings, sequence)
-        .then(() => {
-            dispatch(unFollowDone(address));
+        .then((txSize) => {
+            dispatch(unFollowDone(address, txSize));
         })
         .catch((error) => {
             dispatch(followFalse(error));
@@ -111,17 +112,19 @@ export const beginFollow = () => {
     }
 }
 
-export const followDone = (address) => {
+export const followDone = (address, txSize) => {
     return {
         type: userActionsConst.FOLLOW_DONE,
-        address
+        address,
+        txSize
     }
 }
 
-export const unFollowDone = (address) => {
+export const unFollowDone = (address, txSize) => {
     return {
         type: userActionsConst.UNFOLLOW_DONE,
-        address
+        address,
+        txSize
     }
 }
 
@@ -138,10 +141,11 @@ export const beginUpdateProfilePicture = () => {
     }
 }
 
-export const updateProfilePictureDone = (pictureBuffer) => {
+export const updateProfilePictureDone = (pictureBuffer, txSize) => {
     return {
         type: userActionsConst.UPDATE_PROFILE_PICTURE_DONE,
-        pictureBuffer: pictureBuffer
+        pictureBuffer: pictureBuffer,
+        txSize
     }
 }
 
@@ -157,7 +161,7 @@ export const updateProfilePicture = (pictureBuffer) => {
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
-            dispatch(updateProfilePictureDone(pictureBuffer));
+            dispatch(updateProfilePictureDone(pictureBuffer, tx.lenght));
             dispatch(increaseSequence());
         }).catch(err => {
             console.error(err);
@@ -199,19 +203,21 @@ const submitUpdateProfile = () => {
     }
 }
 
-const submitUpdateProfileFalse = (error, sequence) => {
+const submitUpdateProfileFalse = (error, sequence, txSize) => {
     return {
         type: userActionsConst.SUBMIT_UPDATE_PROFILE_FALSE,
         error,
-        sequence
+        sequence,
+        txSize
     }
 }
 
-const submitUpdateProfileDone = (profile, sequence) => {
+const submitUpdateProfileDone = (profile, sequence, txSize) => {
     return {
         type: userActionsConst.SUBMIT_UPDATE_PROFILE_DONE,
         profile,
-        sequence
+        sequence,
+        txSize
     }
 }
 
@@ -237,14 +243,14 @@ export const updateProfile = (profile) => {
         dispatch(submitUpdateProfile());
 
         updateAccountMultiKeys(profileUpdate, sequence)
-        .then((sequence) => {
+        .then(({sequence, txSize}) => {
             // Done
-            dispatch(submitUpdateProfileDone(profileUpdate, sequence));
+            dispatch(submitUpdateProfileDone(profileUpdate, sequence, txSize));
         })
-        .catch(({err, sequence}) => {
+        .catch(({err, sequence, txSize}) => {
             console.error(err);
             // Error
-            dispatch(submitUpdateProfileFalse(err, sequence));
+            dispatch(submitUpdateProfileFalse(err, sequence, txSize));
         })
 
     }
@@ -262,10 +268,11 @@ const beginPostTweet = () => {
     }
 }
 
-const postTweetDone = (tweet) => {
+const postTweetDone = (tweet, txSize) => {
     return {
         type: userActionsConst.POST_TWEET_DONE,
-        tweet
+        tweet,
+        txSize
     }
 }
 
@@ -284,17 +291,14 @@ export const postTweet = (tweetContent) => {
         let state = getState();
 
         let sequence = state.user.sequence;
-        requestApi(
-            postTranSaction(
-                post(
-                    sessionStorage.getItem('SECRET_KEY'),
-                    sequence + 1,
-                    Buffer.alloc(0),
-                    tweetContent,
-                    [],
-                    1)
-                )
-            )
+        let tx = post(
+            sessionStorage.getItem('SECRET_KEY'),
+            sequence + 1,
+            Buffer.alloc(0),
+            tweetContent,
+            [],
+            1);
+        requestApi(postTranSaction(tx))
             .then(() => {
                 // Success
                 let tweet = {
@@ -308,7 +312,7 @@ export const postTweet = (tweetContent) => {
                     time: (new Date()).getTime(),
                     _id: "123" + Math.random()
                 }
-                dispatch(postTweetDone(tweet))
+                dispatch(postTweetDone(tweet, tx.length))
             })
             .catch(err => {
                 console.error(err);
