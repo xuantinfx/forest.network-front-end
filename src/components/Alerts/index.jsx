@@ -6,7 +6,7 @@ import _ from 'lodash';
 class Alerts extends Component {
     render() {
         return (
-            <div style={{position: "absolute", zIndex: 100, right: "10px", top: "70px"}}>
+            <div style={{position: "absolute", zIndex: 1100, right: "10px", top: "70px"}}>
                 {this.props.alerts && _.map(this.props.alerts, (alert, key) => {
                     return <AlertMessage type={alert.type} content={alert.content} index={key} key={key} removeAlert={this.props.removeAlert}/>
                 })}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './containers/Navbar';
 import ProfileView from './views/ProfileView';
 import FeedView from './views/FeedView';
 

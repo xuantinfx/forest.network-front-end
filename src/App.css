@@ -39,3 +39,18 @@
 #page-container>.AppContainer {
   min-height: 100vh;
 }
+
+/* Payment history in PaymentModal */
+
+#payment-history-container {
+  overflow-wrap: break-word
+}
+
+#payment-history-container .content {
+  overflow-y: auto;
+  height: 40vh;
+}
+
+#payment-history-container .content-row {
+  font-size: 0.75em;
+}
