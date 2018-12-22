@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FeedTweets from '../../containers/FeedTweets'
 import { Keypair } from 'stellar-base';
-import { Row, Col } from 'reactstrap';
 
 class Feed extends Component {
     render() {
