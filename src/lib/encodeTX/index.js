@@ -98,3 +98,45 @@ export const updatePicture = (secretKey, sequence, memo, picture, version) => {
     }
     return getTXSubmitRequest(encode(sign(transaction, secretKey)));
 }
+
+// reaction là số tương ứng
+// reaction = 0: Không phản ứng (hủy bỏ phản ứng trước đó)
+// reaction = 1: Like
+// reaction = 2: Love
+// reaction = 3: Haha
+// reaction = 4: Wow
+// reaction = 5: Sad
+// reaction = 6: Angry
+export const reactionTweet = (secretKey, sequence, memo, hash, reaction, version) => {
+    let transaction = {
+        version,
+        sequence,
+        memo,
+        operation: "interact",
+        params: {
+            object: hash,
+            content: {
+                type: 2,
+                reaction
+            }
+        }
+    }
+    return getTXSubmitRequest(encode(sign(transaction, secretKey)));
+}
+
+export const commentTweet = (secretKey, sequence, memo, hash, text, version) => {
+    let transaction = {
+        version,
+        sequence,
+        memo,
+        operation: "interact",
+        params: {
+            object: hash,
+            content: {
+                type: 1,
+                text
+            }
+        }
+    }
+    return getTXSubmitRequest(encode(sign(transaction, secretKey)));
+}

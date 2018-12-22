@@ -11,7 +11,6 @@ const loadTweets = (dispatch, address) => {
   dispatch(beginLoadTweet());
   requestApi(getFeed(address))
   .then(res => {
-    console.log('feed', address, res.data)
     dispatch(loadTweetDone(res.data.data, res.data.total))
   })
   .catch(err => {
