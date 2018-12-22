@@ -8,13 +8,9 @@ class Feed extends Component {
         //console.log('feed',Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey())
         if(this.props.alreadyLogin)
             return (
-                <Row>
-                    <Col sm='2'></Col>
-                    <Col sm='8'>
+                <div style={{margin: '0 10rem'}}>
                     <FeedTweets address={Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()}></FeedTweets>
-                    </Col>
-                    <Col sm='2'></Col>
-                </Row>
+                </div>
             );
         else 
             return <div></div>
