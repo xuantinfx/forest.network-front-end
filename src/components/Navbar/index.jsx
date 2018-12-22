@@ -36,8 +36,9 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                 </div>
-                <PaymentModal isOpen={this.state.paymentModalIsOpen} toggle={this._togglePaymentModal} />
-                <Alerts/>
+                <PaymentModal isOpen={this.state.paymentModalIsOpen} toggle={this._togglePaymentModal}
+                    userData={this.props.paymentData.userData} paymentHistory={this.props.paymentData.paymentHistory} />
+                <Alerts />
             </div>
         )
     }
