@@ -9,17 +9,17 @@ const initialState = {
   address: '',
   sequence: 0,
   balance: 0,
-  bandwith: 0,
-  bandwithTime: 0,
+  bandwidth: 0,
+  bandwidthTime: 0,
   followings: [],
   follower: [],
   picture: {},
   paymentHistory: [],
+  error: ""
 }
 
 export default (state = initialState, action) => {
   let { type, isLogin, alreadyLogin, profile } = action;
-  //console.log('isLogin', isLogin)
   switch (type) {
     case userActionsConst.CHANGE_SIGNUP:
       return {
@@ -33,7 +33,8 @@ export default (state = initialState, action) => {
       }
     case userActionsConst.LOGIN_DONE:
       return {
-        ...state,
+        isLogin: true,
+        alreadyLogin: true,
         ...profile,
         joinDate: new Date(profile.joinDate).getTime()
       }
@@ -77,6 +78,51 @@ export default (state = initialState, action) => {
         ...state,
         ...action.userProfile
       }
+    case userActionsConst.SUBMIT_UPDATE_PROFILE:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case userActionsConst.SUBMIT_UPDATE_PROFILE_DONE:
+      if(action.profile.name) {
+        window.location.reload();
+      }
+      return {
+        ...state,
+        ...action.profile, 
+        isEditting: false,
+        isLoading: false,
+        sequence: action.sequence
+      }
+    case userActionsConst.SUBMIT_UPDATE_PROFILE_FALSE:
+      return {
+        ...state,
+        error: action.error,
+        isEditting: false,
+        isLoading: false,
+        sequence: action.sequence
+      }
+    case userActionsConst.EDIT_PROFILE:
+      return {
+        ...state,
+        isEditting: true
+      }
+    case userActionsConst.BEGIN_POST_TWEET: 
+      return {
+        ...state,
+        isLoading: true
+      }
+    case userActionsConst.POST_TWEET_DONE:
+      return {
+        ...state,
+        isLoading: false,
+        sequence: state.sequence + 1
+      }
+    case userActionsConst.POST_TWEET_FALSE: 
+      return {
+      ...state,
+      error: action.error
+    }
     default:
       return state
   }

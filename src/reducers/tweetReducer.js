@@ -1,6 +1,7 @@
 import { tweetAction } from "../actions/tweetActions";
 import _ from 'lodash';
 import { profileActions } from "../actions/profileActions";
+import { userActionsConst } from '../actions/userActions'
 
 // const initialState = {
 //   total: 230332,
@@ -80,6 +81,13 @@ export default (state = initialState, action) => {
         ...state,
         total: action.profile.tweetsTotal
       }
+    case userActionsConst.POST_TWEET_DONE: {
+      return {
+        ...state,
+        total: state.total + 1,
+        tweets: [...state.tweets, action.tweet]
+      }
+    }
     default:
       return state
   }

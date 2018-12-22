@@ -1,17 +1,18 @@
 import Profile from "../components/Profile/";
 import { connect } from 'react-redux'
-import { editProfile} from '../actions/updateProfile'
+import { editProfile} from '../actions/userActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        ...state.profile
+        ...state.profile,
+        isEditting: state.user.isEditting
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        editProfile: (profile) => {
-            dispatch(editProfile(profile))
+        editProfile: () => {
+            dispatch(editProfile())
         }
     }
 }

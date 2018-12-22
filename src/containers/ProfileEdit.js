@@ -1,10 +1,10 @@
-import ProfileEdit from "../components/ProfileEdit/";
+import ProfileEdit from "../components/ProfileEdit";
 import { connect } from 'react-redux'
-import { updateProfile} from '../actions/updateProfile'
+import { updateProfile} from '../actions/userActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        ...state.profile
+        ...state.user
     }
 }
 

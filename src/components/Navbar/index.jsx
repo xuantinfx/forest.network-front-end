@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import NavLeft from './NavLeft'
 import NavRight from './NavRight'
 import PaymentModal from '../PaymentModal';
+import Alerts from '../../containers/Alerts';
 
 export default class Navbar extends Component {
     static propTypes = {
@@ -36,6 +37,7 @@ export default class Navbar extends Component {
                     </div>
                 </div>
                 <PaymentModal isOpen={this.state.paymentModalIsOpen} toggle={this._togglePaymentModal} />
+                <Alerts/>
             </div>
         )
     }

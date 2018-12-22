@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
   try {
     //check if user is logged in and is on his page
     let addressFromUrl = ownProps.match.params.address;
-    let myAddress = Keypair.fromSecret(window.localStorage.getItem('SECRET_KEY')).publicKey();
+    let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
     canChangeProfilePicture = state.user.isLogin && (myAddress === addressFromUrl);
   }
   catch (err) { console.error(err); }
