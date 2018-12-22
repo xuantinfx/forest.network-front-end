@@ -5,7 +5,8 @@ import { editProfile} from '../actions/userActions'
 const mapStateToProps = (state, ownProps) => {
     return {
         ...state.profile,
-        isEditting: state.user.isEditting
+        isEditting: state.user.isEditting,
+        alreadyLogin: state.user.alreadyLogin
     }
 }
 

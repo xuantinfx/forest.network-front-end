@@ -14,8 +14,11 @@ class Profile extends Component {
         try {
             //check if user is logged in and is on his page
             let address = this.props.address;
-            let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
-            canEditProfile = (myAddress === address);
+            let secretKey = sessionStorage.getItem('SECRET_KEY');
+            if(secretKey) {
+                let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+                canEditProfile = (myAddress === address);
+            }
         }
         catch (err) { console.error(err); }
 
@@ -28,9 +31,16 @@ class Profile extends Component {
                                 (!this.props.isEditting)?
                                 (
                                     <div className='ProfileHeaderCard'>
-                                        <ProfileHeaderCard name={this.props.name}
-                                            bio={this.props.bio} location={this.props.location}
-                                            joinDate={this.props.joinDate}></ProfileHeaderCard>
+                                        <ProfileHeaderCard 
+                                            name={this.props.name}
+                                            bio={this.props.bio} 
+                                            location={this.props.location}
+                                            joinDate={this.props.joinDate}
+                                            balance={this.props.balance}
+                                            bandwidth={this.props.bandwidth}
+                                            bandwidthTime={this.props.bandwidthTime}
+                                            >
+                                        </ProfileHeaderCard>
                                         {canEditProfile && <button id="js-userColorButton" onClick={this.OnClickEdit}
                                         className="EdgeButton EdgeButton--secondary ProfileHeaderCardEditing-userColorButton js-current-color js-dropdown-toggle"
                                         data-color="#1DA1F2" tabIndex="2">

@@ -25,7 +25,8 @@ export const userActionsConst = {
     EDIT_PROFILE: 'EDIT_PROFILE',
     BEGIN_POST_TWEET: "BEGIN_POST_TWEET",
     POST_TWEET_DONE: "POST_TWEET_DONE",
-    POST_TWEET_FALSE: "POST_TWEET_FALSE"
+    POST_TWEET_FALSE: "POST_TWEET_FALSE",
+    LOG_OUT: "LOG_OUT"
 }
 
 export const changeSingup = (isLogin) => {
@@ -314,5 +315,11 @@ export const postTweet = (tweetContent) => {
                 // False
                 dispatch(postTweetFalse(err.response.data.message.error));
             })
+    }
+}
+
+export const logout = () => {
+    return {
+        type: userActionsConst.LOG_OUT
     }
 }

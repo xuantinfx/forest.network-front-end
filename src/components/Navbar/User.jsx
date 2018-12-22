@@ -64,7 +64,7 @@ export default class User extends Component {
         sessionStorage.removeItem('SECRET_KEY');
         this.props.login(false);
         this.onClickOpenSignIn(true);
-        this.props.history.push('/')
+        // this.props.history.push('/')
     }
 
     render() {
