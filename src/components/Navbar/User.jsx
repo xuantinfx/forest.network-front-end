@@ -23,17 +23,10 @@ export default class User extends Component {
         }
     }
 
-    onClickOpenSignIn = (close = false)=>{
-        if(!close){
+    onClickOpenSignIn = ()=>{
             this.setState({
                 isDropdownOpen: !this.state.isDropdownOpen
             })
-        }
-        else{
-            this.setState({
-                isDropdownOpen: false
-            })
-        }
     }
 
     reqLogin=(secretKey)=>{
@@ -64,7 +57,10 @@ export default class User extends Component {
     logout = ()=>{
         sessionStorage.removeItem('SECRET_KEY');
         this.props.login(false);
-        this.onClickOpenSignIn(true);
+        this.setState({
+            isDropdownOpen: false
+        })
+        this.props.logout();
     }
 
     render() {
