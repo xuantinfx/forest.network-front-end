@@ -88,6 +88,11 @@ export default (state = initialState, action) => {
         tweets: [...state.tweets, action.tweet]
       }
     }
+    case userActionsConst.REACT_DONE:
+      return{
+        ...state,
+        tweets: action.tweets
+      }
     default:
       return state
   }

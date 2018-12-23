@@ -2,7 +2,7 @@ import { postTranSaction } from "../apis/transaction";
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
 import { Keypair } from 'stellar-base';
-import { followings, post, updatePicture, payment } from '../lib/encodeTX';
+import { followings, post, updatePicture, payment, reactionTweet } from '../lib/encodeTX';
 import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
@@ -31,7 +31,10 @@ export const userActionsConst = {
     BEGIN_SEND_MONEY: 'BEGIN_SEND_MONEY',
     SEND_MONEY_DONE: 'SEND_MONEY_DONE',
     SEND_MONEY_FAIL: 'SEND_MONEY_FAIL',
-    LOG_OUT: "LOG_OUT"
+    LOG_OUT: "LOG_OUT",
+    BEGIN_REACT: 'BEGIN_REACT',
+    REACT_DONE: 'REACT_DONE',
+    REACT_FALSE: 'REACT_FALSE'
 }
 
 export const changeSingup = (isLogin) => {
@@ -322,7 +325,7 @@ export const postTweet = (tweetContent) => {
             .catch(err => {
                 console.error(err);
                 // False
-                dispatch(postTweetFalse(err.response.data.message.error));
+                dispatch(postTweetFalse(err));
             })
     }
 }
@@ -379,5 +382,94 @@ export const sendMoneyFail = (error) => {
     return {
         type: userActionsConst.SEND_MONEY_FAIL,
         error
+    }
+}
+
+const beginReact = ()=>{
+    return {
+        type: userActionsConst.BEGIN_REACT
+    }
+}
+
+const reactDone = (tweets,txSize)=>{
+    return {
+        type: userActionsConst.REACT_DONE,
+        tweets,
+        txSize
+    }
+}
+
+const reactFalse = (error)=>{
+    return {
+        type: userActionsConst.REACT_FALSE,
+        error
+    }
+}
+
+export const reactTweet = (hash, reaction)=>{
+    return (dispatch, getState)=>{
+         // begin
+        dispatch(beginReact());
+
+        let state = getState();
+
+        let sequence = state.user.sequence;
+        let tx = reactionTweet(
+            sessionStorage.getItem('SECRET_KEY'),
+            sequence + 1,
+            Buffer.alloc(0),
+            hash,
+            reaction,
+            1);
+        requestApi(postTranSaction(tx))
+            .then(() => {
+                // Success
+
+                //Check xem đã có reaction lần nào chưa
+                let tweets = state.tweets.tweets
+                let indexTweet = _.findIndex(tweets,tweet=>{
+                    if(tweet.hash === hash)
+                        return true
+                })
+                let likes = tweets[indexTweet].likes
+                let indexLike = _.findIndex(likes,like=>{
+                    if(like.from.address === Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()){
+                        return true;
+                    }
+                })
+                if(indexLike > -1){
+                    if(reaction!== 0){
+                        let like = likes[indexLike];
+                        like.reaction = reaction
+                    }
+                    else{
+                        likes.slice(indexLike)
+                    }
+                }
+                else{
+                    if(reaction!== 0){
+                        let like = {
+                            from: {
+                                name: state.user.name,
+                                address: state.user.address,
+                                picture: state.user.picture||undefined
+                            },
+                            time: (new Date()).getTime(),
+                            _id: "123" + Math.random(),
+                            reaction: reaction
+                        }
+                        likes.push(like)
+                    }
+                }
+                tweets[indexTweet].likes = likes
+                tweets[indexTweet].reaction = reaction
+                //console.log('likes',likes,tweets[indexTweet])
+                dispatch(reactDone(tweets,tx.length))
+            })
+            .catch(err => {
+                console.error(err);
+                // False
+                dispatch(reactFalse(err.response.data.message.error));
+            })
     }
 }

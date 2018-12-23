@@ -5,7 +5,9 @@ import PostTweet from '../../containers/PostTweet';
 import { Keypair } from 'stellar-base';
 export default class ProfileTimeline extends Component {
   componentDidMount() {
-    this.props.loadTweets(this.props.address);
+    this.props.loadTweets(this.props.address,
+      sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
+      :undefined);
   }
 
   onClickName(address) {
@@ -49,7 +51,8 @@ export default class ProfileTimeline extends Component {
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
                 {canEditProfile && <PostTweet/>}
                 {this.props.tweets.map((item, index) => {
-                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item} />
+                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item}
+                    reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}/>
                 })}
               </ol>
             </div>
