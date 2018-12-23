@@ -4,9 +4,54 @@ import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import defaultName from '../../constants/defaultName'
 
 export default class TimelineTweet extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      isReactionHovering:false,
+      //Đang hover lên react nào, like hay love hay...
+      reactHoverIndex: -1,
+    }
+  }
+
+  images = [
+    {id: 'like', img: 'http://i.imgur.com/LwCYmcM.gif'},
+    {id: 'love', img: 'http://i.imgur.com/k5jMsaH.gif'},
+    {id: 'haha', img: 'http://i.imgur.com/f93vCxM.gif'},
+    {id: 'wow', img: 'http://i.imgur.com/9xTkN93.gif'},
+    {id: 'sad', img: 'http://i.imgur.com/tFOrN5d.gif'},
+    {id: 'angry', img: 'http://i.imgur.com/1MgcQg0.gif'}
+  ]
+
   onClickName(e) {
     e.preventDefault();
     this.props.onClickName(this.props.address);
+  }
+
+  renderReactImg = ()=>{
+    let reactImg = this.images.map((image,index)=>{
+      let imageRet = <img src={image.img} alt={image.id} key={index}
+        style={{maxWidth: (index === this.state.reactHoverIndex)?'1.8rem':'1.3rem', margin:'0 3px'}}
+        onMouseEnter={()=>{this.setState({reactHoverIndex: index})}}
+        onMouseLeave={()=>{this.setState({reactHoverIndex: -1})}}></img>
+      return imageRet
+    })
+
+    return <div className='EdgeButton js-current-color js-dropdown-toggle'
+          style={{display:'inline'}}>
+            {reactImg} 
+          </div>
+  }
+
+  onReactionHover = ()=>{
+    this.setState({
+      isReactionHovering: true
+    })
+  }
+
+  onReactionMouseLeave = ()=>{
+    this.setState({
+      isReactionHovering: false
+    })
   }
 
   render() {
@@ -72,7 +117,10 @@ export default class TimelineTweet extends Component {
                     </span>
                   </button>
                 </div>
-                <div className="ProfileTweet-action ProfileTweet-action--favorite js-toggleState">
+                <div className="ProfileTweet-action ProfileTweet-action--favorite js-toggleState"
+                  onMouseOver={this.onReactionHover}
+                  onMouseLeave={this.onReactionMouseLeave}>
+                  <div >
                   <button className="ProfileTweet-actionButton js-actionButton js-actionFavorite" aria-describedby="profile-tweet-action-favorite-count-aria-1064310108413460480" type="button">
                     <div title="Thích" className="IconContainer js-tooltip">
                       <span className="Icon Icon--heart Icon--medium" role="presentation" />
@@ -83,6 +131,11 @@ export default class TimelineTweet extends Component {
                       <span className="ProfileTweet-actionCountForPresentation" aria-hidden="true">{this.props.totalLikes}</span>
                     </span>
                   </button>
+                    {
+                      //<img src={this.images.like} style={{maxWidth: '2rem'}} alt="/"></img>
+                      (this.state.isReactionHovering)?this.renderReactImg():(<div></div>)
+                    }
+                  </div>
                 </div>
               </div>
             </div>
