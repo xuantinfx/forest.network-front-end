@@ -13,26 +13,6 @@ export default class TimelineTweet extends Component {
     }
   }
 
-  //Danh sach cac reaction khi hover
-  images = [
-    {id: 'like', img: 'http://i.imgur.com/LwCYmcM.gif'},
-    {id: 'love', img: 'http://i.imgur.com/k5jMsaH.gif'},
-    {id: 'haha', img: 'http://i.imgur.com/f93vCxM.gif'},
-    {id: 'wow', img: 'http://i.imgur.com/9xTkN93.gif'},
-    {id: 'sad', img: 'http://i.imgur.com/tFOrN5d.gif'},
-    {id: 'angry', img: 'http://i.imgur.com/1MgcQg0.gif'}
-  ]
-
-  //danh sach reaction da thuc hien
-  reactionShown = [
-    {id: 'like', img: 'https://i.imgur.com/wVAJS8T.png'},
-    {id: 'love', img: 'https://i.imgur.com/y7qZQS3.png'},
-    {id: 'haha', img: 'https://i.imgur.com/eq69HEz.png'},
-    {id: 'wow', img: 'https://i.imgur.com/XQSbgpw.png'},
-    {id: 'sad', img: 'https://i.imgur.com/JlQiyAu.png'},
-    {id: 'angry', img: 'https://i.imgur.com/P4Xm6Ds.png'}
-  ]
-
   onClickName(e) {
     e.preventDefault();
     this.props.onClickName(this.props.address);
@@ -43,7 +23,7 @@ export default class TimelineTweet extends Component {
   }
 
   renderReactImg = ()=>{
-    let reactImg = this.images.map((image,index)=>{
+    let reactImg = this.props.images.map((image,index)=>{
       let imageRet = <img src={image.img} alt={image.id} key={index}
         style={{maxWidth: (index === this.state.reactHoverIndex)?'1.8rem':'1.3rem', margin:'0 3px'}}
         onMouseEnter={()=>{this.setState({reactHoverIndex: index})}}
@@ -155,7 +135,7 @@ export default class TimelineTweet extends Component {
                         (this.props.reaction === 0 || !this.props.alreadyLogin)?
                         <span className="Icon Icon--heart Icon--medium" role="presentation" />
                           :
-                          <img src={this.reactionShown[this.props.reaction-1].img} alt={this.reactionShown[this.props.reaction-1].id}
+                          <img src={this.props.reactionShown[this.props.reaction-1].img} alt={this.props.reactionShown[this.props.reaction-1].id}
                           style={{maxWidth: '1.3rem', margin:'0 3px'}}></img>
                       )
                     }

@@ -1,6 +1,7 @@
 import { userActionsConst } from '../actions/userActions';
 import _ from 'lodash';
 import { getUsedBandwidthByAccount } from '../utilities/bandwidth';
+import typeSocket from '../constants/typeSocket';
 
 const initialState = {
   isLogin: true,
@@ -155,12 +156,18 @@ export default (state = initialState, action) => {
         error: action.error
       }
     case userActionsConst.SEND_MONEY_DONE: {
+      //note: action.amount là số âm
       let newArray = state.paymentHistory || [];
       newArray.push(action.newPayment);
       return {
         ...state,
-        balance: state.balance - action.newPayment.amount,
-        paymentHistory: newArray
+        balance: state.balance + action.newPayment.amount,
+        paymentHistory: newArray,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     }
     case userActionsConst.LOG_OUT:
@@ -185,6 +192,11 @@ export default (state = initialState, action) => {
       return{
         ...state,
         error: action.error
+      }
+    case typeSocket.RECEIVE_MONEY: 
+      return {
+        ...state,
+        balance: state.balance + action.amount
       }
     default:
       return state

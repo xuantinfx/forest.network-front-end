@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
+import _ from 'lodash';
 
 export default class index extends Component {
   static propTypes = {
@@ -144,7 +145,7 @@ export default class index extends Component {
                           </Row>
                         </Col>
                         <Col xs="12 mt-2" className="content">
-                          {paymentHistory.map((item, index) => {
+                          {_.reverse(_.clone(paymentHistory)).map((item, index) => {
                             return (
                               <Row key={index} className="content-row mt-2">
                                 <Col xs="2">{moment(item.time).format('llll')}</Col>

@@ -101,6 +101,15 @@ class ProfileHeaderCard extends Component {
                 bandwidthTime={this.props.bandwidthTime}
             />
             <TotalBandwidth balance={this.props.balance}/>
+            
+            <div className="ProfileHeaderCard-location">
+                <span className="text-muted">
+                    <i className="fas fa-globe-americas" aria-hidden="true" style={{width: 0}}/>
+                </span>
+                <span className="ProfileHeaderCard-locationText u-dir" style={{wordWrap: "break-word", fontWeight: "bold"}}>
+                    {this.props.address}
+                </span>
+            </div>
         </div>
     )
   }
@@ -115,5 +124,6 @@ ProfileHeaderCard.propTypes = {
     joinDate: PropTypes.number,
     balance: PropTypes.number,
     bandwidth: PropTypes.number,
-    bandwidthTime: PropTypes.number
+    bandwidthTime: PropTypes.number,
+    address: PropTypes.string
 }

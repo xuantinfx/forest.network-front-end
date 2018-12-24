@@ -39,6 +39,7 @@ class Profile extends Component {
                                             balance={this.props.balance}
                                             bandwidth={this.props.bandwidth}
                                             bandwidthTime={this.props.bandwidthTime}
+                                            address={this.props.address}
                                             >
                                         </ProfileHeaderCard>
                                         {canEditProfile && <button id="js-userColorButton" onClick={this.OnClickEdit}
