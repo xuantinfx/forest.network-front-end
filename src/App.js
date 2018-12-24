@@ -6,6 +6,7 @@ import Navbar from './containers/Navbar';
 import ProfileView from './views/ProfileView';
 import FeedView from './views/FeedView';
 import Alerts from './containers/Alerts';
+import Socket from './containers/Socket';
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
       <Router>
         <div>
           <Navbar />
+          <Socket/>
           <Switch>
             <Route exact path="/profile/:address/:sublink?" component={ProfileView} />
             <Route exact path="/" component={FeedView} />
