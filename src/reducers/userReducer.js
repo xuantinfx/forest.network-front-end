@@ -1,6 +1,7 @@
 import { userActionsConst } from '../actions/userActions';
 import _ from 'lodash';
 import { getUsedBandwidthByAccount } from '../utilities/bandwidth';
+import typeSocket from '../constants/typeSocket';
 
 const initialState = {
   isLogin: true,
@@ -171,6 +172,11 @@ export default (state = initialState, action) => {
     }
     case userActionsConst.LOG_OUT:
       return initialState;
+    case typeSocket.RECEIVE_MONEY: 
+      return {
+        ...state,
+        balance: state.balance + action.amount
+      }
     default:
       return state
   }

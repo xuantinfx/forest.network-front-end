@@ -1,7 +1,8 @@
 import { tweetAction } from "../actions/tweetActions";
 import _ from 'lodash';
 import { profileActions } from "../actions/profileActions";
-import { userActionsConst } from '../actions/userActions'
+import { userActionsConst } from '../actions/userActions';
+import typeSocket from '../constants/typeSocket';
 
 // const initialState = {
 //   total: 230332,
@@ -87,6 +88,39 @@ export default (state = initialState, action) => {
         total: state.total + 1,
         tweets: [...state.tweets, action.tweet]
       }
+    }
+    case typeSocket.FOLLOWING_POST: {
+      debugger;
+      let isAdd = false;
+      if(state.tweets[0]) {
+        if(state.tweets[0].address === action.address) {
+          isAdd = true;
+        } else {
+          isAdd = false;
+        }
+      } else {
+        isAdd = true;
+      }
+      if(isAdd) {
+        let tweet = {
+          time: (new Date().getTime()),
+          totalReplies: 0,
+          loadedReplies: [],
+          totalRetweets: 0,
+          totalLikes: 0,
+          hasLike: false,
+          content: action.content,
+          picture: {},
+          name: action.name,
+          _id: '' + Math.random()
+        }
+        return {
+          ...state,
+          total: state.total + 1,
+          tweets: [...state.tweets, tweet]
+        }
+      }
+      return state;
     }
     default:
       return state
