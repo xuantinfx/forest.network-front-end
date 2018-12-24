@@ -172,6 +172,27 @@ export default (state = initialState, action) => {
     }
     case userActionsConst.LOG_OUT:
       return initialState;
+    case userActionsConst.BEGIN_REACT:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case userActionsConst.REACT_DONE:
+      return {
+        ...state,
+        isLoading: false,
+        sequence: state.sequence + 1,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
+      }
+    case userActionsConst.REACT_FALSE:
+      return{
+        ...state,
+        error: action.error
+      }
     case typeSocket.RECEIVE_MONEY: 
       return {
         ...state,
