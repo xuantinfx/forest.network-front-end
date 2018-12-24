@@ -19,6 +19,7 @@ export const userActionsConst = {
     FOLLOW_FALSE: "FOLLOW_FALSE",
     BEGIN_UPDATE_PROFILE_PICTURE: 'BEGIN_UPDATE_PROFILE_PICTURE',
     UPDATE_PROFILE_PICTURE_DONE: 'UPDATE_PROFILE_PICTURE_DONE',
+    UPDATE_PROFILE_PICTURE_FAIL: 'UPDATE_PROFILE_PICTURE_FAIL',
     BEGIN_GET_USER_PROFILE: 'BEGIN_GET_USER_PROFILE',
     GET_USER_PROFILE_DONE: 'GET_USER_PROFILE_DONE',
     SUBMIT_UPDATE_PROFILE: "SUBMIT_UPDATE_PROFILE",
@@ -72,7 +73,7 @@ const updateFollowings = (listFollowings, sequence) => {
                     reject(res.message.error)
                 } else {
                     // Success
-                    resolve(tx.length);
+                    resolve(Buffer.from(tx, 'base64').length);
                 }
             })
             .catch(err => {
@@ -154,6 +155,13 @@ export const updateProfilePictureDone = (pictureBuffer, txSize) => {
     }
 }
 
+export const updateProfilePictureFail = (error) => {
+    return {
+        type: userActionsConst.UPDATE_PROFILE_PICTURE_FAIL,
+        error
+    }
+}
+
 export const updateProfilePicture = (pictureBuffer) => {
     return (dispatch, getState) => {
         let state = getState();
@@ -166,10 +174,11 @@ export const updateProfilePicture = (pictureBuffer) => {
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
-            dispatch(updateProfilePictureDone(pictureBuffer, tx.lenght));
+            dispatch(updateProfilePictureDone(pictureBuffer, Buffer.from(tx, 'base64').length));
             dispatch(increaseSequence());
+            dispatch(showMessage('Cập nhật hình thành công'))
         }).catch(err => {
-            console.error(err);
+            dispatch(updateProfilePictureFail('Cập nhật hình thất bại'));
         })
     }
 }
@@ -317,7 +326,7 @@ export const postTweet = (tweetContent) => {
                     time: (new Date()).getTime(),
                     _id: "123" + Math.random()
                 }
-                dispatch(postTweetDone(tweet, tx.length))
+                dispatch(postTweetDone(tweet, Buffer.from(tx, 'base64').length))
             })
             .catch(err => {
                 console.error(err);
@@ -358,20 +367,20 @@ export const sendMoney = (receivingAddress, amount) => {
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
-            dispatch(sendMoneyDone({ fromOrTo: receivingAddress, amount: -amount, time: moment().format() }));
+            dispatch(sendMoneyDone({ fromOrTo: receivingAddress, amount: -amount, time: moment().format() }, Buffer.from(tx, 'base64').length));
             dispatch(increaseSequence());
-            dispatch(showMessage('Chuyển tiền thành công'))
+            dispatch(showMessage('Giao dịch thành công'))
         }).catch(err => {
-            console.log(err, err.response)
-            dispatch(sendMoneyFail(err.response.data.message.error));
+            dispatch(sendMoneyFail('Giao dịch thất bại'));
         })
     }
 }
 
-export const sendMoneyDone = (newPayment) => {
+export const sendMoneyDone = (newPayment, txSize) => {
     return {
         type: userActionsConst.SEND_MONEY_DONE,
-        newPayment
+        newPayment,
+        txSize
     }
 }
 

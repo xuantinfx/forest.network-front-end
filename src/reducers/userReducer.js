@@ -160,7 +160,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         balance: state.balance - action.newPayment.amount,
-        paymentHistory: newArray
+        paymentHistory: newArray,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     }
     case userActionsConst.LOG_OUT:
