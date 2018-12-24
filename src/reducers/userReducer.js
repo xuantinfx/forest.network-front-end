@@ -162,6 +162,7 @@ export default (state = initialState, action) => {
         ...state,
         balance: state.balance + action.newPayment.amount,
         paymentHistory: newArray,
+        bandwidthTime: (new Date()).getTime() / 1000,
         bandwidth: getUsedBandwidthByAccount({
           bandwidthTime: state.bandwidthTime,
           bandwidth: state.bandwidth,
