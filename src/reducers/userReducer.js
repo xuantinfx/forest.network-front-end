@@ -156,12 +156,18 @@ export default (state = initialState, action) => {
         error: action.error
       }
     case userActionsConst.SEND_MONEY_DONE: {
+      //note: action.amount là số âm
       let newArray = state.paymentHistory || [];
       newArray.push(action.newPayment);
       return {
         ...state,
-        balance: state.balance - action.newPayment.amount,
-        paymentHistory: newArray
+        balance: state.balance + action.newPayment.amount,
+        paymentHistory: newArray,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     }
     case userActionsConst.LOG_OUT:

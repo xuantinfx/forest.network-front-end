@@ -12,13 +12,13 @@ const updateAccoutJob = (key, value, sequence) => {
             value,
             1);
         requestApi(postTranSaction(tx))
-        .then(() => {
-            resolve(tx.length);
-        })
-        .catch(err => {
-            console.error(err);
-            reject(err.response.data.message.error);
-        })
+            .then(() => {
+                resolve(Buffer.from(tx, 'base64').length);
+            })
+            .catch(err => {
+                console.error(err);
+                reject(err.response.data.message.error);
+            })
     })
 }
 
@@ -28,13 +28,13 @@ export default (object, sequence) => {
         let txSize = 0;
         let delta = 0;
         try {
-            for( let key in object) {
+            for (let key in object) {
                 delta = await updateAccoutJob(key, object[key], ++seq);
                 txSize += delta;
             }
-            resolve({sequence: seq, txSize});
+            resolve({ sequence: seq, txSize });
         } catch (err) {
-            reject({err, sequence: --seq, txSize});
+            reject({ err, sequence: --seq, txSize });
         }
     })
 }

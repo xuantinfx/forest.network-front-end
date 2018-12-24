@@ -13,7 +13,8 @@ export default class index extends Component {
       PropTypes.object,
       PropTypes.array
     ]),
-    sendImage: PropTypes.func
+    sendImage: PropTypes.func,
+    showError: PropTypes.func
   }
 
   constructor(props) {
@@ -36,7 +37,7 @@ export default class index extends Component {
 
   _onDrop = (acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
-      alert(INVALID_IMAGE_ERROR_MESSAGE);
+      this.props.showError(INVALID_IMAGE_ERROR_MESSAGE);
       return;
     }
     this.setState({ files: acceptedFiles });
