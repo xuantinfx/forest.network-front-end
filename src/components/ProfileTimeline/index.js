@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import TimelineTweet from './TimelineTweet';
-import TweetDetail from '../TweetDetail';
+import TweetDetail from '../../containers/TweetDetail';
 import PostTweet from '../../containers/PostTweet';
 import { Keypair } from 'stellar-base';
+import InfiniteScroll from 'react-infinite-scroller';
 import * as encodeDecodeSecretKey from '../../utilities/encodeDecodeSecretKey';
+
 export default class ProfileTimeline extends Component {
 
   //Danh sach cac reaction khi hover
@@ -28,7 +30,7 @@ export default class ProfileTimeline extends Component {
 
   componentDidMount() {
     let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
-    this.props.loadTweets(this.props.address,
+    this.props.loadTweets(this.props.address, 1, this.props.size,
       secretKey ? Keypair.fromSecret(secretKey).publicKey()
       :undefined);
   }
@@ -37,8 +39,22 @@ export default class ProfileTimeline extends Component {
     this.props.history.push(`/profile/${address}`)
   }
 
+  loadMoreTweets = ()=>{
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
+    this.props.loadMoreTweets(this.props.address, this.props.page+1, this.props.size,
+      secretKey ? Keypair.fromSecret(secretKey).publicKey()
+      :undefined);
+  }
+
+  reloadTweets = ()=>{
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
+    this.props.loadTweets(this.props.address, 1, this.props.size,
+      secretKey ? Keypair.fromSecret(secretKey).publicKey()
+      :undefined);
+  }
+
   render() {
-    //console.log('reaction', this.props.currentTweet)
+    //console.log('reaction', this.props.tweets)
     if(this.props.isLoading) {
       return <div>Loading...</div>
     }
@@ -74,11 +90,20 @@ export default class ProfileTimeline extends Component {
             <div className="stream">
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
                 {canEditProfile && <PostTweet/>}
-                {this.props.tweets.map((item, index) => {
-                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item}
-                    reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
-                    images={this.images} reactionShown={this.reactionShown}/>
-                })}
+
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={this.loadMoreTweets}
+                    hasMore={(this.props.total>(this.props.page*this.props.size))?true: false}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                    threshold={300}
+                >
+                  {this.props.tweets.map((item, index) => {
+                    return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item}
+                      reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
+                      images={this.images} reactionShown={this.reactionShown}/>
+                  })}
+                </InfiniteScroll>
               </ol>
             </div>
           </div>
@@ -87,6 +112,12 @@ export default class ProfileTimeline extends Component {
                     reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
                     images={this.images} reactionShown={this.reactionShown}
                     reaction={this.props.currentTweet.reaction||0}/>}
+                    
+        <button className="EdgeButton EdgeButton--primary EdgeButton--medium"
+          style={{position:"fixed", bottom: 30,right:30}}
+          onClick={this.reloadTweets}>
+          <i className="fas fa-redo" style={{fontSize:'2rem', margin:'0.5rem'}}></i>
+        </button>
       </div>
     )
   }
