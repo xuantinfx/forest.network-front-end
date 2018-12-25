@@ -10,22 +10,22 @@ export default class ProfileTimeline extends Component {
 
   //Danh sach cac reaction khi hover
   images = [
-    {id: 'like', img: 'http://i.imgur.com/LwCYmcM.gif'},
-    {id: 'love', img: 'http://i.imgur.com/k5jMsaH.gif'},
-    {id: 'haha', img: 'http://i.imgur.com/f93vCxM.gif'},
-    {id: 'wow', img: 'http://i.imgur.com/9xTkN93.gif'},
-    {id: 'sad', img: 'http://i.imgur.com/tFOrN5d.gif'},
-    {id: 'angry', img: 'http://i.imgur.com/1MgcQg0.gif'}
+    {id: 'Thích', img: 'http://i.imgur.com/LwCYmcM.gif'},
+    {id: 'Yêu', img: 'http://i.imgur.com/k5jMsaH.gif'},
+    {id: 'Cười', img: 'http://i.imgur.com/f93vCxM.gif'},
+    {id: 'Wow', img: 'http://i.imgur.com/9xTkN93.gif'},
+    {id: 'Buồn', img: 'http://i.imgur.com/tFOrN5d.gif'},
+    {id: 'Tức giận', img: 'http://i.imgur.com/1MgcQg0.gif'}
   ]
 
   //danh sach reaction da thuc hien
   reactionShown = [
-    {id: 'like', img: 'https://i.imgur.com/wVAJS8T.png'},
-    {id: 'love', img: 'https://i.imgur.com/y7qZQS3.png'},
-    {id: 'haha', img: 'https://i.imgur.com/eq69HEz.png'},
-    {id: 'wow', img: 'https://i.imgur.com/XQSbgpw.png'},
-    {id: 'sad', img: 'https://i.imgur.com/JlQiyAu.png'},
-    {id: 'angry', img: 'https://i.imgur.com/P4Xm6Ds.png'}
+    {id: 'Thích', img: 'https://i.imgur.com/wVAJS8T.png'},
+    {id: 'Yêu', img: 'https://i.imgur.com/y7qZQS3.png'},
+    {id: 'Cười', img: 'https://i.imgur.com/eq69HEz.png'},
+    {id: 'Wow', img: 'https://i.imgur.com/XQSbgpw.png'},
+    {id: 'Buồn', img: 'https://i.imgur.com/JlQiyAu.png'},
+    {id: 'Tức giận', img: 'https://i.imgur.com/P4Xm6Ds.png'}
   ]
 
   componentDidMount() {
