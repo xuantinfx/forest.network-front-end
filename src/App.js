@@ -7,18 +7,20 @@ import ProfileView from './views/ProfileView';
 import FeedView from './views/FeedView';
 import Alerts from './containers/Alerts';
 import Socket from './containers/Socket';
+import Spinner from './containers/Spinner';
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
+          <Spinner />
           <Navbar />
-          <Socket/>
+          <Socket />
           <Switch>
             <Route exact path="/profile/:address/:sublink?" component={ProfileView} />
             <Route exact path="/" component={FeedView} />
-            <Redirect to="/"/>
+            <Redirect to="/" />
           </Switch>
           <Alerts />
         </div >
