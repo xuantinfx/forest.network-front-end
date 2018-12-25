@@ -35,9 +35,10 @@ export default class TweetDetail extends Component {
   }
 
   onReactionHover = ()=>{
-    this.setState({
-      isReactionHovering: true
-    })
+    if(this.props.alreadyLogin)
+      this.setState({
+        isReactionHovering: true
+      })
   }
 
   onReactionMouseLeave = ()=>{
@@ -47,12 +48,12 @@ export default class TweetDetail extends Component {
   }
 
   onClickUnReaction = ()=>{
-    if(this.props.reaction !== 0)
+    if(this.props.reaction !== 0 && this.props.alreadyLogin)
       this.props.reactTweet(this.props.tweet.hash, 0)
   }
 
   render() {
-    console.log('detail',this.props)
+    //console.log('detail',this.props)
     const tweet = this.props.tweet;
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.closeModal} className={this.props.className} size="lg">
@@ -126,7 +127,7 @@ export default class TweetDetail extends Component {
                         <span className="Icon Icon--heart Icon--medium" role="presentation" />
                       ):
                       (
-                        (this.props.reaction === 0 || !this.props.alreadyLogin)?
+                        (this.props.reaction === 0)?
                         <span className="Icon Icon--heart Icon--medium" role="presentation" />
                           :
                           <img src={this.props.reactionShown[this.props.reaction-1].img} alt={this.props.reactionShown[this.props.reaction-1].id}
@@ -163,13 +164,13 @@ export default class TweetDetail extends Component {
               return (
                 <Row key={index} className="mt-3">
                   <Col xs="1" className="pr-0">
-                    <ImgFromArrayBuffer arrayBufferData={reply.picture} alt="" className="avatar" />
+                    <ImgFromArrayBuffer arrayBufferData={reply.from.picture} alt="" className="avatar" />
                   </Col>
                   <Col xs="10">
                     <Row>
                       <Col className="d-flex account-group">
-                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.name || defaultName}</strong>
-                        <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{reply.username}</b></span>
+                        <strong className="fullname show-popup-with-id u-textTruncate ">{reply.from.name || defaultName}</strong>
+                        <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{reply.from.username}</b></span>
                         <span>&nbsp;</span>
                         <small className="time">
                           <span className="_timestamp js-short-timestamp js-relative-timestamp">{moment(reply.time).startOf('hour').fromNow()}</span>

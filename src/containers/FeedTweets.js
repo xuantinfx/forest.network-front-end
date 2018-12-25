@@ -3,16 +3,26 @@ import ProfileTimeline from '../components/ProfileTimeline';
 import { closeTweetDetailsModal, seeTweetDetails } from '../actions/tweetActions';
 import { requestApi } from '../apis/requestApi';
 import { getFeed } from '../apis/feed'
-import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions';
+import { beginLoadTweet, loadTweetDone, loadMoreTweetDone} from '../actions/tweetActions';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { reactTweet} from '../actions/userActions'
 
-const loadTweets = (dispatch, address) => {
+const loadTweets = (dispatch, address, page, size) => {
   dispatch(beginLoadTweet());
-  requestApi(getFeed(address))
+  requestApi(getFeed(address, page, size))
   .then(res => {
-    dispatch(loadTweetDone(res.data.data, res.data.total))
+    dispatch(loadTweetDone(res.data.data, res.data.total, page))
+  })
+  .catch(err => {
+    console.error(err)
+  })
+}
+
+const loadMoreTweets = (dispatch, address, page, size) => {
+  requestApi(getFeed(address, page, size))
+  .then(res => {
+    dispatch(loadMoreTweetDone(res.data.data, res.data.total))
   })
   .catch(err => {
     console.error(err)
@@ -31,7 +41,10 @@ const mapStateToProps = function (state) {
     isLoading: state.tweets.isLoading,
     picture: state.user.picture,
     name: state.user.name,
-    alreadyLogin: state.user.alreadyLogin
+    alreadyLogin: state.user.alreadyLogin,
+    page: state.tweets.page,
+    size: state.tweets.size,
+    total: state.tweets.total
   }
 }
 
@@ -43,12 +56,15 @@ const mapDispatchToProps = function (dispatch) {
     closeModal: () => {
       dispatch(closeTweetDetailsModal())
     },
-    loadTweets: (address) => {
-      loadTweets(dispatch, address);
+    loadTweets: (address, page, size) => {
+      loadTweets(dispatch, address, page, size);
     },
     reactTweet: (hash, reaction)=>{
       dispatch(reactTweet(hash,reaction))
-    }
+    },
+    loadMoreTweets: (address, page, size) => {
+      loadMoreTweets(dispatch, address, page, size);
+    },
   }
 }
 

@@ -82,7 +82,10 @@ const updateFollowings = (listFollowings, sequence) => {
             })
             .catch(err => {
                 console.error(err);
-                reject(err.response.data.message.error);
+                if(err.response.data.message.error)
+                    reject(err.response.data.message.error)
+                else
+                    reject('Cannot connect to sever')
             })
     })
 }
@@ -335,7 +338,10 @@ export const postTweet = (tweetContent) => {
             .catch(err => {
                 console.error(err);
                 // False
-                dispatch(postTweetFalse(err.response.data.message.error));
+                if(err.response.data.message.error)
+                    dispatch(postTweetFalse(err.response.data.message.error));
+                else
+                    dispatch(postTweetFalse('Cannot connect server'));
             })
     }
 }
@@ -453,11 +459,12 @@ export const reactTweet = (hash, reaction)=>{
                         like.reaction = reaction
                     }
                     else{
-                        likes = likes.slice(indexLike,indexLike)
+                        //console.log('index', indexLike)
+                        likes.splice(indexLike,1)
                     }
                 }
                 else{
-                    if(reaction!== 0){
+                    if(reaction !== 0){
                         let like = {
                             from: {
                                 name: state.user.name,
@@ -479,7 +486,10 @@ export const reactTweet = (hash, reaction)=>{
             .catch(err => {
                 console.error(err);
                 // False
-                dispatch(reactFalse(err.response.data.message.error));
+                if(err.response.data.message.error)
+                    dispatch(reactFalse(err.response.data.message.error));
+                else
+                    dispatch(reactFalse('Cannot connect server'));
             })
     }
 }
