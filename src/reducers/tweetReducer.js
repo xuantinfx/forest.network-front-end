@@ -108,7 +108,7 @@ export default (state = initialState, action) => {
         tweets: newTweets
       }
     case typeSocket.FOLLOWING_POST: {
-      debugger;
+      //debugger;
       let isAdd = false;
       if (state.tweets[0]) {
         if (state.tweets[0].address === action.address) {
