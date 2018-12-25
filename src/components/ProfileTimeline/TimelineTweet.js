@@ -58,13 +58,14 @@ export default class TimelineTweet extends Component {
   }
 
   likeNames = ()=>{
-    if(this.props.likes.length > 0){
-      let likeNames = ''
-      for(let i = 0; i< this.props.likes.length;i++){
-        if(this.props.likes[i].from.name)
-          likeNames = likeNames + this.props.likes[i].from.name + ' đã ' +
-           this.props.reactionShown[this.props.likes[i].reaction-1].id + '\n'
-      }
+    if(this.props.likes)
+      if(this.props.likes.length > 0){
+        let likeNames = ''
+        for(let i = 0; i< this.props.likes.length;i++){
+          if(this.props.likes[i].from.name)
+            likeNames = likeNames + this.props.likes[i].from.name + ' đã ' +
+            this.props.reactionShown[this.props.likes[i].reaction-1].id + '\n'
+        }
       return likeNames;
     }
     return 'Thích'
