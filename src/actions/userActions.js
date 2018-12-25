@@ -7,6 +7,7 @@ import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
 import { showMessage } from "./alertsActions";
+import * as encodeDecodeSecretKey from '../utilities/encodeDecodeSecretKey';
 
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
@@ -67,7 +68,7 @@ export const increaseSequence = () => {
 
 const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
-        let secretKey = sessionStorage.getItem("SECRET_KEY");
+        let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
         let tx = followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1);
         requestApi(postTranSaction(tx))
             .then(res => {
@@ -175,7 +176,7 @@ export const updateProfilePicture = (pictureBuffer) => {
         dispatch(beginUpdateProfilePicture());
 
         //create transaction
-        let tx = updatePicture(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), pictureBuffer, 1);
+        let tx = updatePicture(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), pictureBuffer, 1);
 
         let config = postTranSaction(tx);
 
@@ -206,7 +207,7 @@ export const getUserProfile = () => {
     return (dispatch) => {
         dispatch(beginGetUserProfile());
 
-        const userAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+        const userAddress = Keypair.fromSecret(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'))).publicKey();
         const config = getProfile(userAddress);
 
         requestApi(config).then(result => {
@@ -312,7 +313,7 @@ export const postTweet = (tweetContent) => {
 
         let sequence = state.user.sequence;
         let tx = post(
-            sessionStorage.getItem('SECRET_KEY'),
+            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
             sequence + 1,
             Buffer.alloc(0),
             tweetContent,
@@ -366,7 +367,7 @@ export const sendMoney = (receivingAddress, amount) => {
         let tx = '';
         //create transaction
         try {
-            tx = payment(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
+            tx = payment(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
         }
         catch (err) {
             dispatch(sendMoneyFail('Tài khoản không hợp lệ'));
@@ -430,7 +431,7 @@ export const reactTweet = (hash, reaction)=>{
 
         let sequence = state.user.sequence;
         let tx = reactionTweet(
-            sessionStorage.getItem('SECRET_KEY'),
+            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
             sequence + 1,
             Buffer.alloc(0),
             hash,
@@ -448,7 +449,7 @@ export const reactTweet = (hash, reaction)=>{
                 })
                 let likes = tweets[indexTweet].likes
                 let indexLike = _.findIndex(likes,like=>{
-                    if(like.from.address === Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()){
+                    if(like.from.address === Keypair.fromSecret(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'))).publicKey()){
                         return true;
                     }
                 })
