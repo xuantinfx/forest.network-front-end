@@ -6,10 +6,11 @@ import { getTweet } from '../apis/tweet'
 import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
+import {reactTweet} from '../actions/userActions'
 
-const loadTweets = (dispatch, address) => {
+const loadTweets = (dispatch, address, publicKey) => {
   dispatch(beginLoadTweet());
-  requestApi(getTweet(address))
+  requestApi(getTweet(address, publicKey))
   .then(res => {
     dispatch(loadTweetDone(res.data.data, res.data.total))
   })
@@ -29,7 +30,8 @@ const mapStateToProps = function (state) {
     modalIsOpen: state.tweets.modalIsOpen,
     isLoading: state.tweets.isLoading,
     picture: state.user.picture,
-    name: state.user.name
+    name: state.user.name,
+    alreadyLogin: state.user.alreadyLogin
   }
 }
 
@@ -41,8 +43,11 @@ const mapDispatchToProps = function (dispatch) {
     closeModal: () => {
       dispatch(closeTweetDetailsModal())
     },
-    loadTweets: (address) => {
-      loadTweets(dispatch, address);
+    loadTweets: (address, publicKey) => {
+      loadTweets(dispatch, address, publicKey);
+    },
+    reactTweet: (hash, reaction)=>{
+      dispatch(reactTweet(hash,reaction))
     }
   }
 }

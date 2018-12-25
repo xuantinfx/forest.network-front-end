@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateProfilePicture } from '../actions/userActions';
 import { Keypair } from 'stellar-base';
+import { showError } from '../actions/alertsActions';
+import * as encodeDecodeSecretKey from '../utilities/encodeDecodeSecretKey';
 
 const mapStateToProps = (state, ownProps) => {
   let canChangeProfilePicture = false;
   try {
     //check if user is logged in and is on his page
     let addressFromUrl = ownProps.match.params.address;
-    let secretKey = sessionStorage.getItem('SECRET_KEY');
-    if(secretKey) {
-      let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
+    if (secretKey) {
+      let myAddress = Keypair.fromSecret(secretKey).publicKey();
       canChangeProfilePicture = state.user.isLogin && (myAddress === addressFromUrl);
     }
   }
@@ -27,6 +29,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateProfilePicture: (pictureBuffer) => {
       dispatch(updateProfilePicture(pictureBuffer))
+    },
+    showError: (err) => {
+      dispatch(showError(err))
     }
   }
 }
