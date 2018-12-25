@@ -18,7 +18,11 @@ const updateAccoutJob = (key, value, sequence) => {
             })
             .catch(err => {
                 console.error(err);
-                reject(err.response.data.message.error);
+                
+                if(err.response.data.message.error)
+                    reject(err.response.data.message.error)
+                else
+                    reject('Cannot connect to sever')
             })
     })
 }

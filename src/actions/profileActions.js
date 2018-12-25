@@ -49,7 +49,10 @@ export const getProfileByAddress = (address = '') => {
       dispatch(getProfileByAddressDone(result.data))
     }).catch(err => {
       console.error(err);
-      dispatch(getProfileByAddressFalse(err.response.data.message.error))
+      if(err.response.data.message.error)
+        dispatch(getProfileByAddressFalse(err.response.data.message.error))
+      else
+        dispatch(getProfileByAddressFalse('Cannot connect to sever'))
     })
   }
 }
@@ -65,7 +68,10 @@ export const loadFollow = (address, isFollower) => {
         })
         .catch(err => {
           console.error(err);
-          dispatch(loadFollowFalse(err.response.data.message.error))
+          if(err.response.data.message.error)
+            dispatch(loadFollowFalse(err.response.data.message.error))
+          else
+            dispatch(loadFollowFalse('Cannot connect sever'))
         })
     } else {
       let api = getFollowing(address);
@@ -76,7 +82,10 @@ export const loadFollow = (address, isFollower) => {
         })
         .catch(err => {
           console.error(err);
-          dispatch(loadFollowFalse(err.response.data.message.error))
+          if(err.response.data.message.error)
+            dispatch(loadFollowFalse(err.response.data.message.error))
+          else
+            dispatch(loadFollowFalse('Cannot connect sever'))
         })
     }
   }

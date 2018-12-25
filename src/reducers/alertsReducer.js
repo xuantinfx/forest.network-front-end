@@ -16,6 +16,7 @@ export default (state = initialState, action) => {
         case userActionsConst.SUBMIT_UPDATE_PROFILE_FALSE:
         case userActionsConst.UPDATE_PROFILE_PICTURE_FAIL:
         case userActionsConst.SEND_MONEY_FAIL:
+        case userActionsConst.REPLY_TWEET_FAIL:
         case profileActions.LOAD_FOLLOW_FALSE:
         case profileActions.LOAD_PROFILE_FALSE:
             return {
@@ -70,7 +71,7 @@ export default (state = initialState, action) => {
             }
         }
         case typeSocket.RECEIVE_COMMENT: {
-            let message = `${action.name || action.address} đã bình luận "${action.content.slice(30)}" bài viết của bạn`
+            let message = `${action.name || action.address} đã bình luận "${action.content.slice(0, 30)}" bài viết của bạn`
             return {
                 ...state,
                 alerts: [{type: 'message', content: message}, ...state.alerts]

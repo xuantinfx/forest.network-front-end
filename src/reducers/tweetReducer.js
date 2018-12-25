@@ -35,7 +35,9 @@ const initialState = {
   loadedTweets: 0,
   modalIsOpen: false,
   currentTweet: 0,
-  tweets: []
+  tweets: [],
+  page: 0,
+  size: 20,
 }
 
 export default (state = initialState, action) => {
@@ -75,6 +77,7 @@ export default (state = initialState, action) => {
           isLoading: false,
           tweets: tweets,
           total: action.total,
+          page: action.page,
         }
       }
     case profileActions.GET_PROFILE_BY_ADDRESS_DONE:
@@ -90,42 +93,74 @@ export default (state = initialState, action) => {
       }
     }
     case userActionsConst.REACT_DONE:
-      return{
+      return {
         ...state,
         tweets: action.tweets
       }
+    case userActionsConst.REPLY_TWEET_DONE:
+      let newTweets = _.cloneDeep(state.tweets);
+      let tweetToPushNewReply = newTweets[action.tweetMeta.index];
+      if (tweetToPushNewReply && tweetToPushNewReply.hash === action.tweetMeta.hash) {
+        tweetToPushNewReply.replies.push(action.newReply);
+      }
+      return {
+        ...state,
+        tweets: newTweets
+      }
     case typeSocket.FOLLOWING_POST: {
-        debugger;
-        let isAdd = false;
-        if(state.tweets[0]) {
-          if(state.tweets[0].address === action.address) {
-            isAdd = true;
-          } else {
-            isAdd = false;
-          }
-        } else {
+      //debugger;
+      let isAdd = false;
+      if (state.tweets[0]) {
+        if (state.tweets[0].address === action.address) {
           isAdd = true;
+        } else {
+          isAdd = false;
         }
-        if(isAdd) {
-          let tweet = {
-            time: (new Date().getTime()),
-            totalReplies: 0,
-            loadedReplies: [],
-            totalRetweets: 0,
-            totalLikes: 0,
-            hasLike: false,
-            content: action.content,
-            picture: {},
-            name: action.name,
-            _id: '' + Math.random()
-          }
+      } else {
+        isAdd = true;
+      }
+      if (isAdd) {
+        let tweet = {
+          time: (new Date().getTime()),
+          totalReplies: 0,
+          loadedReplies: [],
+          totalRetweets: 0,
+          totalLikes: 0,
+          hasLike: false,
+          content: action.content,
+          picture: {},
+          name: action.name,
+          _id: '' + Math.random()
+        }
+        return {
+          ...state,
+          total: state.total + 1,
+          tweets: [...state.tweets, tweet]
+        }
+      }
+      return state;
+    }
+    case tweetAction.LOAD_MORE_TWEET_DONE:
+      {
+        let tweets = _.map(action.tweets, tweet => {
           return {
-            ...state,
-            total: state.total + 1,
-            tweets: [...state.tweets, tweet]
+            ...tweet,
+            time: (new Date(tweet.time).getTime()),
+            totalReplies: tweet.replies.length,
+            loadedReplies: tweet.replies,
+            totalRetweets: 0,
+            totalLikes: tweet.likes.length,
+            hasLike: true
           }
+        })
+
+        return {
+          ...state,
+          isLoading: false,
+          tweets: [...state.tweets, ...tweets],
+          total: action.total,
+          page: state.page + 1,
         }
-        return state;
       }
     default:
       return state
