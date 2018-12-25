@@ -57,8 +57,24 @@ export default class TimelineTweet extends Component {
       this.props.reactTweet(this.props.hash, 0)
   }
 
+  likeNames = ()=>{
+    if(this.props.likes)
+      if(this.props.likes.length > 0){
+        let likeNames = ''
+        for(let i = 0; i< this.props.likes.length;i++){
+          if(this.props.likes[i].from.name)
+            likeNames = likeNames + this.props.likes[i].from.name + ' đã ' +
+            this.props.reactionShown[this.props.likes[i].reaction-1].id + '\n'
+        }
+      return likeNames;
+    }
+    return 'Thích'
+  }
+
   render() {
     //console.log('tweet', this.props)
+    let likeNames = this.likeNames();
+
     return (
       <li className="js-stream-item stream-item stream-item js-pinned" id="stream-item-tweet-1064310108413460480" >
         <div className="tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable dismissible-content original-tweet js-original-tweet tweet-has-context has-cards  user-pinned has-content" >
@@ -128,7 +144,7 @@ export default class TimelineTweet extends Component {
                   <div >
                   <button className="ProfileTweet-actionButton js-actionButton js-actionFavorite" aria-describedby="profile-tweet-action-favorite-count-aria-1064310108413460480"
                    type="button" onClick={this.onClickUnReaction}>
-                    <div title="Thích" className="IconContainer js-tooltip">
+                    <div title={likeNames}  className="IconContainer js-tooltip">
                     {
                       (!this.props.reaction)?(
                         <span className="Icon Icon--heart Icon--medium" role="presentation" />
