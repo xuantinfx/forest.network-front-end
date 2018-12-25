@@ -4,7 +4,8 @@ import { replyTweet } from '../actions/userActions';
 
 const mapStateToProps = (state) => {
   return {
-    userPicture: state.user.picture.data
+    userPicture: state.user.picture.data,
+    alreadyLogin: state.user.alreadyLogin
   }
 }
 

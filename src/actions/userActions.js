@@ -7,6 +7,7 @@ import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
 import { showMessage } from "./alertsActions";
+import * as encodeDecodeSecretKey from '../utilities/encodeDecodeSecretKey';
 
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
@@ -70,7 +71,7 @@ export const increaseSequence = () => {
 
 const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
-        let secretKey = sessionStorage.getItem("SECRET_KEY");
+        let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
         let tx = followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1);
         requestApi(postTranSaction(tx))
             .then(res => {
@@ -84,7 +85,10 @@ const updateFollowings = (listFollowings, sequence) => {
             })
             .catch(err => {
                 console.error(err);
-                reject(err.response.data.message.error);
+                if(err.response.data.message.error)
+                    reject(err.response.data.message.error)
+                else
+                    reject('Cannot connect to sever')
             })
     })
 }
@@ -175,7 +179,7 @@ export const updateProfilePicture = (pictureBuffer) => {
         dispatch(beginUpdateProfilePicture());
 
         //create transaction
-        let tx = updatePicture(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), pictureBuffer, 1);
+        let tx = updatePicture(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), pictureBuffer, 1);
 
         let config = postTranSaction(tx);
 
@@ -206,7 +210,7 @@ export const getUserProfile = () => {
     return (dispatch) => {
         dispatch(beginGetUserProfile());
 
-        const userAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+        const userAddress = Keypair.fromSecret(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'))).publicKey();
         const config = getProfile(userAddress);
 
         requestApi(config).then(result => {
@@ -312,7 +316,7 @@ export const postTweet = (tweetContent) => {
 
         let sequence = state.user.sequence;
         let tx = post(
-            sessionStorage.getItem('SECRET_KEY'),
+            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
             sequence + 1,
             Buffer.alloc(0),
             tweetContent,
@@ -337,7 +341,10 @@ export const postTweet = (tweetContent) => {
             .catch(err => {
                 console.error(err);
                 // False
-                dispatch(postTweetFalse(err.response.data.message.error));
+                if(err.response.data.message.error)
+                    dispatch(postTweetFalse(err.response.data.message.error));
+                else
+                    dispatch(postTweetFalse('Cannot connect server'));
             })
     }
 }
@@ -363,7 +370,7 @@ export const sendMoney = (receivingAddress, amount) => {
         let tx = '';
         //create transaction
         try {
-            tx = payment(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
+            tx = payment(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
         }
         catch (err) {
             dispatch(sendMoneyFail('Tài khoản không hợp lệ'));
@@ -428,7 +435,7 @@ export const reactTweet = (hash, reaction) => {
 
         let sequence = state.user.sequence;
         let tx = reactionTweet(
-            sessionStorage.getItem('SECRET_KEY'),
+            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
             sequence + 1,
             Buffer.alloc(0),
             hash,
@@ -445,8 +452,8 @@ export const reactTweet = (hash, reaction) => {
                         return true
                 })
                 let likes = tweets[indexTweet].likes
-                let indexLike = _.findIndex(likes, like => {
-                    if (like.from.address === Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()) {
+                let indexLike = _.findIndex(likes,like=>{
+                    if(like.from.address === Keypair.fromSecret(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'))).publicKey()){
                         return true;
                     }
                 })
@@ -455,12 +462,13 @@ export const reactTweet = (hash, reaction) => {
                         let like = likes[indexLike];
                         like.reaction = reaction
                     }
-                    else {
-                        likes = likes.slice(indexLike, indexLike)
+                    else{
+                        //console.log('index', indexLike)
+                        likes.splice(indexLike,1)
                     }
                 }
-                else {
-                    if (reaction !== 0) {
+                else{
+                    if(reaction !== 0){
                         let like = {
                             from: {
                                 name: state.user.name,
@@ -482,7 +490,10 @@ export const reactTweet = (hash, reaction) => {
             .catch(err => {
                 console.error(err);
                 // False
-                dispatch(reactFalse(err.response.data.message.error));
+                if(err.response.data.message.error)
+                    dispatch(reactFalse(err.response.data.message.error));
+                else
+                    dispatch(reactFalse('Cannot connect server'));
             })
     }
 }
@@ -517,9 +528,10 @@ export const replyTweet = (content, hash) => {
         let tx = '';
         //create transaction
         try {
-            tx = commentTweet(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), hash, content, 1);
+            tx = commentTweet(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), hash, content, 1);
         }
         catch (err) {
+            console.error(err)
             dispatch(replyTweetFail('Comment thất bại'));
             return;
         }

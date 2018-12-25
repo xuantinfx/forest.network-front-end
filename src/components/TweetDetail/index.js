@@ -10,6 +10,7 @@ import _ from 'lodash';
 export default class TweetDetail extends Component {
   static propType = {
     isOpen: PropTypes.bool,
+    alreadyLogin: PropTypes.bool,
     closeModal: PropTypes.func,
     className: PropTypes.string,
     tweet: PropTypes.object,
@@ -50,9 +51,10 @@ export default class TweetDetail extends Component {
   }
 
   onReactionHover = () => {
-    this.setState({
-      isReactionHovering: true
-    })
+    if (this.props.alreadyLogin)
+      this.setState({
+        isReactionHovering: true
+      })
   }
 
   onReactionMouseLeave = () => {
@@ -62,7 +64,7 @@ export default class TweetDetail extends Component {
   }
 
   onClickUnReaction = () => {
-    if (this.props.reaction !== 0)
+    if (this.props.reaction !== 0 && this.props.alreadyLogin)
       this.props.reactTweet(this.props.tweet.hash, 0)
   }
 
@@ -157,7 +159,7 @@ export default class TweetDetail extends Component {
                               <span className="Icon Icon--heart Icon--medium" role="presentation" />
                             ) :
                               (
-                                (this.props.reaction === 0 || !this.props.alreadyLogin) ?
+                                (this.props.reaction === 0) ?
                                   <span className="Icon Icon--heart Icon--medium" role="presentation" />
                                   :
                                   <img src={this.props.reactionShown[this.props.reaction - 1].img} alt={this.props.reactionShown[this.props.reaction - 1].id}
@@ -182,17 +184,22 @@ export default class TweetDetail extends Component {
                 </div>
               </Col>
             </Row>
-            <Row className="mt-4 align-items-center">
-              <Col xs="1" className="pr-0">
-                <ImgFromArrayBuffer arrayBufferData={this.props.userPicture} alt="" className="avatar" />
-              </Col>
-              <Col xs="10">
-                <form onSubmit={this._handleUserReply}>
-                  <Input required type="text" name="userReplyInput" placeholder="Tweet your reply"
-                    value={this.state.userReplyInput} onChange={this._handleInputChange} />
-                </form>
-              </Col>
-            </Row>
+            {
+              this.props.alreadyLogin && (
+                <Row className="mt-4 align-items-center">
+                  <Col xs="1" className="pr-0">
+                    <ImgFromArrayBuffer arrayBufferData={this.props.userPicture} alt="" className="avatar" />
+                  </Col>
+                  <Col xs="10">
+                    <form onSubmit={this._handleUserReply}>
+                      <Input required autoComplete={'off'}
+                        type="text" name="userReplyInput" placeholder="Tweet your reply"
+                        value={this.state.userReplyInput} onChange={this._handleInputChange} />
+                    </form>
+                  </Col>
+                </Row>
+              )
+            }
             {_.reverse(_.cloneDeep(tweet.replies)).map((reply, index) => {
               return (
                 <TweetReply key={index} fromAddress={reply.from.address}

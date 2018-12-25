@@ -2,17 +2,19 @@ export const tweetAction = {
   CLOSE_TWEET_DETAILS_MODAL: 'CLOSE_TWEET_DETAILS_MODAL',
   SEE_TWEET_DETAILS: 'SEE_TWEET_DETAILS',
   BEGIN_LOAD_TWEET: "BEGIN_LOAD_TWEET",
-  LOAD_TWEET_DONE: "LOAD_TWEET_DONE"
+  LOAD_TWEET_DONE: "LOAD_TWEET_DONE",
+  LOAD_MORE_TWEET_DONE: 'LOAD_MORE_TWEET_DONE',
 }
 
 export const beginLoadTweet = () => ({
   type: tweetAction.BEGIN_LOAD_TWEET
 })
 
-export const loadTweetDone = (tweets, total) => ({
+export const loadTweetDone = (tweets, total, page) => ({
   type: tweetAction.LOAD_TWEET_DONE,
   tweets,
-  total
+  total,
+  page
 })
 
 export const closeTweetDetailsModal = () => ({
@@ -24,3 +26,8 @@ export const seeTweetDetails = (index) => ({
   index
 })
 
+export const loadMoreTweetDone = (tweets, total) => ({
+  type: tweetAction.LOAD_MORE_TWEET_DONE,
+  tweets,
+  total
+})

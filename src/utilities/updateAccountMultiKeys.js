@@ -1,11 +1,12 @@
 import { requestApi } from '../apis/requestApi';
 import { postTranSaction } from '../apis/transaction';
 import { updateAccount } from '../lib/encodeTX';
+import * as encodeDecodeSecretKey from '../utilities/encodeDecodeSecretKey';
 
 const updateAccoutJob = (key, value, sequence) => {
     return new Promise((resolve, reject) => {
         let tx = updateAccount(
-            sessionStorage.getItem("SECRET_KEY"),
+            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
             sequence,
             Buffer.alloc(0),
             key,
@@ -17,7 +18,11 @@ const updateAccoutJob = (key, value, sequence) => {
             })
             .catch(err => {
                 console.error(err);
-                reject(err.response.data.message.error);
+                
+                if(err.response.data.message.error)
+                    reject(err.response.data.message.error)
+                else
+                    reject('Cannot connect to sever')
             })
     })
 }

@@ -19,7 +19,8 @@ export default class TimelineTweet extends Component {
   }
 
   onClickReaction=()=>{
-    this.props.reactTweet(this.props.hash, this.state.reactHoverIndex+1)
+    if(this.props.hash)
+      this.props.reactTweet(this.props.hash, this.state.reactHoverIndex+1)
   }
 
   renderReactImg = ()=>{
@@ -39,9 +40,10 @@ export default class TimelineTweet extends Component {
   }
 
   onReactionHover = ()=>{
-    this.setState({
-      isReactionHovering: true
-    })
+    if(this.props.alreadyLogin)
+      this.setState({
+        isReactionHovering: true
+      })
   }
 
   onReactionMouseLeave = ()=>{
@@ -51,7 +53,7 @@ export default class TimelineTweet extends Component {
   }
 
   onClickUnReaction = ()=>{
-    if(this.props.reaction !== 0)
+    if(this.props.reaction !== 0 && this.props.alreadyLogin)
       this.props.reactTweet(this.props.hash, 0)
   }
 

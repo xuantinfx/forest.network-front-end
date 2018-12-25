@@ -35,7 +35,9 @@ const initialState = {
   loadedTweets: 0,
   modalIsOpen: false,
   currentTweet: 0,
-  tweets: []
+  tweets: [],
+  page: 0,
+  size: 20,
 }
 
 export default (state = initialState, action) => {
@@ -75,6 +77,7 @@ export default (state = initialState, action) => {
           isLoading: false,
           tweets: tweets,
           total: action.total,
+          page: action.page,
         }
       }
     case profileActions.GET_PROFILE_BY_ADDRESS_DONE:
@@ -137,6 +140,28 @@ export default (state = initialState, action) => {
       }
       return state;
     }
+    case tweetAction.LOAD_MORE_TWEET_DONE:
+      {
+        let tweets = _.map(action.tweets, tweet => {
+          return {
+            ...tweet,
+            time: (new Date(tweet.time).getTime()),
+            totalReplies: tweet.replies.length,
+            loadedReplies: tweet.replies,
+            totalRetweets: 0,
+            totalLikes: tweet.likes.length,
+            hasLike: true
+          }
+        })
+
+        return {
+          ...state,
+          isLoading: false,
+          tweets: [...state.tweets, ...tweets],
+          total: action.total,
+          page: state.page + 1,
+        }
+      }
     default:
       return state
   }
