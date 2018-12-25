@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 
 class NavLeft extends Component {
     static propTypes = {
-        openPaymentModal: PropTypes.func
+        openPaymentModal: PropTypes.func,
+        openCreateAccountModal: PropTypes.func
     }
 
     onClick(e, href) {
@@ -21,9 +22,9 @@ class NavLeft extends Component {
                         <span className="text">Trang chủ</span>
                     </a>
                 </li>
-                <li id="global-nav-about" className="about">
-                    <a className="js-tooltip js-dynamic-tooltip"href="#/" onClick={e => this.onClick(e, '/about')}>
-                        <span className="text">Giới thiệu</span>
+                <li id="global-nav-about" className="about" onClick={this.props.openCreateAccountModal}>
+                    <a className="js-tooltip js-dynamic-tooltip" href="#/" onClick={(e) => { e.preventDefault() }}>
+                        <span className="text">Tạo tài khoản</span>
                     </a>
                 </li>
                 <li id="global-nav-about" className="about" onClick={this.props.openPaymentModal}>

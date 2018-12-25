@@ -516,7 +516,7 @@ const createAccountFail = (error) => ({
   error
 })
 
-export const createAccountAction = (address) => {
+export const createNewAccount = (address) => {
   return (dispatch, getState) => {
     // begin
     dispatch(beginCreateAccount());
@@ -524,23 +524,29 @@ export const createAccountAction = (address) => {
     let state = getState();
 
     let sequence = state.user.sequence;
-    let tx = createAccount(
-      encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
-      sequence + 1,
-      Buffer.alloc(0),
-      address,
-      1);
+    let tx = ''
+
+    try {
+      tx = createAccount(
+        encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
+        sequence + 1,
+        Buffer.alloc(0),
+        address,
+        1);
+    }
+    catch (err) {
+      dispatch(createAccountFail('Tài khoản không hợp lệ'))
+      return;
+    }
+
     requestApi(postTranSaction(tx))
       .then(() => {
-        dispatch(createAccountDone(address, tx.length))
+        dispatch(createAccountDone(address, Buffer.from(tx, 'base64').length));
+        dispatch(showMessage('Tạo tài khoản mới thành công'))
       })
       .catch(err => {
-        console.error(err);
-        // Fail
-        if (err.response.data.message.error)
-          dispatch(createAccountFail(err.response.data.message.error));
-        else
-          dispatch(createAccountFail('Cannot connect server'));
+        let message = err.response ? err.response.data.message.error : 'Unknown error';
+        dispatch(createAccountFail('Tạo tài khoản mới thất bại: ' + message));
       })
   }
 }
@@ -578,7 +584,6 @@ export const replyTweet = (content, hash) => {
       tx = commentTweet(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), hash, content, 1);
     }
     catch (err) {
-      console.error(err)
       dispatch(replyTweetFail('Comment thất bại'));
       return;
     }
