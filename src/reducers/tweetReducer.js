@@ -90,43 +90,53 @@ export default (state = initialState, action) => {
       }
     }
     case userActionsConst.REACT_DONE:
-      return{
+      return {
         ...state,
         tweets: action.tweets
       }
-    case typeSocket.FOLLOWING_POST: {
-        debugger;
-        let isAdd = false;
-        if(state.tweets[0]) {
-          if(state.tweets[0].address === action.address) {
-            isAdd = true;
-          } else {
-            isAdd = false;
-          }
-        } else {
-          isAdd = true;
-        }
-        if(isAdd) {
-          let tweet = {
-            time: (new Date().getTime()),
-            totalReplies: 0,
-            loadedReplies: [],
-            totalRetweets: 0,
-            totalLikes: 0,
-            hasLike: false,
-            content: action.content,
-            picture: {},
-            name: action.name,
-            _id: '' + Math.random()
-          }
-          return {
-            ...state,
-            total: state.total + 1,
-            tweets: [...state.tweets, tweet]
-          }
-        }
-        return state;
+    case userActionsConst.REPLY_TWEET_DONE:
+      let newTweets = _.cloneDeep(state.tweets);
+      let tweetToPushNewReply = newTweets[action.tweetMeta.index];
+      if (tweetToPushNewReply && tweetToPushNewReply.hash === action.tweetMeta.hash) {
+        tweetToPushNewReply.replies.push(action.newReply);
       }
+      return {
+        ...state,
+        tweets: newTweets
+      }
+    case typeSocket.FOLLOWING_POST: {
+      debugger;
+      let isAdd = false;
+      if (state.tweets[0]) {
+        if (state.tweets[0].address === action.address) {
+          isAdd = true;
+        } else {
+          isAdd = false;
+        }
+      } else {
+        isAdd = true;
+      }
+      if (isAdd) {
+        let tweet = {
+          time: (new Date().getTime()),
+          totalReplies: 0,
+          loadedReplies: [],
+          totalRetweets: 0,
+          totalLikes: 0,
+          hasLike: false,
+          content: action.content,
+          picture: {},
+          name: action.name,
+          _id: '' + Math.random()
+        }
+        return {
+          ...state,
+          total: state.total + 1,
+          tweets: [...state.tweets, tweet]
+        }
+      }
+      return state;
+    }
     default:
       return state
   }

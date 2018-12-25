@@ -2,7 +2,7 @@ import { postTranSaction } from "../apis/transaction";
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
 import { Keypair } from 'stellar-base';
-import { followings, post, updatePicture, payment, reactionTweet } from '../lib/encodeTX';
+import { followings, post, updatePicture, payment, reactionTweet, commentTweet } from '../lib/encodeTX';
 import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
@@ -35,7 +35,10 @@ export const userActionsConst = {
     LOG_OUT: "LOG_OUT",
     BEGIN_REACT: 'BEGIN_REACT',
     REACT_DONE: 'REACT_DONE',
-    REACT_FALSE: 'REACT_FALSE'
+    REACT_FALSE: 'REACT_FALSE',
+    BEGIN_REPLY_TWEET: 'BEGIN_REPLY_TWEET',
+    REPLY_TWEET_DONE: 'REPLY_TWEET_DONE',
+    REPLY_TWEET_FAIL: 'REPLY_TWEET_FAIL'
 }
 
 export const changeSingup = (isLogin) => {
@@ -374,7 +377,8 @@ export const sendMoney = (receivingAddress, amount) => {
             dispatch(increaseSequence());
             dispatch(showMessage('Giao dịch thành công'))
         }).catch(err => {
-            dispatch(sendMoneyFail('Giao dịch thất bại'));
+            let message = err.response ? err.response.data.message.error : 'Unknown error';
+            dispatch(sendMoneyFail('Giao dịch thất bại: ' + message));
         })
     }
 }
@@ -394,13 +398,13 @@ export const sendMoneyFail = (error) => {
     }
 }
 
-const beginReact = ()=>{
+const beginReact = () => {
     return {
         type: userActionsConst.BEGIN_REACT
     }
 }
 
-const reactDone = (tweets,txSize)=>{
+const reactDone = (tweets, txSize) => {
     return {
         type: userActionsConst.REACT_DONE,
         tweets,
@@ -408,16 +412,16 @@ const reactDone = (tweets,txSize)=>{
     }
 }
 
-const reactFalse = (error)=>{
+const reactFalse = (error) => {
     return {
         type: userActionsConst.REACT_FALSE,
         error
     }
 }
 
-export const reactTweet = (hash, reaction)=>{
-    return (dispatch, getState)=>{
-         // begin
+export const reactTweet = (hash, reaction) => {
+    return (dispatch, getState) => {
+        // begin
         dispatch(beginReact());
 
         let state = getState();
@@ -436,32 +440,32 @@ export const reactTweet = (hash, reaction)=>{
 
                 //Check xem đã có reaction lần nào chưa
                 let tweets = state.tweets.tweets
-                let indexTweet = _.findIndex(tweets,tweet=>{
-                    if(tweet.hash === hash)
+                let indexTweet = _.findIndex(tweets, tweet => {
+                    if (tweet.hash === hash)
                         return true
                 })
                 let likes = tweets[indexTweet].likes
-                let indexLike = _.findIndex(likes,like=>{
-                    if(like.from.address === Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()){
+                let indexLike = _.findIndex(likes, like => {
+                    if (like.from.address === Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()) {
                         return true;
                     }
                 })
-                if(indexLike > -1){
-                    if(reaction!== 0){
+                if (indexLike > -1) {
+                    if (reaction !== 0) {
                         let like = likes[indexLike];
                         like.reaction = reaction
                     }
-                    else{
-                        likes = likes.slice(indexLike,indexLike)
+                    else {
+                        likes = likes.slice(indexLike, indexLike)
                     }
                 }
-                else{
-                    if(reaction!== 0){
+                else {
+                    if (reaction !== 0) {
                         let like = {
                             from: {
                                 name: state.user.name,
                                 address: state.user.address,
-                                picture: state.user.picture||undefined
+                                picture: state.user.picture || undefined
                             },
                             time: (new Date()).getTime(),
                             _id: "123" + Math.random(),
@@ -473,12 +477,77 @@ export const reactTweet = (hash, reaction)=>{
                 tweets[indexTweet].likes = likes
                 tweets[indexTweet].reaction = reaction
                 //console.log('likes',likes)
-                dispatch(reactDone(tweets,tx.length))
+                dispatch(reactDone(tweets, tx.length))
             })
             .catch(err => {
                 console.error(err);
                 // False
                 dispatch(reactFalse(err.response.data.message.error));
             })
+    }
+}
+
+export const beginReplyTweet = () => {
+    return {
+        type: userActionsConst.BEGIN_REPLY_TWEET
+    }
+}
+
+export const replyTweet = (content, hash) => {
+    return (dispatch, getState) => {
+        let state = getState();
+        let { sequence, address, name, picture } = state.user;
+        let { currentTweet: index } = state.tweets;
+        //info for reducer to know where to push new reply
+        let tweetMeta = {
+            index,
+            hash
+        }
+        let newReply = {
+            content: content,
+            from: {
+                address: address,
+                name: name,
+                picture: picture
+            },
+            time: null
+        }
+        dispatch(beginReplyTweet());
+
+        let tx = '';
+        //create transaction
+        try {
+            tx = commentTweet(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), hash, content, 1);
+        }
+        catch (err) {
+            dispatch(replyTweetFail('Comment thất bại'));
+            return;
+        }
+
+        let config = postTranSaction(tx);
+
+        requestApi(config).then(result => {
+            newReply.time = moment().format();
+            dispatch(replyTweetDone(tweetMeta, newReply, Buffer.from(tx, 'base64').length));
+        }).catch(err => {
+            let message = err.response ? err.response.data.message.error : 'Unknown error';
+            dispatch(replyTweetFail('Comment thất bại: ' + message));
+        })
+    }
+}
+
+export const replyTweetDone = (tweetMeta, newReply, txSize) => {
+    return {
+        type: userActionsConst.REPLY_TWEET_DONE,
+        tweetMeta,
+        newReply,
+        txSize
+    }
+}
+
+export const replyTweetFail = (error) => {
+    return {
+        type: userActionsConst.REPLY_TWEET_FAIL,
+        error
     }
 }

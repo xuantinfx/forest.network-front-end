@@ -36,7 +36,7 @@ class TweetReply extends Component {
               <span className="username u-dir u-textTruncate" dir="ltr" data-aria-label-part="">@<b>{this.props.name}</b></span>
               <span>&nbsp;</span>
               <small className="time">
-                <span className="_timestamp js-short-timestamp js-relative-timestamp">{moment(this.props.time).startOf('hour').fromNow()}</span>
+                <span className="_timestamp js-short-timestamp js-relative-timestamp">{moment(this.props.time).fromNow()}</span>
               </small>
             </Col>
           </Row>

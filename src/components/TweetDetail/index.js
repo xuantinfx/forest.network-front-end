@@ -16,6 +16,7 @@ export default class TweetDetail extends Component {
     images: PropTypes.array, //6 reaction images,
     reaction: PropTypes.number, //user's reaction to this tweet
     reactTweet: PropTypes.func,
+    sendUserReply: PropTypes.func
   }
 
   constructor(props) {
@@ -24,6 +25,7 @@ export default class TweetDetail extends Component {
       isReactionHovering: false,
       //Đang hover lên react nào, like hay love hay...
       reactHoverIndex: -1,
+      userReplyInput: ''
     }
   }
 
@@ -64,11 +66,28 @@ export default class TweetDetail extends Component {
       this.props.reactTweet(this.props.tweet.hash, 0)
   }
 
+  _toggle = () => {
+    this.setState({ userReplyInput: '' });
+    this.props.closeModal();
+  }
+
+  _handleInputChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  _handleUserReply = (e) => {
+    e.preventDefault();
+    this.props.sendUserReply(this.state.userReplyInput);
+    this.setState({ userReplyInput: '' })
+  }
+
   render() {
     const tweet = this.props.tweet;
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.closeModal} className={this.props.className} size="lg">
-        <ModalHeader toggle={this.props.closeModal}>Tweet</ModalHeader>
+      <Modal isOpen={this.props.isOpen} toggle={this._toggle} className={this.props.className} size="lg">
+        <ModalHeader toggle={this._toggle}>Tweet</ModalHeader>
         <ModalBody>
           <div className="container-fluid">
             <Row className="align-items-center">
@@ -168,7 +187,10 @@ export default class TweetDetail extends Component {
                 <ImgFromArrayBuffer arrayBufferData={this.props.userPicture} alt="" className="avatar" />
               </Col>
               <Col xs="10">
-                <Input type="text" name="reply" placeholder="Tweet your reply" />
+                <form onSubmit={this._handleUserReply}>
+                  <Input required type="text" name="userReplyInput" placeholder="Tweet your reply"
+                    value={this.state.userReplyInput} onChange={this._handleInputChange} />
+                </form>
               </Col>
             </Row>
             {_.reverse(_.cloneDeep(tweet.replies)).map((reply, index) => {

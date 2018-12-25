@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import TweetDetail from '../components/TweetDetail'
+import { replyTweet } from '../actions/userActions';
 
 const mapStateToProps = (state) => {
   return {
@@ -7,9 +8,12 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-
+    sendUserReply: (content) => {
+      let { tweet } = ownProps;
+      dispatch(replyTweet(content, tweet.hash || ''));
+    }
   }
 }
 
