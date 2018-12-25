@@ -3,6 +3,8 @@ import TimelineTweet from './TimelineTweet';
 import TweetDetail from '../TweetDetail';
 import PostTweet from '../../containers/PostTweet';
 import { Keypair } from 'stellar-base';
+import InfiniteScroll from 'react-infinite-scroller';
+
 export default class ProfileTimeline extends Component {
 
   //Danh sach cac reaction khi hover
@@ -26,7 +28,7 @@ export default class ProfileTimeline extends Component {
   ]
 
   componentDidMount() {
-    this.props.loadTweets(this.props.address, 1, 20,
+    this.props.loadTweets(this.props.address, 1, this.props.size,
       sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
       :undefined);
   }
@@ -35,8 +37,14 @@ export default class ProfileTimeline extends Component {
     this.props.history.push(`/profile/${address}`)
   }
 
+  loadMoreTweets = ()=>{
+    this.props.loadTweets(this.props.address, this.props.page+1, this.props.size,
+      sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
+      :undefined);
+  }
+
   render() {
-    //console.log('reaction', this.props.currentTweet)
+    console.log('reaction', this.props)
     if(this.props.isLoading) {
       return <div>Loading...</div>
     }
@@ -72,11 +80,20 @@ export default class ProfileTimeline extends Component {
             <div className="stream">
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
                 {canEditProfile && <PostTweet/>}
-                {this.props.tweets.map((item, index) => {
-                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item}
-                    reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
-                    images={this.images} reactionShown={this.reactionShown}/>
-                })}
+
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={this.loadMoreTweets}
+                    hasMore={(this.props.total>(this.props.page*this.props.size))?true: false}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                    threshold={300}
+                >
+                  {this.props.tweets.map((item, index) => {
+                    return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item}
+                      reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
+                      images={this.images} reactionShown={this.reactionShown}/>
+                  })}
+                </InfiniteScroll>
               </ol>
             </div>
           </div>

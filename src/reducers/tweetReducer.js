@@ -35,7 +35,9 @@ const initialState = {
   loadedTweets: 0,
   modalIsOpen: false,
   currentTweet: 0,
-  tweets: []
+  tweets: [],
+  page: 0,
+  size: 20,
 }
 
 export default (state = initialState, action) => {
@@ -73,8 +75,9 @@ export default (state = initialState, action) => {
         return {
           ...state,
           isLoading: false,
-          tweets: tweets,
+          tweets: [...state.tweets,...tweets],
           total: action.total,
+          page: state.page+1,
         }
       }
     case profileActions.GET_PROFILE_BY_ADDRESS_DONE:

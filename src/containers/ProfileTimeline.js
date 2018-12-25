@@ -9,7 +9,8 @@ import _ from 'lodash';
 import {reactTweet} from '../actions/userActions'
 
 const loadTweets = (dispatch, address, page, size, publicKey) => {
-  dispatch(beginLoadTweet());
+  if(page <= 1)
+    dispatch(beginLoadTweet());
   requestApi(getTweet(address,page, size, publicKey))
   .then(res => {
     dispatch(loadTweetDone(res.data.data, res.data.total))
@@ -31,7 +32,10 @@ const mapStateToProps = function (state) {
     isLoading: state.tweets.isLoading,
     picture: state.user.picture,
     name: state.user.name,
-    alreadyLogin: state.user.alreadyLogin
+    alreadyLogin: state.user.alreadyLogin,
+    page: state.tweets.page,
+    size: state.tweets.size,
+    total: state.tweets.total
   }
 }
 
