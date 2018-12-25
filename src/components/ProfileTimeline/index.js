@@ -3,9 +3,34 @@ import TimelineTweet from './TimelineTweet';
 import TweetDetail from '../TweetDetail';
 import PostTweet from '../../containers/PostTweet';
 import { Keypair } from 'stellar-base';
+import * as encodeDecodeSecretKey from '../../utilities/encodeDecodeSecretKey';
 export default class ProfileTimeline extends Component {
+
+  //Danh sach cac reaction khi hover
+  images = [
+    {id: 'like', img: 'http://i.imgur.com/LwCYmcM.gif'},
+    {id: 'love', img: 'http://i.imgur.com/k5jMsaH.gif'},
+    {id: 'haha', img: 'http://i.imgur.com/f93vCxM.gif'},
+    {id: 'wow', img: 'http://i.imgur.com/9xTkN93.gif'},
+    {id: 'sad', img: 'http://i.imgur.com/tFOrN5d.gif'},
+    {id: 'angry', img: 'http://i.imgur.com/1MgcQg0.gif'}
+  ]
+
+  //danh sach reaction da thuc hien
+  reactionShown = [
+    {id: 'like', img: 'https://i.imgur.com/wVAJS8T.png'},
+    {id: 'love', img: 'https://i.imgur.com/y7qZQS3.png'},
+    {id: 'haha', img: 'https://i.imgur.com/eq69HEz.png'},
+    {id: 'wow', img: 'https://i.imgur.com/XQSbgpw.png'},
+    {id: 'sad', img: 'https://i.imgur.com/JlQiyAu.png'},
+    {id: 'angry', img: 'https://i.imgur.com/P4Xm6Ds.png'}
+  ]
+
   componentDidMount() {
-    this.props.loadTweets(this.props.address);
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
+    this.props.loadTweets(this.props.address,
+      secretKey ? Keypair.fromSecret(secretKey).publicKey()
+      :undefined);
   }
 
   onClickName(address) {
@@ -13,6 +38,7 @@ export default class ProfileTimeline extends Component {
   }
 
   render() {
+    //console.log('reaction', this.props.currentTweet)
     if(this.props.isLoading) {
       return <div>Loading...</div>
     }
@@ -21,9 +47,9 @@ export default class ProfileTimeline extends Component {
     try {
         //check if user is logged in and is on his page
         let address = this.props.address;
-        let secretKey = sessionStorage.getItem('SECRET_KEY');
+        let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
         if(secretKey) {
-            let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+            let myAddress = Keypair.fromSecret(secretKey).publicKey();
             canEditProfile = (myAddress === address);
         }
     }
@@ -49,13 +75,18 @@ export default class ProfileTimeline extends Component {
               <ol className="stream-items js-navigable-stream" id="stream-items-id">
                 {canEditProfile && <PostTweet/>}
                 {this.props.tweets.map((item, index) => {
-                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item} />
+                  return <TimelineTweet onClickName={this.onClickName.bind(this)} key={item._id} seeDetails={() => this.props.seeDetails(index)} {...item}
+                    reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
+                    images={this.images} reactionShown={this.reactionShown}/>
                 })}
               </ol>
             </div>
           </div>
         </div>
-        {this.props.currentTweet && <TweetDetail isOpen={this.props.modalIsOpen} tweet={this.props.currentTweet} closeModal={this.props.closeModal} />}
+        {this.props.currentTweet && <TweetDetail isOpen={this.props.modalIsOpen} tweet={this.props.currentTweet} closeModal={this.props.closeModal} 
+                    reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
+                    images={this.images} reactionShown={this.reactionShown}
+                    reaction={this.props.currentTweet.reaction||0}/>}
       </div>
     )
   }

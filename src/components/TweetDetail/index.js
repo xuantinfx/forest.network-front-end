@@ -5,7 +5,54 @@ import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import defaultName from '../../constants/defaultName'
 
 export default class TweetDetail extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      isReactionHovering:false,
+      //Đang hover lên react nào, like hay love hay...
+      reactHoverIndex: -1,
+    }
+  }
+  
+  onClickReaction=()=>{
+    this.props.reactTweet(this.props.tweet.hash, this.state.reactHoverIndex+1)
+  }
+
+  renderReactImg = ()=>{
+    let reactImg = this.props.images.map((image,index)=>{
+      let imageRet = <img src={image.img} alt={image.id} key={index}
+        style={{maxWidth: (index === this.state.reactHoverIndex)?'1.8rem':'1.3rem', margin:'0 3px'}}
+        onMouseEnter={()=>{this.setState({reactHoverIndex: index})}}
+        onMouseLeave={()=>{this.setState({reactHoverIndex: -1})}}
+        onClick={this.onClickReaction}></img>
+      return imageRet
+    })
+
+    return <div className='EdgeButton js-current-color js-dropdown-toggle'
+          style={{display:'inline'}}>
+            {reactImg} 
+          </div>
+  }
+
+  onReactionHover = ()=>{
+    this.setState({
+      isReactionHovering: true
+    })
+  }
+
+  onReactionMouseLeave = ()=>{
+    this.setState({
+      isReactionHovering: false
+    })
+  }
+
+  onClickUnReaction = ()=>{
+    if(this.props.reaction !== 0)
+      this.props.reactTweet(this.props.tweet.hash, 0)
+  }
+
   render() {
+    console.log('detail',this.props)
     const tweet = this.props.tweet;
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.closeModal} className={this.props.className} size="lg">
@@ -68,17 +115,37 @@ export default class TweetDetail extends Component {
                         </span>
                       </button>
                     </div>
-                    <div className="ProfileTweet-action ProfileTweet-action--favorite js-toggleState">
-                      <button className="ProfileTweet-actionButton js-actionButton js-actionFavorite" aria-describedby="profile-tweet-action-favorite-count-aria-1064310108413460480" type="button">
+                    <div className="ProfileTweet-action ProfileTweet-action--favorite js-toggleState"
+                  onMouseOver={this.onReactionHover}
+                  onMouseLeave={this.onReactionMouseLeave}>
+                      <button className="ProfileTweet-actionButton js-actionButton js-actionFavorite" aria-describedby="profile-tweet-action-favorite-count-aria-1064310108413460480" 
+                      type="button" onClick={this.onClickUnReaction}>
                         <div title="Thích" className="IconContainer js-tooltip">
-                          <span className="Icon Icon--heart Icon--medium" role="presentation" />
+                    {
+                      (!this.props.reaction)?(
+                        <span className="Icon Icon--heart Icon--medium" role="presentation" />
+                      ):
+                      (
+                        (this.props.reaction === 0 || !this.props.alreadyLogin)?
+                        <span className="Icon Icon--heart Icon--medium" role="presentation" />
+                          :
+                          <img src={this.props.reactionShown[this.props.reaction-1].img} alt={this.props.reactionShown[this.props.reaction-1].id}
+                          style={{maxWidth: '1.3rem', margin:'0 3px'}}></img>
+                      )
+                    }
                           <div className="HeartAnimation" />
                           <span className="u-hiddenVisually">Thích</span>
                         </div>
                         <span className="ProfileTweet-actionCount">
-                          <span className="ProfileTweet-actionCountForPresentation" aria-hidden="true">{tweet.totalLikes}</span>
+                          <span className="ProfileTweet-actionCountForPresentation" aria-hidden="true">
+                            {tweet.likes?tweet.likes.length:tweet.totalLikes}
+                          </span>
                         </span>
                       </button>
+                    {
+                      //<img src={this.images.like} style={{maxWidth: '2rem'}} alt="/"></img>
+                      (this.state.isReactionHovering)?this.renderReactImg():(<div></div>)
+                    }
                     </div>
                   </div>
                 </div>
