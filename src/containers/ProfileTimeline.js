@@ -8,9 +8,9 @@ import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import {reactTweet} from '../actions/userActions'
 
-const loadTweets = (dispatch, address, publicKey) => {
+const loadTweets = (dispatch, address, page, size, publicKey) => {
   dispatch(beginLoadTweet());
-  requestApi(getTweet(address, publicKey))
+  requestApi(getTweet(address,page, size, publicKey))
   .then(res => {
     dispatch(loadTweetDone(res.data.data, res.data.total))
   })
@@ -43,8 +43,8 @@ const mapDispatchToProps = function (dispatch) {
     closeModal: () => {
       dispatch(closeTweetDetailsModal())
     },
-    loadTweets: (address, publicKey) => {
-      loadTweets(dispatch, address, publicKey);
+    loadTweets: (address, page,size, publicKey) => {
+      loadTweets(dispatch, address, page, size, publicKey);
     },
     reactTweet: (hash, reaction)=>{
       dispatch(reactTweet(hash,reaction))

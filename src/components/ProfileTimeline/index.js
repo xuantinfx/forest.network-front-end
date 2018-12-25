@@ -26,7 +26,7 @@ export default class ProfileTimeline extends Component {
   ]
 
   componentDidMount() {
-    this.props.loadTweets(this.props.address,
+    this.props.loadTweets(this.props.address, 1, 20,
       sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
       :undefined);
   }
