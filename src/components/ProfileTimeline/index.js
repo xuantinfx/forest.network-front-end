@@ -3,6 +3,7 @@ import TimelineTweet from './TimelineTweet';
 import TweetDetail from '../TweetDetail';
 import PostTweet from '../../containers/PostTweet';
 import { Keypair } from 'stellar-base';
+import * as encodeDecodeSecretKey from '../../utilities/encodeDecodeSecretKey';
 export default class ProfileTimeline extends Component {
 
   //Danh sach cac reaction khi hover
@@ -26,8 +27,9 @@ export default class ProfileTimeline extends Component {
   ]
 
   componentDidMount() {
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
     this.props.loadTweets(this.props.address,
-      sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
+      secretKey ? Keypair.fromSecret(secretKey).publicKey()
       :undefined);
   }
 
@@ -45,9 +47,9 @@ export default class ProfileTimeline extends Component {
     try {
         //check if user is logged in and is on his page
         let address = this.props.address;
-        let secretKey = sessionStorage.getItem('SECRET_KEY');
+        let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
         if(secretKey) {
-            let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+            let myAddress = Keypair.fromSecret(secretKey).publicKey();
             canEditProfile = (myAddress === address);
         }
     }

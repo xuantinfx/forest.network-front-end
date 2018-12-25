@@ -84,6 +84,15 @@ class ProfileHeaderCard extends Component {
                 <span className="ProfileHeaderCard-birthdateText u-dir" >
                 </span>
             </div> */}
+
+            <div className="ProfileHeaderCard-location">
+                <span className="text-muted">
+                    <i className="fas fa-hourglass-half" aria-hidden="true" style={{width: 0}}/>
+                </span>
+                <span className="ProfileHeaderCard-locationText u-dir" >
+                    {this.props.sequence || 0}
+                </span>
+            </div>
             
             <div className="ProfileHeaderCard-location">
                 {/*  */}
@@ -125,5 +134,6 @@ ProfileHeaderCard.propTypes = {
     balance: PropTypes.number,
     bandwidth: PropTypes.number,
     bandwidthTime: PropTypes.number,
-    address: PropTypes.string
+    address: PropTypes.string,
+    sequence: PropTypes.number
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import * as encodeDecodeSecretKey from '../../utilities/encodeDecodeSecretKey';
 
 export class LogIn extends Component {
   static propTypes = {
@@ -10,7 +11,7 @@ export class LogIn extends Component {
 
   constructor(props){
     super(props)
-    let key = sessionStorage.getItem('SECRET_KEY')
+    let key = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
     this.state = {
       secretKey: key,
     }
