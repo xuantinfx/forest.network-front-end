@@ -10,7 +10,8 @@ export default class LogoUser extends Component {
       PropTypes.object,
       PropTypes.array
     ]),
-    canChangeProfilePicture: PropTypes.bool.isRequired
+    canChangeProfilePicture: PropTypes.bool.isRequired,
+    showError: PropTypes.func
   }
 
   constructor(props) {
@@ -31,7 +32,7 @@ export default class LogoUser extends Component {
         this.props.updateProfilePicture(result);
       }
     } catch (err) {
-      alert(INVALID_IMAGE_ERROR_MESSAGE);
+      this.props.showError(INVALID_IMAGE_ERROR_MESSAGE);
     }
   }
 
@@ -56,7 +57,8 @@ export default class LogoUser extends Component {
           </div>
         </div>
         <UploadImageModal isOpen={this.state.modal.isOpen} toggle={this._toggleModal}
-          existedImgData={this.props.imgData} sendImage={this._changeProfileAvatar} />
+          existedImgData={this.props.imgData} sendImage={this._changeProfileAvatar}
+          showError={this.props.showError} />
       </Fragment>
     )
   }

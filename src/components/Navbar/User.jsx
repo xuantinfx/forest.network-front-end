@@ -4,6 +4,7 @@ import LogIn from './LogIn';
 // import PropTypes from 'prop-types'
 import { Keypair, StrKey } from 'stellar-base';
 import defaultName from '../../constants/defaultName';
+import * as encodeDecodeSecretKey from '../../utilities/encodeDecodeSecretKey';
 
 export default class User extends Component {
     static propTypes = {
@@ -17,7 +18,7 @@ export default class User extends Component {
             alert: ''
         }
         
-        let key = sessionStorage.getItem('SECRET_KEY')
+        let key = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
         if(key){
           this.reqLogin(key)
         }
@@ -40,7 +41,7 @@ export default class User extends Component {
                     })
                 }
                 else{
-                    sessionStorage.setItem('SECRET_KEY',secretKey)
+                    sessionStorage.setItem('SECRET_KEY', encodeDecodeSecretKey.encode(secretKey))
                     this.props.login(true);
                 }
             })

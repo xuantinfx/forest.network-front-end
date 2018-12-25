@@ -64,4 +64,4 @@ typings/
 build
 
 # config
-config.js
+public/config.js

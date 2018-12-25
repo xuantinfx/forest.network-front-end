@@ -6,6 +6,7 @@ import { getFeed } from '../apis/feed'
 import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
+import { reactTweet} from '../actions/userActions'
 
 const loadTweets = (dispatch, address) => {
   dispatch(beginLoadTweet());
@@ -29,7 +30,8 @@ const mapStateToProps = function (state) {
     modalIsOpen: state.tweets.modalIsOpen,
     isLoading: state.tweets.isLoading,
     picture: state.user.picture,
-    name: state.user.name
+    name: state.user.name,
+    alreadyLogin: state.user.alreadyLogin
   }
 }
 
@@ -43,6 +45,9 @@ const mapDispatchToProps = function (dispatch) {
     },
     loadTweets: (address) => {
       loadTweets(dispatch, address);
+    },
+    reactTweet: (hash, reaction)=>{
+      dispatch(reactTweet(hash,reaction))
     }
   }
 }
