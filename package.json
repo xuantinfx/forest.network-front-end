@@ -20,10 +20,9 @@
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "serve": "^10.0.2",
-    "socket.io-client": "^2.2.0",
     "stellar-base": "^0.9.0",
-    "varstruct": "^6.1.2"
+    "varstruct": "^6.1.2",
+    "serve": "^10.0.2"
   },
   "scripts": {
     "dev": "react-scripts start",

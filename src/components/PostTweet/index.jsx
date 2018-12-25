@@ -38,12 +38,10 @@ export default class TimelineTweet extends Component {
   }
 
   onSubmit() {
-    if(this.state.content !== "") {
-      this.props.postTweet(this.state.content);
-      this.setState({
-        content: ""
-      })
-    }
+    this.props.postTweet(this.state.content);
+    this.setState({
+      content: ""
+    })
   }
 
   render() {
