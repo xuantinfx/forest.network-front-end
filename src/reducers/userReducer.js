@@ -198,6 +198,26 @@ export default (state = initialState, action) => {
         ...state,
         balance: state.balance + action.amount
       }
+    case userActionsConst.BEGIN_CREATE_ACCOUNT:
+      return {
+        ...state,
+      }
+    case userActionsConst.CREATE_ACCOUNT_DONE:
+      return {
+        ...state,
+        isLoading: false,
+        sequence: state.sequence + 1,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
+      }
+    case userActionsConst.CREATE_ACCOUNT_FAIL:
+      return{
+        ...state,
+        error: action.error
+      }
     default:
       return state
   }

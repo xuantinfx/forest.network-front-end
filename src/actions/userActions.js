@@ -2,7 +2,7 @@ import { postTranSaction } from "../apis/transaction";
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
 import { Keypair } from 'stellar-base';
-import { followings, post, updatePicture, payment, reactionTweet } from '../lib/encodeTX';
+import { followings, post, updatePicture, payment, reactionTweet, createAccount } from '../lib/encodeTX';
 import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
@@ -36,7 +36,10 @@ export const userActionsConst = {
     LOG_OUT: "LOG_OUT",
     BEGIN_REACT: 'BEGIN_REACT',
     REACT_DONE: 'REACT_DONE',
-    REACT_FALSE: 'REACT_FALSE'
+    REACT_FALSE: 'REACT_FALSE',
+    BEGIN_CREATE_ACCOUNT:'BEGIN_CREATE_ACCOUNT',
+    CREATE_ACCOUNT_DONE:'CREATE_ACCOUNT_DONE',
+    CREATE_ACCOUNT_FAIL: 'CREATE_ACCOUNT_FAIL'
 }
 
 export const changeSingup = (isLogin) => {
@@ -491,5 +494,49 @@ export const reactTweet = (hash, reaction)=>{
                 else
                     dispatch(reactFalse('Cannot connect server'));
             })
+    }
+}
+
+const beginCreateAccount = ()=>({
+    type: userActionsConst.BEGIN_CREATE_ACCOUNT,
+})
+
+const createAccountDone = (address, txSize)=>({
+    type: userActionsConst.CREATE_ACCOUNT_DONE,
+    address,
+    txSize
+})
+
+const createAccountFail = (error)=>({
+    type: userActionsConst.CREATE_ACCOUNT_FAIL,
+    error
+})
+
+export const createAccountAction = (address)=>{
+    return (dispatch, getState)=>{
+         // begin
+        dispatch(beginCreateAccount());
+
+        let state = getState();
+
+        let sequence = state.user.sequence;
+        let tx = createAccount(
+            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
+            sequence + 1,
+            Buffer.alloc(0),
+            address,
+            1);
+        requestApi(postTranSaction(tx))
+        .then(()=>{
+            dispatch(createAccountDone(address,tx.length))
+        })
+        .catch(err => {
+            console.error(err);
+            // Fail
+            if(err.response.data.message.error)
+                dispatch(createAccountFail(err.response.data.message.error));
+            else
+                dispatch(createAccountFail('Cannot connect server'));
+        })
     }
 }
