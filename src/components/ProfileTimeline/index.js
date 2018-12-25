@@ -40,14 +40,16 @@ export default class ProfileTimeline extends Component {
   }
 
   loadMoreTweets = ()=>{
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
     this.props.loadMoreTweets(this.props.address, this.props.page+1, this.props.size,
-      sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
+      secretKey ? Keypair.fromSecret(secretKey).publicKey()
       :undefined);
   }
 
   reloadTweets = ()=>{
+    let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));
     this.props.loadTweets(this.props.address, 1, this.props.size,
-      sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
+      secretKey ? Keypair.fromSecret(secretKey).publicKey()
       :undefined);
   }
 
