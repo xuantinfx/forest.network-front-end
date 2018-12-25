@@ -10,13 +10,14 @@ export default class index extends Component {
   }
 
   render() {
-    let imgSrc = this.props.arrayBufferData
+    let imgSrc = (this.props.arrayBufferData &&
+      !(Array.isArray(this.props.arrayBufferData) && this.props.arrayBufferData.length === 0)) //not an empty array
       ? `data:image/jpeg;base64,${Buffer.from(this.props.arrayBufferData).toString('base64')}`
       : '/img/picturenotfound.png';
 
-      if(this.props.arrayBufferData && this.props.arrayBufferData.length === 0) {
-        imgSrc = '/img/picturenotfound.png';
-      }
+    if (this.props.arrayBufferData && this.props.arrayBufferData.length === 0) {
+      imgSrc = '/img/picturenotfound.png';
+    }
 
     return (
       <img className={this.props.className} style={this.props.style} alt={this.props.alt || ''} src={imgSrc} />
