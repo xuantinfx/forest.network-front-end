@@ -189,11 +189,11 @@ export default (state = initialState, action) => {
         }, (new Date()).getTime() / 1000) + action.txSize
       }
     case userActionsConst.REACT_FALSE:
-      return{
+      return {
         ...state,
         error: action.error
       }
-    case typeSocket.RECEIVE_MONEY: 
+    case typeSocket.RECEIVE_MONEY:
       return {
         ...state,
         balance: state.balance + action.amount
@@ -214,9 +214,25 @@ export default (state = initialState, action) => {
         }, (new Date()).getTime() / 1000) + action.txSize
       }
     case userActionsConst.CREATE_ACCOUNT_FAIL:
-      return{
+      return {
         ...state,
         error: action.error
+      }
+    case userActionsConst.BEGIN_REPLY_TWEET:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case userActionsConst.REPLY_TWEET_DONE:
+      return {
+        ...state,
+        isLoading: false,
+        sequence: state.sequence + 1,
+        bandwidthTime: (new Date()).getTime() / 1000,
+        bandwidth: getUsedBandwidthByAccount({
+          bandwidthTime: state.bandwidthTime,
+          bandwidth: state.bandwidth,
+        }, (new Date()).getTime() / 1000) + action.txSize
       }
     default:
       return state
