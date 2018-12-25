@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
         case userActionsConst.UPDATE_PROFILE_PICTURE_FAIL:
         case userActionsConst.SEND_MONEY_FAIL:
         case userActionsConst.REPLY_TWEET_FAIL:
+        case userActionsConst.CREATE_ACCOUNT_FAIL:
         case profileActions.LOAD_FOLLOW_FALSE:
         case profileActions.LOAD_PROFILE_FALSE:
             return {

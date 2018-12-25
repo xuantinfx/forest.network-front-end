@@ -6,9 +6,11 @@ import { showError } from '../actions/alertsActions';
 
 const mapStateToProps = (state, ownProps) => {
   let canOpenPaymentModal = state.user.alreadyLogin ? true : false;
+  let canOpenCreateAccountModal = state.user.alreadyLogin ? true : false;
 
   return {
     canOpenPaymentModal,
+    canOpenCreateAccountModal,
     paymentData: {
       userData: {
         address: state.user.address || '',
