@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TimelineTweet from './TimelineTweet';
-import TweetDetail from '../TweetDetail';
+import TweetDetail from '../../containers/TweetDetail';
 import PostTweet from '../../containers/PostTweet';
 import { Keypair } from 'stellar-base';
 export default class ProfileTimeline extends Component {
