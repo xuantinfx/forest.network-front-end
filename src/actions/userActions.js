@@ -2,12 +2,11 @@ import { postTranSaction } from "../apis/transaction";
 import { requestApi } from "../apis/requestApi";
 import { getProfile } from "../apis/profile";
 import { Keypair } from 'stellar-base';
-import { followings, post, updatePicture, payment, reactionTweet } from '../lib/encodeTX';
+import { followings, post, updatePicture, payment } from '../lib/encodeTX';
 import updateAccountMultiKeys from '../utilities/updateAccountMultiKeys'
 import _ from 'lodash';
 import moment from "moment";
 import { showMessage } from "./alertsActions";
-import * as encodeDecodeSecretKey from '../utilities/encodeDecodeSecretKey';
 
 export const userActionsConst = {
     CHANGE_SIGNUP: 'CHANGE_SIGNUP',
@@ -20,7 +19,6 @@ export const userActionsConst = {
     FOLLOW_FALSE: "FOLLOW_FALSE",
     BEGIN_UPDATE_PROFILE_PICTURE: 'BEGIN_UPDATE_PROFILE_PICTURE',
     UPDATE_PROFILE_PICTURE_DONE: 'UPDATE_PROFILE_PICTURE_DONE',
-    UPDATE_PROFILE_PICTURE_FAIL: 'UPDATE_PROFILE_PICTURE_FAIL',
     BEGIN_GET_USER_PROFILE: 'BEGIN_GET_USER_PROFILE',
     GET_USER_PROFILE_DONE: 'GET_USER_PROFILE_DONE',
     SUBMIT_UPDATE_PROFILE: "SUBMIT_UPDATE_PROFILE",
@@ -33,10 +31,7 @@ export const userActionsConst = {
     BEGIN_SEND_MONEY: 'BEGIN_SEND_MONEY',
     SEND_MONEY_DONE: 'SEND_MONEY_DONE',
     SEND_MONEY_FAIL: 'SEND_MONEY_FAIL',
-    LOG_OUT: "LOG_OUT",
-    BEGIN_REACT: 'BEGIN_REACT',
-    REACT_DONE: 'REACT_DONE',
-    REACT_FALSE: 'REACT_FALSE'
+    LOG_OUT: "LOG_OUT"
 }
 
 export const changeSingup = (isLogin) => {
@@ -68,7 +63,7 @@ export const increaseSequence = () => {
 
 const updateFollowings = (listFollowings, sequence) => {
     return new Promise((resolve, reject) => {
-        let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
+        let secretKey = sessionStorage.getItem("SECRET_KEY");
         let tx = followings(secretKey, sequence + 1, Buffer.alloc(0), listFollowings, 1);
         requestApi(postTranSaction(tx))
             .then(res => {
@@ -77,7 +72,7 @@ const updateFollowings = (listFollowings, sequence) => {
                     reject(res.message.error)
                 } else {
                     // Success
-                    resolve(Buffer.from(tx, 'base64').length);
+                    resolve(tx.length);
                 }
             })
             .catch(err => {
@@ -159,13 +154,6 @@ export const updateProfilePictureDone = (pictureBuffer, txSize) => {
     }
 }
 
-export const updateProfilePictureFail = (error) => {
-    return {
-        type: userActionsConst.UPDATE_PROFILE_PICTURE_FAIL,
-        error
-    }
-}
-
 export const updateProfilePicture = (pictureBuffer) => {
     return (dispatch, getState) => {
         let state = getState();
@@ -173,16 +161,15 @@ export const updateProfilePicture = (pictureBuffer) => {
         dispatch(beginUpdateProfilePicture());
 
         //create transaction
-        let tx = updatePicture(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), pictureBuffer, 1);
+        let tx = updatePicture(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), pictureBuffer, 1);
 
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
-            dispatch(updateProfilePictureDone(pictureBuffer, Buffer.from(tx, 'base64').length));
+            dispatch(updateProfilePictureDone(pictureBuffer, tx.lenght));
             dispatch(increaseSequence());
-            dispatch(showMessage('Cập nhật hình thành công'))
         }).catch(err => {
-            dispatch(updateProfilePictureFail('Cập nhật hình thất bại'));
+            console.error(err);
         })
     }
 }
@@ -204,7 +191,7 @@ export const getUserProfile = () => {
     return (dispatch) => {
         dispatch(beginGetUserProfile());
 
-        const userAddress = Keypair.fromSecret(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'))).publicKey();
+        const userAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
         const config = getProfile(userAddress);
 
         requestApi(config).then(result => {
@@ -310,7 +297,7 @@ export const postTweet = (tweetContent) => {
 
         let sequence = state.user.sequence;
         let tx = post(
-            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
+            sessionStorage.getItem('SECRET_KEY'),
             sequence + 1,
             Buffer.alloc(0),
             tweetContent,
@@ -330,7 +317,7 @@ export const postTweet = (tweetContent) => {
                     time: (new Date()).getTime(),
                     _id: "123" + Math.random()
                 }
-                dispatch(postTweetDone(tweet, Buffer.from(tx, 'base64').length))
+                dispatch(postTweetDone(tweet, tx.length))
             })
             .catch(err => {
                 console.error(err);
@@ -361,7 +348,7 @@ export const sendMoney = (receivingAddress, amount) => {
         let tx = '';
         //create transaction
         try {
-            tx = payment(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
+            tx = payment(sessionStorage.getItem('SECRET_KEY'), sequence + 1, Buffer.from(''), receivingAddress, amount, 1);
         }
         catch (err) {
             dispatch(sendMoneyFail('Tài khoản không hợp lệ'));
@@ -371,20 +358,20 @@ export const sendMoney = (receivingAddress, amount) => {
         let config = postTranSaction(tx);
 
         requestApi(config).then(result => {
-            dispatch(sendMoneyDone({ fromOrTo: receivingAddress, amount: -amount, time: moment().format() }, Buffer.from(tx, 'base64').length));
+            dispatch(sendMoneyDone({ fromOrTo: receivingAddress, amount: -amount, time: moment().format() }));
             dispatch(increaseSequence());
-            dispatch(showMessage('Giao dịch thành công'))
+            dispatch(showMessage('Chuyển tiền thành công'))
         }).catch(err => {
-            dispatch(sendMoneyFail('Giao dịch thất bại'));
+            console.log(err, err.response)
+            dispatch(sendMoneyFail(err.response.data.message.error));
         })
     }
 }
 
-export const sendMoneyDone = (newPayment, txSize) => {
+export const sendMoneyDone = (newPayment) => {
     return {
         type: userActionsConst.SEND_MONEY_DONE,
-        newPayment,
-        txSize
+        newPayment
     }
 }
 
@@ -392,94 +379,5 @@ export const sendMoneyFail = (error) => {
     return {
         type: userActionsConst.SEND_MONEY_FAIL,
         error
-    }
-}
-
-const beginReact = ()=>{
-    return {
-        type: userActionsConst.BEGIN_REACT
-    }
-}
-
-const reactDone = (tweets,txSize)=>{
-    return {
-        type: userActionsConst.REACT_DONE,
-        tweets,
-        txSize
-    }
-}
-
-const reactFalse = (error)=>{
-    return {
-        type: userActionsConst.REACT_FALSE,
-        error
-    }
-}
-
-export const reactTweet = (hash, reaction)=>{
-    return (dispatch, getState)=>{
-         // begin
-        dispatch(beginReact());
-
-        let state = getState();
-
-        let sequence = state.user.sequence;
-        let tx = reactionTweet(
-            encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY')),
-            sequence + 1,
-            Buffer.alloc(0),
-            hash,
-            reaction,
-            1);
-        requestApi(postTranSaction(tx))
-            .then(() => {
-                // Success
-
-                //Check xem đã có reaction lần nào chưa
-                let tweets = state.tweets.tweets
-                let indexTweet = _.findIndex(tweets,tweet=>{
-                    if(tweet.hash === hash)
-                        return true
-                })
-                let likes = tweets[indexTweet].likes
-                let indexLike = _.findIndex(likes,like=>{
-                    if(like.from.address === Keypair.fromSecret(encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'))).publicKey()){
-                        return true;
-                    }
-                })
-                if(indexLike > -1){
-                    if(reaction!== 0){
-                        let like = likes[indexLike];
-                        like.reaction = reaction
-                    }
-                    else{
-                        likes = likes.slice(indexLike,indexLike)
-                    }
-                }
-                else{
-                    if(reaction!== 0){
-                        let like = {
-                            from: {
-                                name: state.user.name,
-                                address: state.user.address,
-                                picture: state.user.picture||undefined
-                            },
-                            time: (new Date()).getTime(),
-                            _id: "123" + Math.random(),
-                            reaction: reaction
-                        }
-                        likes.push(like)
-                    }
-                }
-                tweets[indexTweet].likes = likes
-                tweets[indexTweet].reaction = reaction
-                //console.log('likes',likes)
-                dispatch(reactDone(tweets,tx.length))
-            })
-            .catch(err => {
-                console.error(err);
-                // False
-                dispatch(reactFalse(err.response.data.message.error));
-            })
     }
 }

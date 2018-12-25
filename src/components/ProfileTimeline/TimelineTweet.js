@@ -4,67 +4,19 @@ import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import defaultName from '../../constants/defaultName'
 
 export default class TimelineTweet extends Component {
-  constructor(props){
-    super(props)
-    this.state={
-      isReactionHovering:false,
-      //Đang hover lên react nào, like hay love hay...
-      reactHoverIndex: -1,
-    }
-  }
-
   onClickName(e) {
     e.preventDefault();
     this.props.onClickName(this.props.address);
   }
 
-  onClickReaction=()=>{
-    this.props.reactTweet(this.props.hash, this.state.reactHoverIndex+1)
-  }
-
-  renderReactImg = ()=>{
-    let reactImg = this.props.images.map((image,index)=>{
-      let imageRet = <img src={image.img} alt={image.id} key={index}
-        style={{maxWidth: (index === this.state.reactHoverIndex)?'1.8rem':'1.3rem', margin:'0 3px'}}
-        onMouseEnter={()=>{this.setState({reactHoverIndex: index})}}
-        onMouseLeave={()=>{this.setState({reactHoverIndex: -1})}}
-        onClick={this.onClickReaction}></img>
-      return imageRet
-    })
-
-    return <div className='EdgeButton js-current-color js-dropdown-toggle'
-          style={{display:'inline'}}>
-            {reactImg} 
-          </div>
-  }
-
-  onReactionHover = ()=>{
-    this.setState({
-      isReactionHovering: true
-    })
-  }
-
-  onReactionMouseLeave = ()=>{
-    this.setState({
-      isReactionHovering: false
-    })
-  }
-
-  onClickUnReaction = ()=>{
-    if(this.props.reaction !== 0)
-      this.props.reactTweet(this.props.hash, 0)
-  }
-
   render() {
-    //console.log('tweet', this.props)
     return (
       <li className="js-stream-item stream-item stream-item js-pinned" id="stream-item-tweet-1064310108413460480" >
         <div className="tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable dismissible-content original-tweet js-original-tweet tweet-has-context has-cards  user-pinned has-content" >
           <div className="content">
             <div className="stream-item-header">
               <a className="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="#/" onClick={this.onClickName.bind(this)} data-user-id={10228272}>
-                <ImgFromArrayBuffer className="avatar js-action-profile-avatar" alt={""}
-                 arrayBufferData={this.props.picture?this.props.picture.data:undefined} />
+                <ImgFromArrayBuffer className="avatar js-action-profile-avatar" alt={""} arrayBufferData={this.props.picture.data} />
                 <span className="FullNameGroup">
                   <strong className="fullname show-popup-with-id u-textTruncate" data-aria-label-part>{this.props.name || defaultName}</strong>
                   <span></span>
@@ -120,37 +72,17 @@ export default class TimelineTweet extends Component {
                     </span>
                   </button>
                 </div>
-                <div className="ProfileTweet-action ProfileTweet-action--favorite js-toggleState"
-                  onMouseOver={this.onReactionHover}
-                  onMouseLeave={this.onReactionMouseLeave}>
-                  <div >
-                  <button className="ProfileTweet-actionButton js-actionButton js-actionFavorite" aria-describedby="profile-tweet-action-favorite-count-aria-1064310108413460480"
-                   type="button" onClick={this.onClickUnReaction}>
+                <div className="ProfileTweet-action ProfileTweet-action--favorite js-toggleState">
+                  <button className="ProfileTweet-actionButton js-actionButton js-actionFavorite" aria-describedby="profile-tweet-action-favorite-count-aria-1064310108413460480" type="button">
                     <div title="Thích" className="IconContainer js-tooltip">
-                    {
-                      (!this.props.reaction)?(
-                        <span className="Icon Icon--heart Icon--medium" role="presentation" />
-                      ):
-                      (
-                        (this.props.reaction === 0 || !this.props.alreadyLogin)?
-                        <span className="Icon Icon--heart Icon--medium" role="presentation" />
-                          :
-                          <img src={this.props.reactionShown[this.props.reaction-1].img} alt={this.props.reactionShown[this.props.reaction-1].id}
-                          style={{maxWidth: '1.3rem', margin:'0 3px'}}></img>
-                      )
-                    }
+                      <span className="Icon Icon--heart Icon--medium" role="presentation" />
                       <div className="HeartAnimation" />
                       <span className="u-hiddenVisually">Thích</span>
                     </div>
                     <span className="ProfileTweet-actionCount">
-                      <span className="ProfileTweet-actionCountForPresentation" aria-hidden="true">{this.props.likes?this.props.likes.length:this.props.totalLikes}</span>
+                      <span className="ProfileTweet-actionCountForPresentation" aria-hidden="true">{this.props.totalLikes}</span>
                     </span>
                   </button>
-                    {
-                      //<img src={this.images.like} style={{maxWidth: '2rem'}} alt="/"></img>
-                      (this.state.isReactionHovering)?this.renderReactImg():(<div></div>)
-                    }
-                  </div>
                 </div>
               </div>
             </div>
