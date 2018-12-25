@@ -3,6 +3,7 @@ import ProfileHeaderCard from './ProfileHeaderCard';
 import ProfileEdit from '../../containers/ProfileEdit';
 import { Keypair } from 'stellar-base'
 //import PhotoRail from './PhotoRail';
+import * as encodeDecodeSecretKey from '../../utilities/encodeDecodeSecretKey';
 
 class Profile extends Component {
     OnClickEdit = ()=>{
@@ -14,9 +15,9 @@ class Profile extends Component {
         try {
             //check if user is logged in and is on his page
             let address = this.props.address;
-            let secretKey = sessionStorage.getItem('SECRET_KEY');
+            let secretKey = encodeDecodeSecretKey.decode(sessionStorage.getItem('SECRET_KEY'));;
             if(secretKey) {
-                let myAddress = Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey();
+                let myAddress = Keypair.fromSecret(secretKey).publicKey();
                 canEditProfile = (myAddress === address);
             }
         }
