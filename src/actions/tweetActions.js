@@ -10,10 +10,11 @@ export const beginLoadTweet = () => ({
   type: tweetAction.BEGIN_LOAD_TWEET
 })
 
-export const loadTweetDone = (tweets, total) => ({
+export const loadTweetDone = (tweets, total, page) => ({
   type: tweetAction.LOAD_TWEET_DONE,
   tweets,
-  total
+  total,
+  page
 })
 
 export const closeTweetDetailsModal = () => ({

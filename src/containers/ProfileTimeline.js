@@ -12,7 +12,7 @@ const loadTweets = (dispatch, address, page, size, publicKey) => {
   dispatch(beginLoadTweet());
   requestApi(getTweet(address,page, size, publicKey))
   .then(res => {
-    dispatch(loadTweetDone(res.data.data, res.data.total))
+    dispatch(loadTweetDone(res.data.data, res.data.total, page))
   })
   .catch(err => {
     console.error(err)

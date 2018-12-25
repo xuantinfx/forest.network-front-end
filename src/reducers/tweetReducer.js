@@ -77,7 +77,7 @@ export default (state = initialState, action) => {
           isLoading: false,
           tweets: tweets,
           total: action.total,
-          page: state.page+1,
+          page: action.page,
         }
       }
     case profileActions.GET_PROFILE_BY_ADDRESS_DONE:

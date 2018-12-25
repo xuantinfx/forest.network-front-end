@@ -43,6 +43,12 @@ export default class ProfileTimeline extends Component {
       :undefined);
   }
 
+  reloadTweets = ()=>{
+    this.props.loadTweets(this.props.address, 1, this.props.size,
+      sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
+      :undefined);
+  }
+
   render() {
     //console.log('reaction', this.props.tweets)
     if(this.props.isLoading) {
@@ -102,6 +108,12 @@ export default class ProfileTimeline extends Component {
                     reactTweet={this.props.reactTweet} alreadyLogin={this.props.alreadyLogin}
                     images={this.images} reactionShown={this.reactionShown}
                     reaction={this.props.currentTweet.reaction||0}/>}
+                    
+        <button className="EdgeButton EdgeButton--primary EdgeButton--medium"
+          style={{position:"fixed", bottom: 30,right:30}}
+          onClick={this.reloadTweets}>
+          <i className="fas fa-redo" style={{fontSize:'2rem', margin:'0.5rem'}}></i>
+        </button>
       </div>
     )
   }
