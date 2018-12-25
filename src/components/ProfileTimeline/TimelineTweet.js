@@ -58,7 +58,7 @@ export default class TimelineTweet extends Component {
   }
 
   render() {
-    //console.log('tweet', this.props.alreadyLogin)
+    //console.log('tweet', this.props)
     return (
       <li className="js-stream-item stream-item stream-item js-pinned" id="stream-item-tweet-1064310108413460480" >
         <div className="tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable dismissible-content original-tweet js-original-tweet tweet-has-context has-cards  user-pinned has-content" >
@@ -134,7 +134,7 @@ export default class TimelineTweet extends Component {
                         <span className="Icon Icon--heart Icon--medium" role="presentation" />
                       ):
                       (
-                        (this.props.reaction === 0)?
+                        (this.props.reaction === 0 || !this.props.alreadyLogin)?
                         <span className="Icon Icon--heart Icon--medium" role="presentation" />
                           :
                           <img src={this.props.reactionShown[this.props.reaction-1].img} alt={this.props.reactionShown[this.props.reaction-1].id}

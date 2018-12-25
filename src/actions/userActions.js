@@ -458,7 +458,7 @@ export const reactTweet = (hash, reaction)=>{
                         like.reaction = reaction
                     }
                     else{
-                        console.log('index', indexLike)
+                        //console.log('index', indexLike)
                         likes.splice(indexLike,1)
                     }
                 }
@@ -479,7 +479,7 @@ export const reactTweet = (hash, reaction)=>{
                 }
                 tweets[indexTweet].likes = likes
                 tweets[indexTweet].reaction = reaction
-                console.log('likes',likes)
+                //console.log('likes',likes)
                 dispatch(reactDone(tweets,tx.length))
             })
             .catch(err => {

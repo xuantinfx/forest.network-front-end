@@ -38,13 +38,13 @@ export default class ProfileTimeline extends Component {
   }
 
   loadMoreTweets = ()=>{
-    this.props.loadTweets(this.props.address, this.props.page+1, this.props.size,
+    this.props.loadMoreTweets(this.props.address, this.props.page+1, this.props.size,
       sessionStorage.getItem('SECRET_KEY')?Keypair.fromSecret(sessionStorage.getItem('SECRET_KEY')).publicKey()
       :undefined);
   }
 
   render() {
-    console.log('reaction', this.props)
+    //console.log('reaction', this.props.tweets)
     if(this.props.isLoading) {
       return <div>Loading...</div>
     }

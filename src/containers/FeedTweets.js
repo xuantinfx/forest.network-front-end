@@ -3,17 +3,26 @@ import ProfileTimeline from '../components/ProfileTimeline';
 import { closeTweetDetailsModal, seeTweetDetails } from '../actions/tweetActions';
 import { requestApi } from '../apis/requestApi';
 import { getFeed } from '../apis/feed'
-import { beginLoadTweet, loadTweetDone} from '../actions/tweetActions';
+import { beginLoadTweet, loadTweetDone, loadMoreTweetDone} from '../actions/tweetActions';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { reactTweet} from '../actions/userActions'
 
 const loadTweets = (dispatch, address, page, size) => {
-  if(page <= 1)
-    dispatch(beginLoadTweet());
+  dispatch(beginLoadTweet());
   requestApi(getFeed(address, page, size))
   .then(res => {
     dispatch(loadTweetDone(res.data.data, res.data.total))
+  })
+  .catch(err => {
+    console.error(err)
+  })
+}
+
+const loadMoreTweets = (dispatch, address, page, size) => {
+  requestApi(getFeed(address, page, size))
+  .then(res => {
+    dispatch(loadMoreTweetDone(res.data.data, res.data.total))
   })
   .catch(err => {
     console.error(err)
@@ -52,7 +61,10 @@ const mapDispatchToProps = function (dispatch) {
     },
     reactTweet: (hash, reaction)=>{
       dispatch(reactTweet(hash,reaction))
-    }
+    },
+    loadMoreTweets: (address, page, size) => {
+      loadMoreTweets(dispatch, address, page, size);
+    },
   }
 }
 

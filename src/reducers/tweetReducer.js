@@ -75,7 +75,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           isLoading: false,
-          tweets: [...state.tweets,...tweets],
+          tweets: tweets,
           total: action.total,
           page: state.page+1,
         }
@@ -129,6 +129,28 @@ export default (state = initialState, action) => {
           }
         }
         return state;
+      }
+    case tweetAction.LOAD_MORE_TWEET_DONE:
+      {
+        let tweets = _.map(action.tweets, tweet => {
+          return {
+            ...tweet,
+            time: (new Date(tweet.time).getTime()),
+            totalReplies: tweet.replies.length,
+            loadedReplies: tweet.replies,
+            totalRetweets: 0,
+            totalLikes: tweet.likes.length,
+            hasLike: true
+          }
+        })
+
+        return {
+          ...state,
+          isLoading: false,
+          tweets: [...state.tweets,...tweets],
+          total: action.total,
+          page: state.page+1,
+        }
       }
     default:
       return state
