@@ -5,6 +5,7 @@ import profile from './profileReducer'
 import tweets from './tweetReducer'
 import user from './userReducer'
 import alerts from './alertsReducer'
+import spinnerIsLoading from './spinnerReducer'
 
 export default combineReducers({
     followers,
@@ -12,5 +13,6 @@ export default combineReducers({
     profile,
     tweets,
     user,
-    alerts
+    alerts,
+    spinnerIsLoading
 })
