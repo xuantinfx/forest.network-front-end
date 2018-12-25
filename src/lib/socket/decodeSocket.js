@@ -2,6 +2,7 @@ import typeSocket from '../../constants/typeSocket';
 import { followingPost, receiveFollowings, receiveUnfollowings, receiveReaction, receiveComment, receiveMoney} from '../../actions/socketAction';
 
 export default (dispatch, obj) => {
+    console.log('obj', obj);
     switch (obj.type) {
         case typeSocket.FOLLOWING_POST:
             dispatch(followingPost(obj.address, obj.name, obj.content));
