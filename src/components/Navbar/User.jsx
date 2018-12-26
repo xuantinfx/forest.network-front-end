@@ -42,6 +42,7 @@ export default class User extends Component {
                 }
                 else{
                     sessionStorage.setItem('SECRET_KEY', encodeDecodeSecretKey.encode(secretKey))
+                    this.props.history.push('/profile/'+Keypair.fromSecret(secretKey).publicKey())
                     this.props.login(true);
                 }
             })
@@ -61,6 +62,7 @@ export default class User extends Component {
         this.setState({
             isDropdownOpen: false
         })
+        this.props.history.push('/')
         this.props.logout();
     }
 
