@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ImgFromArrayBuffer from '../ImgFromArrayBuffer';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-import { MAX_IMAGE_SIZE, INVALID_IMAGE_ERROR_MESSAGE } from '../../constants/Image';
+import { INVALID_IMAGE_ERROR_MESSAGE } from '../../constants/Image';
 
 export default class index extends Component {
   static propTypes = {
@@ -73,7 +73,6 @@ export default class index extends Component {
         <ModalBody className="justify-content-center">
           <Dropzone multiple={false}
             accept="image/jpeg, image/png"
-            maxSize={MAX_IMAGE_SIZE}
             onDrop={this._onDrop}>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()} className="dropzone">

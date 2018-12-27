@@ -1,7 +1,7 @@
 import LogoUser from '../components/Banner/LogoUser';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateProfilePicture } from '../actions/userActions';
+import { updateProfilePicture, beginUpdateProfilePicture } from '../actions/userActions';
 import { Keypair } from 'stellar-base';
 import { showError } from '../actions/alertsActions';
 import * as encodeDecodeSecretKey from '../utilities/encodeDecodeSecretKey';
@@ -27,6 +27,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    beginUpdateProfilePicture: () => {
+      dispatch(beginUpdateProfilePicture());
+    },
     updateProfilePicture: (pictureBuffer) => {
       dispatch(updateProfilePicture(pictureBuffer))
     },
