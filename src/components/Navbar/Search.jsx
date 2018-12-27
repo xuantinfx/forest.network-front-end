@@ -13,7 +13,7 @@ class Search extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.history.push(`/profile/${this.state.value}`);
+        this.props.history.push(`/profile/${encodeURIComponent(this.state.value)}`);
         this.setState({
             value: ""
         })
