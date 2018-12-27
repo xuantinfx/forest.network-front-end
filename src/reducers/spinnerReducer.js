@@ -5,7 +5,7 @@ import { tweetAction } from "../actions/tweetActions";
 import { userActionsConst } from "../actions/userActions";
 import { alertsActions } from "../actions/alertsActions";
 
-export default (state = false, action) => {
+export default (state = 0, action) => {
   switch (action.type) {
     case followerActions.BEGIN_LOAD_FOLLOWER:
     case followingActions.BEGIN_LOAD_FOLLOWING:
@@ -22,7 +22,8 @@ export default (state = false, action) => {
     case userActionsConst.BEGIN_REACT:
     case userActionsConst.BEGIN_CREATE_ACCOUNT:
     case userActionsConst.BEGIN_REPLY_TWEET:
-      return true;
+      ++state;
+      return state;
     case alertsActions.SHOW_MESSAGE:
     case alertsActions.SHOW_ERROR:
     case followerActions.LOAD_FOLLOWER_DONE:
@@ -51,7 +52,9 @@ export default (state = false, action) => {
     case userActionsConst.CREATE_ACCOUNT_FAIL:
     case userActionsConst.REPLY_TWEET_DONE:
     case userActionsConst.REPLY_TWEET_FAIL:
-      return false;
-    default: return false
+      --state;
+      if (state < 0) state = 0;
+      return state;
+    default: return 0;
   }
 }

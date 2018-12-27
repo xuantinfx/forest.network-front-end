@@ -24,7 +24,7 @@ class Spinner extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.spinnerIsLoading
+  isLoading: (state.spinnerIsLoading > 0)
 })
 
 export default connect(mapStateToProps, null)(Spinner)

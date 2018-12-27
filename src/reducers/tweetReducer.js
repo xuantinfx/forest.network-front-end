@@ -89,7 +89,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         total: state.total + 1,
-        tweets: [...state.tweets, action.tweet]
+        tweets: [action.tweet, ...state.tweets]
       }
     }
     case userActionsConst.REACT_DONE:
